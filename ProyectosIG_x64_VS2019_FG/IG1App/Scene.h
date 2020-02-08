@@ -31,6 +31,8 @@ protected:
 	void resetGL();
 
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
+private:
+	void SetBackground(vec4 col);
 };
 //-------------------------------------------------------------------------
 
