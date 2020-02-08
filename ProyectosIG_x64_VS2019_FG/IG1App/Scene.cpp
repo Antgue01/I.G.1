@@ -14,15 +14,15 @@ void Scene::init()
     // Lights
     // Textures
 
-    // Graphics objects (entities) of the scene
-	//gObjects.push_back(new EjesRGB(400.0));
+     //Graphics objects (entities) of the scene
+	gObjects.push_back(new EjesRGB(400.0));
 	//Poligono* pol = new Poligono(10,300);
 	Poligono* circ = new Poligono(100, 300);
 	circ->Colour(75, 0, 130, 255);
 	//pol->Colour(255,255,0,255);
-	//gObjects.push_back(circ);
+	gObjects.push_back(circ);
 	//gObjects.push_back(pol);
-	Sierpinski* s = new Sierpinski(30000, 300);
+	Sierpinski* s = new Sierpinski(4000, 200);
 	s->Colour(255, 0, 0,255);
 	gObjects.push_back(s);
 	SetBackground({ 0.0,0.0,0.0,0.0 });

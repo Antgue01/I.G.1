@@ -58,15 +58,12 @@ Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
 	for (GLuint i = 0; i < mesh->mNumVertices - 1; i++)
 	{
 		int access = rand() % 3;
-		vec3 verticeRandomNumber2 = toraianguru->vVertices.at(access);
-		/*if (verticeRandomNumber2 == verticeRandom)
-		{
-			access++;
-			verticeRandomNumber2 = toraianguru->vVertices.at(access);
-		}*/
-		vec3 pMedio = { (verticeRandom.x + verticeRandomNumber2.x) / 2,(verticeRandom.y + verticeRandomNumber2.y) / 2,(verticeRandom.z + verticeRandomNumber2.z / 2) };
-		mesh->vVertices.emplace_back(pMedio);
-		verticeRandom = verticeRandomNumber2;
+		vec3 pr2 = { toraianguru->vVertices[access].x,toraianguru->vVertices[access].y,toraianguru->vVertices[access].z };
+		vec3 media = { (verticeRandom.x + pr2.x) / 2,(verticeRandom.y + pr2.y) / 2,(verticeRandom.z + pr2.z) / 2 };
+		//verticeRandom = { (verticeRandom.x + toraianguru->vVertices[(access)].x) / 2,(verticeRandom.y + toraianguru->vVertices[access].y) / 2 ,
+		//(verticeRandom.z + toraianguru->vVertices[access].z) / 2 };
+		mesh->vVertices.emplace_back(media);
+		verticeRandom = media;
 	}
 	delete toraianguru;
 	toraianguru = nullptr;
