@@ -59,11 +59,11 @@ Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
 	{
 		int access = rand() % 3;
 		vec3 verticeRandomNumber2 = toraianguru->vVertices.at(access);
-		if (verticeRandomNumber2 == verticeRandom)
+		/*if (verticeRandomNumber2 == verticeRandom)
 		{
 			access++;
 			verticeRandomNumber2 = toraianguru->vVertices.at(access);
-		}
+		}*/
 		vec3 pMedio = { (verticeRandom.x + verticeRandomNumber2.x) / 2,(verticeRandom.y + verticeRandomNumber2.y) / 2,(verticeRandom.z + verticeRandomNumber2.z / 2) };
 		mesh->vVertices.emplace_back(pMedio);
 		verticeRandom = verticeRandomNumber2;

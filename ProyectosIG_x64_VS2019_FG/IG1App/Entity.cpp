@@ -57,10 +57,10 @@ Sierpinski::Sierpinski(GLuint nVert, GLdouble r) {
 void Sierpinski::render(dmat4 const& M)const {
 	dmat4 Mat = M * mModelMat;
 	upload(Mat);
-	glLineWidth(2);
+	glPointSize(2);
 	glColor4dv(value_ptr(mcolor));
 	mMesh->render();
-	glLineWidth(1);
+	glPointSize(1);
 	GLdouble* df = new GLdouble(1.0);
 	glColor4dv(df);
 	delete df;
