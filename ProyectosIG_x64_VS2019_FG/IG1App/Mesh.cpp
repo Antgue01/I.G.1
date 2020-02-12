@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include "CheckML.h"
+
 #include <fstream>
 using namespace std;
 using namespace glm;
@@ -29,9 +30,11 @@ void Mesh::render() const
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 }
-Mesh* Mesh::generaPoligono(GLuint numl, GLdouble rd) {
+Mesh* Mesh::generaPoligono(GLuint numl, GLdouble rd, bool fill) {
 	Mesh* mesh = new Mesh();
-	mesh->mPrimitive = GL_LINE_LOOP;
+	if (!fill)
+		mesh->mPrimitive = GL_LINE_LOOP;
+	else mesh->mPrimitive = GL_TRIANGLES;
 	mesh->mNumVertices = numl;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vVertices.emplace_back(0.0, rd, 0.0);
@@ -47,7 +50,7 @@ Mesh* Mesh::generaPoligono(GLuint numl, GLdouble rd) {
 	return mesh;
 }
 Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
-	Mesh* toraianguru = generaPoligono(3, rd);
+	Mesh* toraianguru = generaPoligono(3, rd, false);
 	Mesh* mesh = new Mesh();
 
 	//Escribe tu código aquí...
@@ -69,6 +72,47 @@ Mesh* Mesh::generaSierpinski(GLuint numP, GLdouble rd) {
 	toraianguru = nullptr;
 	return mesh;
 
+}
+Mesh* Mesh::generaTrianguloRGB(GLdouble rd) {
+	Mesh* triang = generaPoligono(3, rd, true);
+	vec4 r = { 255,0,0,255 };
+	vec4 g = { 0,255,0,255 };
+	vec4 b = { 0,0,255,255 };
+	triang->vColors.emplace_back(r);
+	triang->vColors.emplace_back(g);
+	triang->vColors.emplace_back(b);
+
+	return triang;
+}
+Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h) {
+	Mesh* rectangle = new Mesh();
+	rectangle->mPrimitive = GL_TRIANGLE_STRIP;
+	rectangle->mNumVertices = 4;
+	rectangle->vVertices.reserve(rectangle->mNumVertices);
+	vec3 punt = { -w / 2,-h / 2,0 };
+	rectangle->vVertices.emplace_back(punt);
+	punt = { punt.x,punt.y + h,0 };
+	rectangle->vVertices.emplace_back(punt);
+	punt = { punt.x + w,punt.y - h,0 };
+	rectangle->vVertices.emplace_back(punt);
+	punt = { punt.x,punt.y + h,0 };
+
+	rectangle->vVertices.emplace_back(punt);
+	return rectangle;
+}
+Mesh* Mesh::generaRectanguloRGB(GLdouble w, GLdouble h)
+{
+	Mesh* rect = generaRectangulo(w, h);
+	vec4 r = { 255,0,0,255 };
+	vec4 g = { 0,255,0,255 };
+	vec4 b = { 0,0,255,255 };
+	vec4 wh = { 255,255,255,255 };
+
+	rect->vColors.push_back(r);
+	rect->vColors.push_back(g);
+	rect->vColors.push_back(b);
+	rect->vColors.push_back(wh);
+	return rect;
 }
 //-------------------------------------------------------------------------
 
@@ -102,6 +146,52 @@ Mesh* Mesh::createRGBAxes(GLdouble l)
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 
+	return mesh;
+}
+Mesh* Mesh::generaEstrella3D(GLdouble re, GLdouble np, GLdouble h) {
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+	mesh->mNumVertices = 2 * np + 2;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vVertices.emplace_back(0, 0, h);
+	mesh->vVertices.emplace_back(0, re, 0);
+	GLdouble offset = radians(90.0);
+	for (int i = 0; i < mesh->mNumVertices - 2; i++)
+	{
+		offset += radians(180.0 / np);
+
+		if (i % 2 == 0)
+		{//interior;
+
+			mesh->vVertices.emplace_back((re / 2) * cos(offset), (re / 2) * sin(offset), 0);
+		}
+		else {
+			//exterior;
+			mesh->vVertices.emplace_back(re * cos(offset), re * sin(offset), 0);
+
+		}
+	}
+	return mesh;
+
+}
+Mesh* Mesh::generaContCubo(GLdouble ld) {
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+	mesh->mNumVertices = 10;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vVertices.emplace_back(0, 0, 0);
+	for (int i = 0; i < mesh->mNumVertices - 1; i++)
+	{
+		if (i % 2 == 0)
+			mesh->vVertices.emplace_back(mesh->vVertices.at(i - 1).x + ld, mesh->vVertices.at(i - 2).y - ld, 0);
+		else
+			mesh->vVertices.emplace_back(mesh->vVertices.at(i - 2).x + ld, mesh->vVertices.at(i - 2).y, 0);
+
+	}
 	return mesh;
 }
 //-------------------------------------------------------------------------

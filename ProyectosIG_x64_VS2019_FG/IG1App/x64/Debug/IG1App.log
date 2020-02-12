@@ -1,2 +1,7 @@
-﻿  Mesh.cpp
+﻿  main.cpp
+  Mesh.cpp
+C:\Users\madar\Desktop\Uni\2º V\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(156,30): warning C4244: '=': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
+C:\Users\madar\Desktop\Uni\2º V\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(161,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\madar\Desktop\Uni\2º V\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(187,20): warning C4018: '<': no coinciden signed/unsigned
+  Generando código...
   IG1App.vcxproj -> C:\Users\madar\Desktop\Uni\2º V\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe

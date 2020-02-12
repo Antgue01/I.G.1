@@ -22,9 +22,19 @@ void Scene::init()
 	//pol->Colour(255,255,0,255);
 	gObjects.push_back(circ);
 	//gObjects.push_back(pol);
-	Sierpinski* s = new Sierpinski(4000, 200);
-	s->Colour(255, 0, 0,255);
-	gObjects.push_back(s);
+	//Sierpinski* s = new Sierpinski(4000, 200);
+	//s->Colour(255, 0, 0,255);
+	//gObjects.push_back(s);
+	//TrianguloRGB* t = new TrianguloRGB(300);
+	//gObjects.push_back(t);
+	//RectanguloRGB* re = new RectanguloRGB(200, 200);
+	//gObjects.push_back(re);
+	//vec3 trans = { -100,0,0 };
+	//translate(dest, trans);
+	//Estrella3D* estrellita = new Estrella3D(300, 5, 300);
+	//gObjects.push_back(estrellita);
+	Caja* cajitamagica = new Caja(300);
+	gObjects.push_back(cajitamagica);
 	SetBackground({ 0.0,0.0,0.0,0.0 });
 	
 }

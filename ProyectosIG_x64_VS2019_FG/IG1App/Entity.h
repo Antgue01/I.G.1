@@ -54,4 +54,28 @@ public:
 	explicit Sierpinski(GLuint nvert, GLdouble r);
 	virtual void render(dmat4 const& aMat) const;
 };
+class TrianguloRGB : public Abs_Entity {
+public:
+	explicit TrianguloRGB(GLdouble r);
+	virtual void render(dmat4 const& aMat) const;
+
+};
+class RectanguloRGB :public Abs_Entity {
+public:
+	explicit RectanguloRGB(GLdouble w,GLdouble h);
+	virtual void render(dmat4 const& aMat) const;
+
+};
+class Estrella3D:public Abs_Entity {
+public:
+	explicit Estrella3D(GLdouble re, GLdouble np,GLdouble h);
+	virtual void render(dmat4 const& aMat) const;
+
+};
+class Caja :public Abs_Entity {
+public:
+	explicit Caja(GLdouble ld);
+	virtual void render(dmat4 const& aMat) const;
+
+};
 #endif //_H_Entities_H_
