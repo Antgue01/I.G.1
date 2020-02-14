@@ -14,28 +14,34 @@ void Scene::init()
     // Lights
     // Textures
 
-     //Graphics objects (entities) of the scene
+    // Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
-	//Poligono* pol = new Poligono(10,300);
-	Poligono* circ = new Poligono(100, 300);
-	circ->Colour(75, 0, 130, 255);
-	//pol->Colour(255,255,0,255);
-	gObjects.push_back(circ);
-	//gObjects.push_back(pol);
-	//Sierpinski* s = new Sierpinski(4000, 200);
-	//s->Colour(255, 0, 0,255);
-	//gObjects.push_back(s);
-	//TrianguloRGB* t = new TrianguloRGB(300);
-	//gObjects.push_back(t);
-	//RectanguloRGB* re = new RectanguloRGB(200, 200);
-	//gObjects.push_back(re);
-	//vec3 trans = { -100,0,0 };
-	//translate(dest, trans);
-	//Estrella3D* estrellita = new Estrella3D(300, 5, 300);
-	//gObjects.push_back(estrellita);
-	Caja* cajitamagica = new Caja(300);
-	gObjects.push_back(cajitamagica);
-	SetBackground({ 0.0,0.0,0.0,0.0 });
+	
+	Poligono* triangulo = new Poligono(3, 300);
+	triangulo->setColor(255, 255, 0, 255);
+	gObjects.push_back(triangulo);
+	
+	Poligono* circulo = new Poligono(100, 300);
+	circulo->setColor(255, 0, 255, 255);
+	gObjects.push_back(circulo);
+	
+	Sierpinski* sierpinski = new Sierpinski(300, 5000);
+	sierpinski->setColor(255, 255, 0, 255);
+	gObjects.push_back(sierpinski);
+	
+	TrianguloRGB* rgbt = new TrianguloRGB(50);
+	gObjects.push_back(rgbt);
+
+	RectanguloRGB* rgbr = new RectanguloRGB(100, 50);
+	gObjects.push_back(rgbr);
+	dvec3 v = { 0,0,-100 };
+	rgbr->setModelMat(translate(rgbr->modelMat(),v));
+	dvec3 s = {8,12,0};
+	rgbr->setModelMat(scale(rgbr->modelMat(),s));
+
+	
+	//Estrella3D* estrella3D = new Estrella3D(300, 1000, 100);
+	//gObjects.push_back(estrella3D);
 	
 }
 //-------------------------------------------------------------------------
@@ -51,12 +57,9 @@ void Scene::free()
 void Scene::setGL() 
 {
 	// OpenGL basic setting
-	glClearColor(1.0, 1.0, 1.0, 1.0);  // background color (alpha=1 -> opaque)
+	glClearColor(0.0, 0.0, 0.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 
-}
-void Scene::SetBackground(vec4 col) {
-	glClearColor(col.r, col.g, col.b, col.a);
 }
 //-------------------------------------------------------------------------
 void Scene::resetGL() 
@@ -73,6 +76,14 @@ void Scene::render(Camera const& cam) const
 	for (Abs_Entity* el : gObjects)
 	{
 	  el->render(cam.viewMat());
+	}
+}
+
+void Scene::update()
+{	
+	for (Abs_Entity* el : gObjects)
+	{
+		el->update();
 	}
 }
 //-------------------------------------------------------------------------

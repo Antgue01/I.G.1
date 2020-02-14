@@ -7,6 +7,9 @@
 
 #include <vector>
 
+
+using namespace glm;
+
 //-------------------------------------------------------------------------
 
 class Mesh 
@@ -14,13 +17,13 @@ class Mesh
 public:
 
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
-	static Mesh* generaPoligono(GLuint numt, GLdouble rd,bool fill);
-	static Mesh* generaSierpinski(GLuint nump, GLdouble rd);
+	static Mesh* generaPoligono(GLuint numL, GLdouble rd);
+	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);
 	static Mesh* generaTrianguloRGB(GLdouble rd);
-	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h);
+	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);
 	static Mesh* generaEstrella3D(GLdouble re, GLdouble np, GLdouble h);
-	static Mesh* generaContCubo(GLdouble ld);
+		
 	Mesh() {};
 	virtual ~Mesh() {};
 

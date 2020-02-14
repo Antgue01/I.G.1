@@ -7,29 +7,28 @@ using namespace glm;
 
 //-------------------------------------------------------------------------
 
-void Abs_Entity::upload(dmat4 const& modelViewMat) const
-{
+void Abs_Entity::upload(dmat4 const& modelViewMat) const 
+{ 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(value_ptr(modelViewMat));  // transfers modelView matrix to the GPU
 }
-Abs_Entity::~Abs_Entity() {
-	delete mMesh; mMesh = nullptr;
-}
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-void Abs_Entity::Colour(GLuint r, GLuint g, GLuint b, GLuint a) {
-	mcolor = { r,g,b,a };
-}
-EjesRGB::EjesRGB(GLdouble l) : Abs_Entity()
+
+EjesRGB::EjesRGB(GLdouble l): Abs_Entity()
 {
-	mMesh = Mesh::createRGBAxes(l);
+  mMesh = Mesh::createRGBAxes(l);
 }
 //-------------------------------------------------------------------------
-
-
+/*
+EjesRGB::~EjesRGB() 
+{ 
+	delete mMesh; mMesh = nullptr; 
+};
+*/
 //-------------------------------------------------------------------------
 
-void EjesRGB::render(dmat4 const& modelViewMat) const
+void EjesRGB::render(dmat4 const& modelViewMat) const 
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -39,93 +38,109 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 		glLineWidth(1);
 	}
 }
-Poligono::Poligono(GLuint nVert, GLdouble radious) {
-	mMesh = mMesh->generaPoligono(nVert, radious,false);
-}
-void Poligono::render(dmat4 const& aMat)const {
-	dmat4 nMat = aMat * mModelMat;
-	upload(nMat);
-	glLineWidth(2);
-	glColor3d(mcolor.r, mcolor.g, mcolor.b);
-	mMesh->render();
-	glLineWidth(1);
-	glColor3d(1, 1, 1);
-}
-Sierpinski::Sierpinski(GLuint nVert, GLdouble r) {
-	mMesh = mMesh->generaSierpinski(nVert, r);
-}
-void Sierpinski::render(dmat4 const& M)const {
-	dmat4 Mat = M * mModelMat;
-	upload(Mat);
-	glPointSize(2);
-	glColor4dv(value_ptr(mcolor));
-	mMesh->render();
-	glPointSize(1);
-	GLdouble* df = new GLdouble(1.0);
-	glColor4dv(df);
-	delete df;
-}
-TrianguloRGB::TrianguloRGB( GLdouble r) {
-	mMesh = mMesh->generaTrianguloRGB(r);
-}
-void TrianguloRGB::render(dmat4 const& M)const {
-	dmat4 Mat = M * mModelMat;
-	upload(Mat);
-	glPolygonMode(GL_BACK, GL_LINE);
-	glLineWidth(2);
-	glColor4dv(value_ptr(mcolor));
-	mMesh->render();
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	GLdouble* df = new GLdouble(1.0);
-	glColor4dv(df);
-	glLineWidth(1);
-	delete df;
-}
-RectanguloRGB::RectanguloRGB(GLdouble w,GLdouble h) {
-	mMesh = mMesh->generaRectanguloRGB(w,h);
-}
-void RectanguloRGB::render(dmat4 const& M)const {
-	dmat4 Mat = M * mModelMat;
-	upload(Mat);
-	glPolygonMode(GL_FRONT, GL_LINE);
-	glLineWidth(2);
-	glColor4dv(value_ptr(mcolor));
-	mMesh->render();
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	GLdouble* df = new GLdouble(1.0);
-	glColor4dv(df);
-	glLineWidth(1);
-	delete df;
-}
-Estrella3D::Estrella3D(GLdouble re, GLdouble np, GLdouble h) {
-	mMesh = mMesh->generaEstrella3D(re,np,h);
-}
-
-void Estrella3D::render(dmat4 const& aMat)const {
-	dmat4 nMat = aMat * mModelMat;
-	upload(nMat);
-	glLineWidth(2);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glColor3d(mcolor.r, mcolor.g, mcolor.b);
-	mMesh->render();
-	glLineWidth(1);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glColor3d(1, 1, 1);
-}
-
-Caja::Caja(GLdouble ld) {
-	mMesh = mMesh->generaContCubo(ld);
-}
-
-void Caja::render(dmat4 const& aMat)const {
-	dmat4 nMat = aMat * mModelMat;
-	upload(nMat);
-	glLineWidth(2);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glColor3d(mcolor.r, mcolor.g, mcolor.b);
-	mMesh->render();
-	glLineWidth(1);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glColor3d(1, 1, 1);
-}
 //-------------------------------------------------------------------------
+ 
+Poligono::Poligono(GLuint numL, GLdouble rd) : Abs_Entity()
+{
+	mMesh = Mesh::generaPoligono(numL,rd);
+}
+
+void Poligono::render(dmat4 const& modelViewMat)const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glLineWidth(2);
+		glColor3d(mColor.r, mColor.g, mColor.b);
+		mMesh->render();
+		glLineWidth(1);
+		glColor3d(1, 1, 1);
+	}
+}
+
+Sierpinski::Sierpinski(GLuint numP, GLdouble rd) : Abs_Entity()
+{
+	mMesh = Mesh::generaSierpinski(numP, rd);
+}
+
+void Sierpinski::render(dmat4 const& modelViewMat)const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPointSize(3);
+		glColor4dv(value_ptr(mColor));
+		mMesh->render();
+		glPointSize(1);
+		GLdouble db = 1.0;
+		glColor4dv(&db);
+	}
+}
+
+TrianguloRGB::TrianguloRGB(GLdouble rd,GLdouble rotRadius):Abs_Entity()
+{
+	rotationRadius = rotRadius;
+	mMesh = Mesh::generaTrianguloRGB(rd);
+}
+
+void TrianguloRGB::render(glm::dmat4 const& modelViewMat)const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);		
+		glPolygonMode(GL_BACK, GL_POINT);
+		mMesh->render();	
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void TrianguloRGB::update()
+{
+	this->mModelMat = dmat4(1);
+	
+	if (radians(internalRotAngle) > 360.0)internalRotAngle = 0;
+	else internalRotAngle += 15.0;
+
+	if (radians(externalRotAngle) > 360.0)externalRotAngle = 0;
+	else externalRotAngle += 5.0;	
+	
+	
+	internalRotAngle += 15.0;
+	externalRotAngle += 5.0;
+	mModelMat = translate(mModelMat, dvec3( rotationRadius* cos(radians(externalRotAngle)), rotationRadius * sin(radians(externalRotAngle)), 0.0));
+	mModelMat = rotate(mModelMat, radians(internalRotAngle), dvec3(0, 0, 1));
+}
+
+RectanguloRGB ::RectanguloRGB(GLdouble w, GLdouble h) :Abs_Entity()
+{
+	mMesh = Mesh::generaRectanguloRGB(w, h);
+}
+
+void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_FRONT, GL_POINT);
+		mMesh->render();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+Estrella3D::Estrella3D(GLdouble re, GLdouble np, GLdouble h)
+{
+	mMesh = Mesh::generaEstrella3D(re, np, h);
+}
+
+void Estrella3D::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glLineWidth(2);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		mMesh->render();
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
