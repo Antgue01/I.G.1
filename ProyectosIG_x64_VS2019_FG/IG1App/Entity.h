@@ -39,7 +39,6 @@ class EjesRGB : public Abs_Entity
 {
 public:
 	explicit EjesRGB(GLdouble l);
-	//~EjesRGB() {};
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
@@ -68,7 +67,7 @@ public:
 private:
 	GLdouble internalRotAngle = 0.0;
 	GLdouble externalRotAngle = 0.0;
-	GLdouble rotationRadius = 0;
+	GLdouble rotationRadius = 0.0;
 };
 
 class RectanguloRGB :public Abs_Entity
@@ -77,12 +76,4 @@ public:
 	explicit RectanguloRGB(GLdouble w, GLdouble h);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
-
-class Estrella3D : public Abs_Entity
-{
-public:
-	explicit Estrella3D(GLdouble re, GLdouble np, GLdouble h);
-	virtual void render(glm::dmat4 const& modelViewMat) const;
-};
-
 #endif //_H_Entities_H_

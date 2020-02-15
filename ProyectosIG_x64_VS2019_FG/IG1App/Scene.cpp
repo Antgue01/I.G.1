@@ -37,12 +37,7 @@ void Scene::init()
 	dvec3 v = { 0,0,-100 };
 	rgbr->setModelMat(translate(rgbr->modelMat(),v));
 	dvec3 s = {8,12,0};
-	rgbr->setModelMat(scale(rgbr->modelMat(),s));
-
-	
-	//Estrella3D* estrella3D = new Estrella3D(300, 1000, 100);
-	//gObjects.push_back(estrella3D);
-	
+	rgbr->setModelMat(scale(rgbr->modelMat(),s));		
 }
 //-------------------------------------------------------------------------
 void Scene::free() 

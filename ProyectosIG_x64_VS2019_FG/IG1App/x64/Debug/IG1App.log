@@ -1,3 +1,1 @@
-﻿  Entity.cpp
-C:\Users\felip\OneDrive\Desktop\Desarrollo de videojuegos_2º curso\IG1\EjerciciosP0\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(63,39): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
-  IG1App.vcxproj -> C:\Users\felip\OneDrive\Desktop\Desarrollo de videojuegos_2º curso\IG1\EjerciciosP0\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿
