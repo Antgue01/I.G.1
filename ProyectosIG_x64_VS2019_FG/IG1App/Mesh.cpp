@@ -31,100 +31,6 @@ void Mesh::render() const
 }
 //-------------------------------------------------------------------------
 
-Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd)
-{
-	Mesh* mesh = new Mesh();
-
-	mesh->mPrimitive = GL_LINE_LOOP;
-	mesh->mNumVertices = numL;
-	mesh->vVertices.reserve(mesh->mNumVertices);
-
-	GLdouble angle = radians(90.0);
-
-	for (GLuint i = 0; i < numL; i++)
-	{
-		GLdouble x = rd * cos(angle);
-		GLdouble y = rd * sin(angle);
-
-		mesh->vVertices.emplace_back(x, y, 0.0);
-		angle+= radians(360.0/numL);
-	}
-
-	return mesh;
-}
-
-Mesh* Mesh::generaSierpinski(GLdouble rd, GLuint numP)
-{
-	Mesh* triangulo = generaPoligono(3, rd);
-	Mesh* mesh = new Mesh();
-
-	mesh->mPrimitive = GL_POINTS;
-	mesh->vVertices = triangulo->vertices();
-	mesh->mNumVertices = 3 * (numP + 1);
-	mesh->vVertices.reserve(mesh->mNumVertices);
-
-	vec3 verticeRandom = mesh->vVertices.at(rand() % 3);
-
-	for (GLuint i = 0; i < mesh->mNumVertices - 1; i++)
-	{
-		int access = rand() % 3;
-		verticeRandom = {(verticeRandom.x+triangulo->vVertices[access].x)/2,(verticeRandom.y + triangulo->vVertices[access].y) / 2,(verticeRandom.z + triangulo->vVertices[access].z) / 2 };
-		mesh->vVertices.emplace_back(verticeRandom);
-	}
-	delete triangulo;
-	triangulo = nullptr;
-	return mesh;
-}
-
-Mesh* Mesh:: generaTrianguloRGB(GLdouble rd)
-{
-	Mesh* mesh = generaPoligono(3,rd);
-
-	mesh->mPrimitive = GL_TRIANGLES;
-	
-	mesh->vColors.reserve(3);	
-	mesh->vColors.emplace_back(255, 0, 0, 255);  
-	mesh->vColors.emplace_back(0, 255, 0, 255);	 
-	mesh->vColors.emplace_back(0, 0, 255, 255);  
-
-	return mesh;
-}
-
-Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
-{
-	Mesh* mesh = new Mesh();
-	mesh->mPrimitive = GL_TRIANGLE_STRIP;
-	mesh->mNumVertices = 4;
-	mesh->vVertices.reserve(mesh->mNumVertices);
-
-	vec3 punt = { -w / 2,-h / 2,0 };
-	mesh->vVertices.emplace_back(punt);
-
-	punt = { punt.x,punt.y + h,0 };
-	mesh->vVertices.emplace_back(punt);
-
-	punt = { punt.x + w,punt.y - h,0 };
-	mesh->vVertices.emplace_back(punt);
-
-	punt = { punt.x,punt.y + h,0 };
-	mesh->vVertices.emplace_back(punt);
-
-	return mesh;
-}
-
-Mesh* Mesh :: generaRectanguloRGB(GLdouble w, GLdouble h)
-{
-	Mesh* mesh = generaRectangulo(w, h);
-
-	mesh->vColors.reserve(mesh->mNumVertices);
-	mesh->vColors.emplace_back(255, 0, 0, 255);
-	mesh->vColors.emplace_back(0, 0, 255, 255);
-	mesh->vColors.emplace_back(0, 0, 255, 255);
-	mesh->vColors.emplace_back(0, 255, 0, 255);
-
-	return mesh;
-}
-
 Mesh * Mesh::createRGBAxes(GLdouble l)
 {
   Mesh* mesh = new Mesh();
@@ -158,4 +64,98 @@ Mesh * Mesh::createRGBAxes(GLdouble l)
   return mesh;
 }
 //-------------------------------------------------------------------------
+
+Mesh* Mesh::generaPoligono(GLuint numL, GLdouble rd)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_LINE_LOOP;
+	mesh->mNumVertices = numL;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	GLdouble angle = radians(90.0);
+
+	for (GLuint i = 0; i < numL; i++)
+	{
+		GLdouble x = rd * cos(angle);
+		GLdouble y = rd * sin(angle);
+
+		mesh->vVertices.emplace_back(x, y, 0.0);
+		angle += radians(360.0 / numL);
+	}
+
+	return mesh;
+}
+
+Mesh* Mesh::generaSierpinski(GLdouble rd, GLuint numP)
+{
+	Mesh* triangulo = generaPoligono(3, rd);
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_POINTS;
+	mesh->vVertices = triangulo->vertices();
+	mesh->mNumVertices = 3 * (numP + 1);
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	vec3 verticeRandom = mesh->vVertices.at(rand() % 3);
+
+	for (GLuint i = 0; i < mesh->mNumVertices; i++)
+	{
+		int access = rand() % 3;
+		verticeRandom = { (verticeRandom.x + triangulo->vVertices[access].x) / 2,(verticeRandom.y + triangulo->vVertices[access].y) / 2,(verticeRandom.z + triangulo->vVertices[access].z) / 2 };
+		mesh->vVertices.emplace_back(verticeRandom);
+	}
+	delete triangulo;
+	triangulo = nullptr;
+	return mesh;
+}
+
+Mesh* Mesh::generaTrianguloRGB(GLdouble rd)
+{
+	Mesh* mesh = generaPoligono(3, rd);
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->vColors.reserve(3);
+	mesh->vColors.emplace_back(255, 0, 0, 255);
+	mesh->vColors.emplace_back(0, 255, 0, 255);
+	mesh->vColors.emplace_back(0, 0, 255, 255);
+
+	return mesh;
+}
+
+Mesh* Mesh::generaRectangulo(GLdouble w, GLdouble h)
+{
+	Mesh* mesh = new Mesh();
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+	mesh->mNumVertices = 4;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	vec3 punt = { -w / 2,-h / 2,0 };
+	mesh->vVertices.emplace_back(punt);
+
+	punt = { punt.x,punt.y + h,0 };
+	mesh->vVertices.emplace_back(punt);
+
+	punt = { punt.x + w,punt.y - h,0 };
+	mesh->vVertices.emplace_back(punt);
+
+	punt = { punt.x,punt.y + h,0 };
+	mesh->vVertices.emplace_back(punt);
+
+	return mesh;
+}
+
+Mesh* Mesh::generaRectanguloRGB(GLdouble w, GLdouble h)
+{
+	Mesh* mesh = generaRectangulo(w, h);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+	mesh->vColors.emplace_back(255, 0, 0, 255);
+	mesh->vColors.emplace_back(0, 0, 255, 255);
+	mesh->vColors.emplace_back(0, 0, 255, 255);
+	mesh->vColors.emplace_back(0, 255, 0, 255);
+
+	return mesh;
+}
 

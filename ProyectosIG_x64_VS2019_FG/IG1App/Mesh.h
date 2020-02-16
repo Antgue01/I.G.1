@@ -7,9 +7,6 @@
 
 #include <vector>
 
-
-using namespace glm;
-
 //-------------------------------------------------------------------------
 
 class Mesh 
@@ -22,7 +19,7 @@ public:
 	static Mesh* generaTrianguloRGB(GLdouble rd);
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h);
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);
-			
+
 	Mesh() {};
 	virtual ~Mesh() {};
 

@@ -13,12 +13,18 @@ void Abs_Entity::upload(dmat4 const& modelViewMat) const
 	glLoadMatrixd(value_ptr(modelViewMat));  // transfers modelView matrix to the GPU
 }
 //-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
 
 EjesRGB::EjesRGB(GLdouble l): Abs_Entity()
 {
   mMesh = Mesh::createRGBAxes(l);
 }
+//-------------------------------------------------------------------------
 
+Abs_Entity::~Abs_Entity()
+{ 
+	delete mMesh; mMesh = nullptr; 
+};
 //-------------------------------------------------------------------------
 
 void EjesRGB::render(dmat4 const& modelViewMat) const 
@@ -32,10 +38,10 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 	}
 }
 //-------------------------------------------------------------------------
- 
+
 Poligono::Poligono(GLuint numL, GLdouble rd) : Abs_Entity()
 {
-	mMesh = Mesh::generaPoligono(numL,rd);
+	mMesh = Mesh::generaPoligono(numL, rd);
 }
 
 void Poligono::render(dmat4 const& modelViewMat)const
@@ -70,7 +76,7 @@ void Sierpinski::render(dmat4 const& modelViewMat)const
 	}
 }
 
-TrianguloRGB::TrianguloRGB(GLdouble rd,GLdouble rotRadius):Abs_Entity()
+TrianguloRGB::TrianguloRGB(GLdouble rd, GLdouble rotRadius) :Abs_Entity()
 {
 	rotationRadius = rotRadius;
 	mMesh = Mesh::generaTrianguloRGB(rd);
@@ -80,9 +86,9 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat)const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat);		
+		upload(aMat);
 		glPolygonMode(GL_BACK, GL_POINT);
-		mMesh->render();	
+		mMesh->render();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
@@ -90,20 +96,21 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat)const
 void TrianguloRGB::update()
 {
 	mModelMat = dmat4(1);
-	
+
 	if (radians(internalRotAngle) > 360.0)internalRotAngle = 0.0;
 	else internalRotAngle += 15.0;
 
 	if (radians(externalRotAngle) > 360.0)externalRotAngle = 0.0;
-	else externalRotAngle += 5.0;	
-		
+	else externalRotAngle += 5.0;
+
+
 	internalRotAngle += 15.0;
 	externalRotAngle += 5.0;
-	mModelMat = translate(mModelMat, dvec3( rotationRadius * cos(radians(externalRotAngle)), rotationRadius * sin(radians(externalRotAngle)), 0.0));
+	mModelMat = translate(mModelMat, dvec3(rotationRadius * cos(radians(externalRotAngle)), rotationRadius * sin(radians(externalRotAngle)), 0.0));
 	mModelMat = rotate(mModelMat, radians(internalRotAngle), dvec3(0.0, 0.0, 1.0));
 }
 
-RectanguloRGB ::RectanguloRGB(GLdouble w, GLdouble h) :Abs_Entity()
+RectanguloRGB::RectanguloRGB(GLdouble w, GLdouble h) :Abs_Entity()
 {
 	mMesh = Mesh::generaRectanguloRGB(w, h);
 }
@@ -118,3 +125,4 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+ 
