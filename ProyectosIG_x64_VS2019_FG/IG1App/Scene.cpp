@@ -23,7 +23,7 @@ void Scene::init()
 	gObjects.clear();
 	if (miId == 0) {
 		gObjects.push_back(new EjesRGB(400.0));
-
+		
 		Poligono* triangulo = new Poligono(3, 300);
 		triangulo->setColor(255, 255, 0, 255);
 		gObjects.push_back(triangulo);
@@ -35,7 +35,7 @@ void Scene::init()
 		Sierpinski* sierpinski = new Sierpinski(300, 5000);
 		sierpinski->setColor(255, 255, 0, 255);
 		gObjects.push_back(sierpinski);
-
+	
 		TrianguloRGB* rgbt = new TrianguloRGB(50);
 		gObjects.push_back(rgbt);
 
@@ -45,13 +45,16 @@ void Scene::init()
 		rgbr->setModelMat(translate(rgbr->modelMat(), v));
 		dvec3 s = { 8,12,0 };
 		rgbr->setModelMat(scale(rgbr->modelMat(), s));
+		
 	}
 	else if (miId == 1)
 	{
+		gObjects.push_back(new EjesRGB(400.0));
 
 		//Estrella3D* estrella3D = new Estrella3D(300, 10, 100);
 		//gObjects.push_back(estrella3D);
-		Caja* c = new Caja(100);
+
+		Caja* c = new Caja(200);
 		gObjects.push_back(c);
 	}
 }

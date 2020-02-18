@@ -185,14 +185,33 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	cubo->mPrimitive = GL_TRIANGLE_STRIP;
 	cubo->mNumVertices = 10;
 	cubo->vVertices.reserve(cubo->mNumVertices);
-	vec3 punt = { -2 * ld ,-ld / 2,ld / 2 };
+	
+	int n = ld/2;
+	//frontal
+	cubo->vVertices.emplace_back(-n,n, n);
+	cubo->vVertices.emplace_back(-n, -n, n);
+	cubo->vVertices.emplace_back(n, n, n);
+	cubo->vVertices.emplace_back(n, -n, n);
+	//derecha
+	cubo->vVertices.emplace_back(n, n, n-ld);
+	cubo->vVertices.emplace_back(n, -n, n-ld);
+	//trasera
+	cubo->vVertices.emplace_back(n-ld, n, -n);
+	cubo->vVertices.emplace_back(n-ld, -n, -n);
+	//izquierda
+	cubo->vVertices.emplace_back(n-ld, n, -n+ld);
+	cubo->vVertices.emplace_back(n-ld, -n, -n+ld);
+
+	/*
+	vec3 punt = {  -ld/2 ,-ld / 2,ld / 2 };
 	cubo->vVertices.push_back(punt);
 	punt = { punt.x,punt.y + ld,punt.z };
 	cubo->vVertices.push_back(punt);
-	punt = { punt.x + ld ,punt.y - ld,punt.z };
-	cubo->vVertices.push_back(punt);
+	punt = { punt.x + ld ,punt.y-ld ,punt.z };
+	cubo->vVertices.push_back(punt);	
 	punt = { punt.x,punt.y + ld,punt.z };
 	cubo->vVertices.push_back(punt);
+
 	for (int i = 0; i < 4; i++)
 	{
 		punt = { punt.x + ld ,punt.y - ld, punt.z };
@@ -200,6 +219,7 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 		punt = { punt.x,punt.y + ld,punt.z };
 		cubo->vVertices.push_back(punt);
 	}
+*/
 	return cubo;
 }
 

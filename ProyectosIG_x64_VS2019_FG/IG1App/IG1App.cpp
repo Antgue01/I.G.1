@@ -185,7 +185,7 @@ void IG1App::Update() {
 	mScene->update();
 }
 void IG1App::s_update() {
-	glutIdleFunc(Update);
+	//glutIdleFunc(Update);
 }
 //-------------------------------------------------------------------------
 
