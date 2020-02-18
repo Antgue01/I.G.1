@@ -31,9 +31,13 @@ public:
 	Camera const& camera() { return *mCamera; };
 	// Graphics objects of the scene
 	Scene const& scene() { return *mScene; };
+	//update entities
+	//void Update() { mScene.update(); }
+	static void s_update();
 
 	void run();    // the main event processing loop
 	void close();  // the application
+
 	
 protected:
 

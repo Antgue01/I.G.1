@@ -25,11 +25,14 @@ public:
 
     void render(Camera const& cam) const;
 	void update();
+	int GetID() { return miId; }
+	void setState(int id);
 	
 protected:
 	void free();
 	void setGL();
 	void resetGL();
+	int miId=0;
 
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 };

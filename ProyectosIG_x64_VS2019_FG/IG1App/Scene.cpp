@@ -7,41 +7,54 @@ using namespace glm;
 //-------------------------------------------------------------------------
 
 void Scene::init()
-{ 
+{
 	setGL();  // OpenGL settings
 
 	// allocate memory and load resources
-    // Lights
-    // Textures
+	// Lights
+	// Textures
 
-    // Graphics objects (entities) of the scene
-	gObjects.push_back(new EjesRGB(400.0));
+	// Graphics objects (entities) of the scene
+	for (int i = 0; i < gObjects.size(); i++)
+	{
+		delete gObjects.at(i);
+		
+	}
+	gObjects.clear();
+	if (miId == 0) {
+		gObjects.push_back(new EjesRGB(400.0));
 
-	Poligono* triangulo = new Poligono(3, 300);
-	triangulo->setColor(255, 255, 0, 255);
-	gObjects.push_back(triangulo);
+		Poligono* triangulo = new Poligono(3, 300);
+		triangulo->setColor(255, 255, 0, 255);
+		gObjects.push_back(triangulo);
 
-	Poligono* circulo = new Poligono(100, 300);
-	circulo->setColor(255, 0, 255, 255);
-	gObjects.push_back(circulo);
+		Poligono* circulo = new Poligono(100, 300);
+		circulo->setColor(255, 0, 255, 255);
+		gObjects.push_back(circulo);
 
-	Sierpinski* sierpinski = new Sierpinski(300, 5000);
-	sierpinski->setColor(255, 255, 0, 255);
-	gObjects.push_back(sierpinski);
+		Sierpinski* sierpinski = new Sierpinski(300, 5000);
+		sierpinski->setColor(255, 255, 0, 255);
+		gObjects.push_back(sierpinski);
 
-	TrianguloRGB* rgbt = new TrianguloRGB(50);
-	gObjects.push_back(rgbt);
+		TrianguloRGB* rgbt = new TrianguloRGB(50);
+		gObjects.push_back(rgbt);
 
-	RectanguloRGB* rgbr = new RectanguloRGB(100, 50);
-	gObjects.push_back(rgbr);
-	dvec3 v = { 0,0,-100 };
-	rgbr->setModelMat(translate(rgbr->modelMat(), v));
-	dvec3 s = { 8,12,0 };
-	rgbr->setModelMat(scale(rgbr->modelMat(), s));
-	
+		RectanguloRGB* rgbr = new RectanguloRGB(100, 50);
+		gObjects.push_back(rgbr);
+		dvec3 v = { 0,0,-100 };
+		rgbr->setModelMat(translate(rgbr->modelMat(), v));
+		dvec3 s = { 8,12,0 };
+		rgbr->setModelMat(scale(rgbr->modelMat(), s));
+	}
+	else if (miId == 1)
+	{
+
+		Estrella3D* estrella3D = new Estrella3D(300, 10, 100);
+		gObjects.push_back(estrella3D);
+	}
 }
 //-------------------------------------------------------------------------
-void Scene::free() 
+void Scene::free()
 { // release memory and resources   
 
 	for (Abs_Entity* el : gObjects)
@@ -50,7 +63,7 @@ void Scene::free()
 	}
 }
 //-------------------------------------------------------------------------
-void Scene::setGL() 
+void Scene::setGL()
 {
 	// OpenGL basic setting
 	glClearColor(0.0, 0.0, 0.0, 0.0);  // background color (alpha=1 -> opaque)
@@ -58,20 +71,20 @@ void Scene::setGL()
 
 }
 //-------------------------------------------------------------------------
-void Scene::resetGL() 
+void Scene::resetGL()
 {
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 	
 }
 //-------------------------------------------------------------------------
 
-void Scene::render(Camera const& cam) const 
+void Scene::render(Camera const& cam) const
 {
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects)
 	{
-	  el->render(cam.viewMat());
+		el->render(cam.viewMat());
 	}
 }
 
@@ -81,6 +94,10 @@ void Scene::update()
 	{
 		el->update();
 	}
+}
+void Scene::setState(int id) {
+	miId = id;
+	init();
 }
 //-------------------------------------------------------------------------
 
