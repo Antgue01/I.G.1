@@ -125,7 +125,7 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
-Estrella3D::Estrella3D(GLdouble re, GLdouble np, GLdouble h)
+Estrella3D::Estrella3D(GLdouble re, GLdouble np, GLdouble h) :Abs_Entity(), h(h)
 {
 	mMesh = Mesh::generaEstrella3D(re, np, h);
 }
@@ -138,7 +138,27 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(2);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
+		rotate(modelViewMat, radians(180.0), dvec3(1, 0, 0));
+		translate(aMat, dvec3(0, 0, -h/2));
+		aMat = modelViewMat * mModelMat;
+		upload(aMat);
+		mMesh->render();
 		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+Caja::Caja(GLdouble ld ) :Abs_Entity()
+{
+	mMesh = Mesh::generaContCubo(ld);
+}
+void Caja::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		
+		mMesh->render();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

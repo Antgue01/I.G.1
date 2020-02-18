@@ -49,8 +49,10 @@ void Scene::init()
 	else if (miId == 1)
 	{
 
-		Estrella3D* estrella3D = new Estrella3D(300, 10, 100);
-		gObjects.push_back(estrella3D);
+		//Estrella3D* estrella3D = new Estrella3D(300, 10, 100);
+		//gObjects.push_back(estrella3D);
+		Caja* c = new Caja(100);
+		gObjects.push_back(c);
 	}
 }
 //-------------------------------------------------------------------------

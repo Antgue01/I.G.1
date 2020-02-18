@@ -83,7 +83,14 @@ class Estrella3D : public Abs_Entity
 public:
 	explicit Estrella3D(GLdouble re, GLdouble np, GLdouble h);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+private:
+	GLdouble h;
 };
+class Caja :public Abs_Entity {
+public:
+	explicit Caja(GLdouble ld);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
 
+};
 
 #endif //_H_Entities_H_
