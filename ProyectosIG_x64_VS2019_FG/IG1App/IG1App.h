@@ -32,7 +32,7 @@ public:
 	// Graphics objects of the scene
 	Scene const& scene() { return *mScene; };
 	//update entities
-	//void Update() { mScene.update(); }
+	void Update();
 	static void s_update();
 
 	void run();    // the main event processing loop

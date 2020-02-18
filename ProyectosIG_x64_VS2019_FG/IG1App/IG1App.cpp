@@ -181,11 +181,11 @@ void IG1App::specialKey(int key, int x, int y)
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
 }
-//void IG1App::Update() {
-//	mScene->update();
-////}
-//void IG1App::s_update() {
-//	glutIdleFunc(IG1App::Update);
-//}
+void IG1App::Update() {
+	mScene->update();
+}
+void IG1App::s_update() {
+	glutIdleFunc(Update);
+}
 //-------------------------------------------------------------------------
 
