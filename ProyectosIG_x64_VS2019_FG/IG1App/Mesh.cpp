@@ -166,14 +166,14 @@ Mesh* Mesh::generaEstrella3D(GLdouble re, GLdouble np, GLdouble h)
 	mesh->mNumVertices = 2 * np + 2;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
-	mesh->vVertices.emplace_back(0.0, 0.0, h);
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
 
 	GLdouble angle = radians(90.0);
 
 	for (GLuint i = 0; i < mesh->mNumVertices - 1; i++)
 	{
-		if (i % 2 == 0)mesh->vVertices.emplace_back(re * cos(angle), re * sin(angle), 0.0);
-		else mesh->vVertices.emplace_back((re / 2) * cos(angle), (re / 2) * sin(angle), 0.0);
+		if (i % 2 == 0)mesh->vVertices.emplace_back(re * cos(angle), re * sin(angle), h);
+		else mesh->vVertices.emplace_back((re / 2) * cos(angle), (re / 2) * sin(angle), h);
 
 		angle += radians(180.0 / np);
 	}
@@ -199,27 +199,9 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	cubo->vVertices.emplace_back(n-ld, n, -n);
 	cubo->vVertices.emplace_back(n-ld, -n, -n);
 	//izquierda
-	cubo->vVertices.emplace_back(n-ld, n, -n+ld);
-	cubo->vVertices.emplace_back(n-ld, -n, -n+ld);
+	cubo->vVertices.emplace_back(-n, n, n);
+	cubo->vVertices.emplace_back(-n, -n, n);
 
-	/*
-	vec3 punt = {  -ld/2 ,-ld / 2,ld / 2 };
-	cubo->vVertices.push_back(punt);
-	punt = { punt.x,punt.y + ld,punt.z };
-	cubo->vVertices.push_back(punt);
-	punt = { punt.x + ld ,punt.y-ld ,punt.z };
-	cubo->vVertices.push_back(punt);	
-	punt = { punt.x,punt.y + ld,punt.z };
-	cubo->vVertices.push_back(punt);
-
-	for (int i = 0; i < 4; i++)
-	{
-		punt = { punt.x + ld ,punt.y - ld, punt.z };
-		cubo->vVertices.push_back(punt);
-		punt = { punt.x,punt.y + ld,punt.z };
-		cubo->vVertices.push_back(punt);
-	}
-*/
 	return cubo;
 }
 

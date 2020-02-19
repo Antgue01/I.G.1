@@ -103,9 +103,6 @@ void TrianguloRGB::update()
 	if (radians(externalRotAngle) > 360.0)externalRotAngle = 0.0;
 	else externalRotAngle += 5.0;
 
-
-	internalRotAngle += 15.0;
-	externalRotAngle += 5.0;
 	mModelMat = translate(mModelMat, dvec3(rotationRadius * cos(radians(externalRotAngle)), rotationRadius * sin(radians(externalRotAngle)), 0.0));
 	mModelMat = rotate(mModelMat, radians(internalRotAngle), dvec3(0.0, 0.0, 1.0));
 }
@@ -134,20 +131,32 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		aMat = translate(aMat, dvec3(0, 0, -h));
-		aMat = aMat * mModelMat;
 		upload(aMat);
 		glLineWidth(2);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
-		aMat = rotate(aMat, radians(180.0), dvec3(1, 0, 0));
-		aMat = translate(aMat, dvec3(0, 0, -2*h));
+
+		aMat = rotate(aMat, radians(180.0), dvec3(1, 0, 0));		
 		upload(aMat);
 		mMesh->render();
+
 		glLineWidth(1);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+void Estrella3D::update()
+{
+	if (radians(zAngle) > 360.0)zAngle = 0.0;
+	else zAngle += 1.0;
+
+	if (radians(yAngle) > 360.0)yAngle = 0.0;
+	else yAngle += 1.0;
+	
+	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0,0.0,1.0));
+	mModelMat = rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0));
+}
+
 Caja::Caja(GLdouble ld ) :Abs_Entity()
 {
 	mMesh = Mesh::generaContCubo(ld);

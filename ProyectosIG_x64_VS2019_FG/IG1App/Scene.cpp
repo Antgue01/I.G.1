@@ -51,7 +51,7 @@ void Scene::init()
 	{
 		gObjects.push_back(new EjesRGB(400.0));
 
-		Estrella3D* estrella3D = new Estrella3D(300, 10, 100);
+		Estrella3D* estrella3D = new Estrella3D(100, 6, 100);
 		gObjects.push_back(estrella3D);
 
 		//Caja* c = new Caja(200);
