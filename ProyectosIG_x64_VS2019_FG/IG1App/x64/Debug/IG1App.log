@@ -1,1 +1,3 @@
-﻿  IG1App.vcxproj -> U:\hlocal\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿  Entity.cpp
+U:\hlocal\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(62,39): warning C4244: 'argument': conversion from 'GLdouble' to 'GLuint', possible loss of data
+  IG1App.vcxproj -> U:\hlocal\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe

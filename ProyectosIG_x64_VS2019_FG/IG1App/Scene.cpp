@@ -51,11 +51,11 @@ void Scene::init()
 	{
 		gObjects.push_back(new EjesRGB(400.0));
 
-		//Estrella3D* estrella3D = new Estrella3D(300, 10, 100);
-		//gObjects.push_back(estrella3D);
+		Estrella3D* estrella3D = new Estrella3D(300, 10, 100);
+		gObjects.push_back(estrella3D);
 
-		Caja* c = new Caja(200);
-		gObjects.push_back(c);
+		//Caja* c = new Caja(200);
+		//gObjects.push_back(c);
 	}
 }
 //-------------------------------------------------------------------------

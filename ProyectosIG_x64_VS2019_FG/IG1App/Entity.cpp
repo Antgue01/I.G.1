@@ -134,13 +134,14 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		aMat = translate(aMat, dvec3(0, 0, -h));
+		aMat = aMat * mModelMat;
 		upload(aMat);
 		glLineWidth(2);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		mMesh->render();
-		aMat = rotate(modelViewMat, radians(180.0), dvec3(1, 0, 0));
-		aMat = translate(aMat, dvec3(0, 0, -h/2));
-		aMat = modelViewMat * mModelMat;
+		aMat = rotate(aMat, radians(180.0), dvec3(1, 0, 0));
+		aMat = translate(aMat, dvec3(0, 0, -2*h));
 		upload(aMat);
 		mMesh->render();
 		glLineWidth(1);
