@@ -86,8 +86,8 @@ public:
 	virtual void update();
 private:
 	GLdouble h;
-	GLdouble zAngle = 0.0;
-	GLdouble yAngle = 0.0;
+	GLdouble zAngle = 1.0;
+	GLdouble yAngle = 1.0;
 };
 class Caja :public Abs_Entity {
 public:

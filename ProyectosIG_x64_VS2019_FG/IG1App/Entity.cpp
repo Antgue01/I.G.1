@@ -147,11 +147,6 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 
 void Estrella3D::update()
 {
-	if (radians(zAngle) > 360.0)zAngle = 0.0;
-	else zAngle += 1.0;
-
-	if (radians(yAngle) > 360.0)yAngle = 0.0;
-	else yAngle += 1.0;
 	
 	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0,0.0,1.0));
 	mModelMat = rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0));
