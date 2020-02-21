@@ -148,8 +148,10 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 void Estrella3D::update()
 {
 	
-	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0,0.0,1.0));
-	mModelMat = rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0));
+	mModelMat = rotate(dmat4(1), radians(yAngle), dvec3(0.0,1.0,.0));
+	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0.0, 1.0));
+	zAngle++;
+	yAngle++;
 }
 
 Caja::Caja(GLdouble ld ) :Abs_Entity()

@@ -72,6 +72,8 @@ void IG1App::iniWinOpenGL()
 	glutKeyboardFunc(s_key);
 	glutSpecialFunc(s_specialKey);
 	glutDisplayFunc(s_display);
+	glutIdleFunc(s_update);
+
 
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
@@ -131,6 +133,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'u':
 		mScene->update();
 		break;
+	case '7':
+		animActivated = !animActivated;
+		break;
 	default:
 		need_redisplay = false;
 		break;
@@ -182,10 +187,17 @@ void IG1App::specialKey(int key, int x, int y)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
 }
 void IG1App::Update() {
-	mScene->update();
+	int time = glutGet(GLUT_ELAPSED_TIME);
+
+	if (animActivated && time - mLastUpdateTime > 1000 / 60)
+	{
+		mScene->update();
+		display();
+		mLastUpdateTime = time;
+
+		//redisplay
+	}
 }
-void IG1App::s_update() {
-	//glutIdleFunc(Update);
-}
+
 //-------------------------------------------------------------------------
 
