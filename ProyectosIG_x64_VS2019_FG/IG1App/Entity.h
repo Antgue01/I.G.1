@@ -84,7 +84,7 @@ public:
 class Estrella3D : public Abs_Entity
 {
 public:
-	explicit Estrella3D(GLdouble re, GLdouble np, GLdouble h);
+	explicit Estrella3D(GLdouble re, GLdouble np, GLdouble h,Texture*t);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update();
 private:

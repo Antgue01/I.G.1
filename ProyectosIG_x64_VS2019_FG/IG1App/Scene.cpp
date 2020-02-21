@@ -15,7 +15,8 @@ void Scene::init()
 	// Textures
 	
 
-
+	gTextures.push_back(new Texture());
+	gTextures.back()->load("..\\BMPS\\baldosaP.bmp");
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
 	{
@@ -53,7 +54,7 @@ void Scene::init()
 	{
 		gObjects.push_back(new EjesRGB(400.0));
 
-		Estrella3D* estrella3D = new Estrella3D(100, 6, 100);
+		Estrella3D* estrella3D = new Estrella3D(100, 6, 100,gTextures.at(0));
 		gObjects.push_back(estrella3D);
 
 		//Caja* c = new Caja(200);

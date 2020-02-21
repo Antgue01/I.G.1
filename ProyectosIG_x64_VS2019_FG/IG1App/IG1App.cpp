@@ -133,7 +133,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'u':
 		mScene->update();
 		break;
-	case '7':
+	case 'U':
 		animActivated = !animActivated;
 		break;
 	default:
