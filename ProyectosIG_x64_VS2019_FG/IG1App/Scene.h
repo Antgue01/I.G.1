@@ -35,6 +35,8 @@ protected:
 	int miId=1;
 
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
+	std::vector<Texture*>gTextures;
+		
 };
 //-------------------------------------------------------------------------
 

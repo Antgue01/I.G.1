@@ -33,7 +33,9 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glLineWidth(2);
+		if(mTexture!=nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		mTexture->unbind();
 		glLineWidth(1);
 	}
 }
@@ -51,7 +53,9 @@ void Poligono::render(dmat4 const& modelViewMat)const
 		upload(aMat);
 		glLineWidth(2);
 		glColor3d(mColor.r, mColor.g, mColor.b);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		mTexture->unbind();
 		glLineWidth(1);
 		glColor3d(1, 1, 1);
 	}
@@ -69,7 +73,9 @@ void Sierpinski::render(dmat4 const& modelViewMat)const
 		upload(aMat);
 		glPointSize(3);
 		glColor4dv(value_ptr(mColor));
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		mTexture->unbind();
 		glPointSize(1);
 		GLdouble db = 1.0;
 		glColor4dv(&db);
@@ -88,7 +94,9 @@ void TrianguloRGB::render(glm::dmat4 const& modelViewMat)const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_BACK, GL_POINT);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		mTexture->unbind();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
@@ -118,7 +126,9 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_FRONT, GL_POINT);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		mTexture->unbind();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
@@ -134,12 +144,13 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		glLineWidth(2);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 
 		aMat = rotate(aMat, radians(180.0), dvec3(1, 0, 0));		
 		upload(aMat);
 		mMesh->render();
-
+		mTexture->unbind();
 		glLineWidth(1);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
@@ -163,8 +174,10 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);		
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
+		mTexture->unbind();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

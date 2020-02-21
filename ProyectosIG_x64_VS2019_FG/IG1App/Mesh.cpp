@@ -23,10 +23,21 @@ void Mesh::render() const
 			glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
 		}
 
+		if (vTexCoords.size() > 0)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+		}
+
+		
+
 		draw();
 
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_DOUBLE);
 	}
 }
 //-------------------------------------------------------------------------
@@ -203,6 +214,26 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	cubo->vVertices.emplace_back(-n, -n, n);
 
 	return cubo;
+}
+
+Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h)
+{
+	Mesh* mesh = generaEstrella3D(re, np, h);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	GLdouble angle = radians(90.0);
+
+	for (GLuint i = 0; i < mesh->mNumVertices - 1; i++)
+	{
+		if (i % 2 == 0)mesh->vVertices.emplace_back(re * cos(angle), re * sin(angle), h);
+		else mesh->vVertices.emplace_back((re / 2) * cos(angle), (re / 2) * sin(angle), h);
+
+		angle += radians(180.0 / np);
+	}
+
+
+	return mesh;
 }
 
 

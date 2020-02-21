@@ -6,6 +6,7 @@
 #include <glm.hpp>
 
 #include "Mesh.h"
+#include "Texture.h"
 
 //-------------------------------------------------------------------------
 
@@ -25,9 +26,11 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setColor(GLuint r, GLuint g, GLuint b, GLuint a) { mColor = { r,g,b,a }; };
+	void setTexture(Texture* tex) { mTexture = tex; }
 	
 protected:
 
+	Texture* mTexture = nullptr;
 	Mesh* mMesh = nullptr;   // the mesh
 	glm::dmat4 mModelMat;    // modeling matrix
 	glm::dvec4 mColor;
