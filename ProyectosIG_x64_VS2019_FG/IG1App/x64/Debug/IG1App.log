@@ -1,2 +1,4 @@
-﻿  IG1App.cpp
-  IG1App.vcxproj -> C:\Users\madar\Desktop\Uni\2º V\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿  Mesh.cpp
+C:\Users\felip\OneDrive\Desktop\Programas\GitHub\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(177,30): warning C4244: '=': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
+C:\Users\felip\OneDrive\Desktop\Programas\GitHub\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(200,8): warning C4244: 'inicializando': conversión de 'GLdouble' a 'int'; posible pérdida de datos
+  IG1App.vcxproj -> C:\Users\felip\OneDrive\Desktop\Programas\GitHub\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe

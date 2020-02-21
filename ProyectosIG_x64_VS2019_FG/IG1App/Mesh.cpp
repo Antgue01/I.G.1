@@ -221,13 +221,13 @@ Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h)
 	Mesh* mesh = generaEstrella3D(re, np, h);
 
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
-
+	mesh->vTexCoords.emplace_back(0.5, 0.5);
 	GLdouble angle = radians(90.0);
 
 	for (GLuint i = 0; i < mesh->mNumVertices - 1; i++)
 	{
-		if (i % 2 == 0)mesh->vVertices.emplace_back(re * cos(angle), re * sin(angle), h);
-		else mesh->vVertices.emplace_back((re / 2) * cos(angle), (re / 2) * sin(angle), h);
+		if (i % 2 == 0)mesh->vTexCoords.emplace_back(0.5+0.5 * cos(angle), 0.5+0.5 * sin(angle));
+		else mesh->vTexCoords.emplace_back(0.5 + 0.25* cos(angle), 0.5 + 0.25 * sin(angle));
 
 		angle += radians(180.0 / np);
 	}

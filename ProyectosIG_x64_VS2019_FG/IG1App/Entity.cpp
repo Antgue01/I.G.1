@@ -134,7 +134,7 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 }
 Estrella3D::Estrella3D(GLdouble re, GLdouble np, GLdouble h, Texture* t) :Abs_Entity(), h(h)
 {
-	mMesh = Mesh::generaEstrella3D(re, np, h);
+	mMesh = Mesh::generaEstrellaTexCor(re, np, h);
 	mTexture = t;
 }
 
