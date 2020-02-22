@@ -12,11 +12,13 @@ void Scene::init()
 
 	// allocate memory and load resources
 	// Lights
-	// Textures
-	
-
+	// Textures	
 	gTextures.push_back(new Texture());
-	gTextures.back()->load("..\\BMPS\\baldosaP.bmp");
+	gTextures.at(0)->load("..\\BMPS\\baldosaP.bmp");
+
+	gTextures.push_back(new Texture()); 
+	gTextures.at(1)->load("..\\BMPS\\baldosaC.bmp");
+
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
 	{
@@ -47,8 +49,7 @@ void Scene::init()
 		dvec3 v = { 0,0,-100 };
 		rgbr->setModelMat(translate(rgbr->modelMat(), v));
 		dvec3 s = { 8,12,0 };
-		rgbr->setModelMat(scale(rgbr->modelMat(), s));
-		
+		rgbr->setModelMat(scale(rgbr->modelMat(), s));		
 	}
 	else if (miId == 1)
 	{
@@ -59,6 +60,9 @@ void Scene::init()
 
 		//Caja* c = new Caja(200);
 		//gObjects.push_back(c);
+
+		Suelo* suelo = new Suelo(700, 500, 10, 10,gTextures.at(1));
+		gObjects.push_back(suelo);
 	}
 }
 //-------------------------------------------------------------------------

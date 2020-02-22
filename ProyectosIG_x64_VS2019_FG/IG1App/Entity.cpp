@@ -157,8 +157,7 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 
 void Estrella3D::update()
 {
-
-	mModelMat = rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, .0));
+	mModelMat = rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, 0.0));
 	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0.0, 1.0));
 	zAngle++;
 	yAngle++;
@@ -178,6 +177,26 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 		mTexture->unbind();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+Suelo::Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh,Texture* t)
+{
+	mTexture = t;
+	mMesh = Mesh::generaRectanguloTexCor(w, h, rw, rh);
+    mModelMat = rotate(mModelMat, radians(180.0), dvec3(0.0, 1.0, 1.0));
+	
+}
+
+void Suelo::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
+		mMesh->render();
+		mTexture->unbind();
+		
 	}
 }
 

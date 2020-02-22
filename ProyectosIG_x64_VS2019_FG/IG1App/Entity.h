@@ -92,9 +92,17 @@ private:
 	GLdouble zAngle = 1.0;
 	GLdouble yAngle = 1.0;
 };
+
 class Caja :public Abs_Entity {
 public:
 	explicit Caja(GLdouble ld);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+class Suelo :public Abs_Entity {
+public:
+	explicit Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh,Texture* t);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
