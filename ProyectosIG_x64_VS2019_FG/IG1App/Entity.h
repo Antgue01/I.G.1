@@ -95,9 +95,10 @@ private:
 
 class Caja :public Abs_Entity {
 public:
-	explicit Caja(GLdouble ld,Texture* t);
+	explicit Caja(GLdouble ld,Texture* t,Texture* t2);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
-
+private:
+	Texture* texture2 = nullptr;
 };
 
 class Suelo :public Abs_Entity {

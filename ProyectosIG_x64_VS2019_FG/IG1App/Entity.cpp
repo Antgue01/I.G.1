@@ -156,26 +156,39 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 }
 
 void Estrella3D::update()
-{
+{	
 	mModelMat = rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, 0.0));
 	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0.0, 1.0));
 	zAngle++;
 	yAngle++;
 }
 
-Caja::Caja(GLdouble ld,Texture* t) :Abs_Entity()
+Caja::Caja(GLdouble ld,Texture* t,Texture* t2) :Abs_Entity()
 {
 	mMesh = Mesh::generaCajaTexCor(ld);
 	mTexture = t;
+	texture2 = t2;
 }
 void Caja::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		glEnable(GL_CULL_FACE);
+		
+		glCullFace(GL_FRONT);
 		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
 		mMesh->render();
-		mTexture->unbind();
+	    mTexture->unbind();	
+
+		
+		glCullFace(GL_BACK);
+		if (texture2 != nullptr)texture2->bind(GL_MODULATE);
+		mMesh->render();
+		texture2->unbind();
+
+		glDisable(GL_CULL_FACE);
+				
 	}
 }
 
@@ -194,8 +207,7 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
 		mMesh->render();
-		mTexture->unbind();
-		
+		mTexture->unbind();	
 	}
 }
 

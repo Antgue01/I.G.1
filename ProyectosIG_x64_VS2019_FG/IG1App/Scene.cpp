@@ -20,7 +20,10 @@ void Scene::init()
 	gTextures.at(1)->load("..\\BMPS\\baldosaC.bmp");
 
 	gTextures.push_back(new Texture());
-	gTextures.back()->load("..\\BMPS\\container.bmp");
+	gTextures.at(2)->load("..\\BMPS\\container.bmp");
+
+	gTextures.push_back(new Texture());
+	gTextures.at(3)->load("..\\BMPS\\papelE.bmp");
 
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
@@ -29,6 +32,7 @@ void Scene::init()
 		
 	}
 	gObjects.clear();
+
 	if (miId == 0) {
 		gObjects.push_back(new EjesRGB(400.0));
 		
@@ -58,15 +62,17 @@ void Scene::init()
 	{
 		gObjects.push_back(new EjesRGB(400.0));
 
-		Estrella3D* estrella3D = new Estrella3D(100, 4, 100,gTextures.at(0));
+		Estrella3D* estrella3D = new Estrella3D(25, 4, 25,gTextures.at(0));
+		estrella3D->setModelMat(translate(estrella3D->modelMat(), dvec3(-325.0,100.0,-325.0)));
 		gObjects.push_back(estrella3D);
 
-		//Caja* c = new Caja(200);
-		//gObjects.push_back(c);
+		Caja* c = new Caja(50, gTextures.at(2), gTextures.at(3));
+		c->setModelMat(translate(c->modelMat(), dvec3(-325.0, 25.0, -325.0)));
+		gObjects.push_back(c);
 
-		Suelo* suelo = new Suelo(700, 500, 10, 10,gTextures.at(1));
+		Suelo* suelo = new Suelo(700, 700, 10, 10,gTextures.at(1));		
 		gObjects.push_back(suelo);
-		gObjects.push_back(new Caja(400, gTextures.at(2)));
+		
 	}
 }
 //-------------------------------------------------------------------------

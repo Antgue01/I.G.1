@@ -199,19 +199,23 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	
 	int n = ld/2;
 	//frontal
+	cubo->vVertices.emplace_back(-n, -n, n);
 	cubo->vVertices.emplace_back(-n,n, n);
-	cubo->vVertices.emplace_back(-n, -n, n);
-	cubo->vVertices.emplace_back(n, n, n);
 	cubo->vVertices.emplace_back(n, -n, n);
+	cubo->vVertices.emplace_back(n, n, n);
+	
 	//derecha
+	cubo->vVertices.emplace_back(n, -n, n - ld);
 	cubo->vVertices.emplace_back(n, n, n-ld);
-	cubo->vVertices.emplace_back(n, -n, n-ld);
+	
 	//trasera
+	cubo->vVertices.emplace_back(n - ld, -n, -n);
 	cubo->vVertices.emplace_back(n-ld, n, -n);
-	cubo->vVertices.emplace_back(n-ld, -n, -n);
+	
 	//izquierda
-	cubo->vVertices.emplace_back(-n, n, n);
 	cubo->vVertices.emplace_back(-n, -n, n);
+	cubo->vVertices.emplace_back(-n, n, n);
+	
 
 	return cubo;
 }
@@ -250,20 +254,29 @@ Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 }
 Mesh* Mesh::generaCajaTexCor(GLdouble nl) {
 	Mesh* m = m->generaContCubo(nl);
-	//frontal
+
+	m->vTexCoords.reserve(16);
+
 	m->vTexCoords.emplace_back(0, 1);
 	m->vTexCoords.emplace_back(0, 0);
-	m->vTexCoords.emplace_back(.25, 1);
-	m->vTexCoords.emplace_back(.25, 0);
-	//derecha
-	m->vTexCoords.emplace_back(.5, 1);
-	m->vTexCoords.emplace_back(.5, 0);
-	//trasera
-	m->vTexCoords.emplace_back(.75,1);
-	m->vTexCoords.emplace_back(.75,0);
-	//izquierda
-	m->vTexCoords.emplace_back(1,1);
-	m->vTexCoords.emplace_back(1,0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+	
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
 	return m;
 }
 
