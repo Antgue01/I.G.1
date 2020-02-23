@@ -163,20 +163,19 @@ void Estrella3D::update()
 	yAngle++;
 }
 
-Caja::Caja(GLdouble ld) :Abs_Entity()
+Caja::Caja(GLdouble ld,Texture* t) :Abs_Entity()
 {
-	mMesh = Mesh::generaContCubo(ld);
+	mMesh = Mesh::generaCajaTexCor(ld);
+	mTexture = t;
 }
 void Caja::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
+		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
 		mMesh->render();
 		mTexture->unbind();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 

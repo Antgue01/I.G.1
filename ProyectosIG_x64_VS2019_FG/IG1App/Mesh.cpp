@@ -248,5 +248,22 @@ Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 
 	return mesh;
 }
-
+Mesh* Mesh::generaCajaTexCor(GLdouble nl) {
+	Mesh* m = m->generaContCubo(nl);
+	//frontal
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(.25, 1);
+	m->vTexCoords.emplace_back(.25, 0);
+	//derecha
+	m->vTexCoords.emplace_back(.5, 1);
+	m->vTexCoords.emplace_back(.5, 0);
+	//trasera
+	m->vTexCoords.emplace_back(.75,1);
+	m->vTexCoords.emplace_back(.75,0);
+	//izquierda
+	m->vTexCoords.emplace_back(1,1);
+	m->vTexCoords.emplace_back(1,0);
+	return m;
+}
 

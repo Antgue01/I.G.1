@@ -19,6 +19,9 @@ void Scene::init()
 	gTextures.push_back(new Texture()); 
 	gTextures.at(1)->load("..\\BMPS\\baldosaC.bmp");
 
+	gTextures.push_back(new Texture());
+	gTextures.back()->load("..\\BMPS\\container.bmp");
+
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
 	{
@@ -63,6 +66,7 @@ void Scene::init()
 
 		Suelo* suelo = new Suelo(700, 500, 10, 10,gTextures.at(1));
 		gObjects.push_back(suelo);
+		gObjects.push_back(new Caja(400, gTextures.at(2)));
 	}
 }
 //-------------------------------------------------------------------------
