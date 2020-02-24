@@ -122,6 +122,8 @@ void Scene::update()
 	for (Abs_Entity* el : gObjects)
 	{
 		el->update();
+		if(el->HasTexture())
+
 	}
 }
 void Scene::setState(int id) {

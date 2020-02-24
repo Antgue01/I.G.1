@@ -6,9 +6,8 @@
 #include <glm.hpp>
 #include "Pixmap32RGBA.h"
 #include <string>
-
 //-------------------------------------------------------------------------
-
+class IG1App;
 class Texture
 {
 public:
@@ -20,6 +19,8 @@ public:
 
   void load(const std::string & BMP_Name, GLubyte alpha = 255); // load from file and upload to GPU
   
+  void loadColorBuffer();
+  void Update();
   void bind(GLuint mixMode);   // GL_REPLACE, GL_MODULATE, GL_ADD, ...
   void unbind() const { glBindTexture(GL_TEXTURE_2D, 0); };
 

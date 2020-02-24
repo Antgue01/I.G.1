@@ -33,6 +33,9 @@ public:
 	Scene const& scene() { return *mScene; };
 	//update entities
 	void Update();
+	//Getters
+	int winWidth() { return mWinW; }
+	int winHeight() { return mWinH; }
 
 	void run();    // the main event processing loop
 	void close();  // the application

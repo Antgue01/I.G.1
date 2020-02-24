@@ -210,4 +210,8 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 		mTexture->unbind();	
 	}
 }
+Foto::Foto(GLdouble w, GLdouble h, Texture* t) {
+	mTexture = t;
+
+}
 
