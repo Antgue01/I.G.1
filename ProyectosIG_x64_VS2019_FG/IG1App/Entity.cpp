@@ -156,14 +156,14 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 }
 
 void Estrella3D::update()
-{	
+{
 	mModelMat = rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, 0.0));
 	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0.0, 1.0));
 	zAngle++;
 	yAngle++;
 }
 
-Caja::Caja(GLdouble ld,Texture* t,Texture* t2) :Abs_Entity()
+Caja::Caja(GLdouble ld, Texture* t, Texture* t2) :Abs_Entity()
 {
 	mMesh = Mesh::generaCajaTexCor(ld);
 	mTexture = t;
@@ -175,29 +175,29 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glEnable(GL_CULL_FACE);
-		
+
 		glCullFace(GL_FRONT);
 		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
 		mMesh->render();
-	    mTexture->unbind();	
+		mTexture->unbind();
 
-		
+
 		glCullFace(GL_BACK);
 		if (texture2 != nullptr)texture2->bind(GL_MODULATE);
 		mMesh->render();
 		texture2->unbind();
 
 		glDisable(GL_CULL_FACE);
-				
+
 	}
 }
 
-Suelo::Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh,Texture* t)
+Suelo::Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh, Texture* t)
 {
 	mTexture = t;
 	mMesh = Mesh::generaRectanguloTexCor(w, h, rw, rh);
-    mModelMat = rotate(mModelMat, radians(180.0), dvec3(0.0, 1.0, 1.0));
-	
+	mModelMat = rotate(mModelMat, radians(180.0), dvec3(0.0, 1.0, 1.0));
+
 }
 
 void Suelo::render(glm::dmat4 const& modelViewMat) const
@@ -207,11 +207,44 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
 		mMesh->render();
-		mTexture->unbind();	
+		mTexture->unbind();
 	}
 }
 Foto::Foto(GLdouble w, GLdouble h, Texture* t) {
-	mTexture = t;
-
+	mMesh = Mesh::generaRectanguloTexCor(w, h, 1, 1);
+	//mTexture = t;
+	//mTexture = new Texture();
+	mModelMat = translate(mModelMat, dvec3(0, 1, 0));
+	mModelMat = rotate(mModelMat, radians(180.0), dvec3(0.0, 1.0, 1.0));
 }
+void Foto::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		
+		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
+		mMesh->render();
+		mTexture->unbind();
+	}
+}
+void Foto::update() {
+	mTexture = mTexture->loadColorBuffer();
+}
+Plant::Plant(GLdouble w, GLdouble h, Texture* t) {
+	mMesh = Mesh::generaRectanguloTexCor(w, h, 1, 1);
+	mTexture = t;
+}
+void Plant::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		aMat = rotate(aMat, radians(180.0), dvec3(0, 0, 1));
+		upload(aMat);
 
+		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
+		mMesh->render();
+		aMat = rotate(aMat, radians(90.0), dvec3(0, 1, 0));
+		upload(aMat);
+		mMesh->render();
+		mTexture->unbind();
+	}
+}

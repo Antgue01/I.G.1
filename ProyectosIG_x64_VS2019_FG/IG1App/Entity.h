@@ -21,7 +21,7 @@ public:
 
 	virtual void render(glm::dmat4 const& modelViewMat) const = 0;  // abstract method
 	virtual void update() { }
-	bool HasTexture() { return mTexture != nullptr; }
+	Texture* GetTexture() { return mTexture; }
 	// modeling matrix
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
@@ -109,7 +109,13 @@ public:
 };
 class Foto :public Abs_Entity {
 public:
-	explicit Foto(GLdouble w, GLdouble h, Texture* t);
+	explicit Foto(GLdouble w, GLdouble h,Texture* t);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+	virtual void update();
+};
+class Plant :public Abs_Entity {
+public:
+	explicit Plant(GLdouble w, GLdouble h, Texture* t);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };

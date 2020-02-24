@@ -14,7 +14,7 @@ void Scene::init()
 	// Lights
 	// Textures	
 	gTextures.push_back(new Texture());
-	gTextures.at(0)->load("..\\BMPS\\baldosaP.bmp");
+	gTextures.at(0)->load("..\\BMPS\\baldosaF.bmp");
 
 	gTextures.push_back(new Texture()); 
 	gTextures.at(1)->load("..\\BMPS\\baldosaC.bmp");
@@ -24,6 +24,8 @@ void Scene::init()
 
 	gTextures.push_back(new Texture());
 	gTextures.at(3)->load("..\\BMPS\\papelE.bmp");
+	gTextures.push_back(new Texture());
+	gTextures.back()->load("..\\BMPS\\grass.bmp");
 
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
@@ -73,6 +75,11 @@ void Scene::init()
 		Suelo* suelo = new Suelo(700, 700, 10, 10,gTextures.at(1));		
 		gObjects.push_back(suelo);
 		
+		Foto* foto = new Foto(300, 300,gTextures.at(3));
+		gObjects.push_back(foto);
+		Plant* planta = new Plant(200, 200, gTextures.at(4));
+		gObjects.push_back(planta);
+		planta->setModelMat(translate(planta->modelMat(), dvec3(325.0, 100.0, -325)));
 	}
 }
 //-------------------------------------------------------------------------
@@ -122,7 +129,6 @@ void Scene::update()
 	for (Abs_Entity* el : gObjects)
 	{
 		el->update();
-		if(el->HasTexture())
 
 	}
 }
