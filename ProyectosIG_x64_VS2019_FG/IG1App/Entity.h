@@ -99,6 +99,8 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 private:
 	Texture* texture2 = nullptr;
+	Mesh* meshFondo = nullptr;
+	GLdouble lado;
 };
 
 class Suelo :public Abs_Entity {

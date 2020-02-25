@@ -77,8 +77,9 @@ void Sierpinski::render(dmat4 const& modelViewMat)const
 		mMesh->render();
 		mTexture->unbind();
 		glPointSize(1);
-		GLdouble db = 1.0;
-		glColor4dv(&db);
+		glColor4d(1.0, 1.0, 1.0, 1.0);
+		//GLdouble db = 1.0;
+		//glColor4dv(&db);
 	}
 }
 
@@ -132,12 +133,12 @@ void RectanguloRGB::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
 Estrella3D::Estrella3D(GLdouble re, GLdouble np, GLdouble h, Texture* t) :Abs_Entity(), h(h)
 {
 	mMesh = Mesh::generaEstrellaTexCor(re, np, h);
 	mTexture = t;
 }
-
 void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
@@ -154,7 +155,6 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 	}
 }
-
 void Estrella3D::update()
 {
 	mModelMat = rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, 0.0));
@@ -166,29 +166,43 @@ void Estrella3D::update()
 Caja::Caja(GLdouble ld, Texture* t, Texture* t2) :Abs_Entity()
 {
 	mMesh = Mesh::generaCajaTexCor(ld);
+	meshFondo = Mesh::generaRectanguloTexCor(ld, ld, 1, 1);
 	mTexture = t;
 	texture2 = t2;
+	lado = ld;
 }
 void Caja::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
+
+       glEnable(GL_CULL_FACE);
+
+		//fondo caja
+		dmat4 fondoMatriz = modelViewMat * mModelMat;
+		fondoMatriz = translate(fondoMatriz, dvec3(0, -lado/2, 0));
+		fondoMatriz = rotate(fondoMatriz, radians(180.0), dvec3(0.0, 1.0, 1.0));
+		upload(fondoMatriz);
+		
+		glCullFace(GL_FRONT);
+		if (texture2 != nullptr)texture2->bind(GL_REPLACE);
+		meshFondo->render();
+		texture2->unbind();
+
+		//lados caja
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glEnable(GL_CULL_FACE);
-
+		
 		glCullFace(GL_FRONT);
-		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
 
-
 		glCullFace(GL_BACK);
-		if (texture2 != nullptr)texture2->bind(GL_MODULATE);
+		if (texture2 != nullptr)texture2->bind(GL_REPLACE);
 		mMesh->render();
 		texture2->unbind();
 
 		glDisable(GL_CULL_FACE);
-
 	}
 }
 
@@ -197,7 +211,6 @@ Suelo::Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh, Texture* t)
 	mTexture = t;
 	mMesh = Mesh::generaRectanguloTexCor(w, h, rw, rh);
 	mModelMat = rotate(mModelMat, radians(180.0), dvec3(0.0, 1.0, 1.0));
-
 }
 
 void Suelo::render(glm::dmat4 const& modelViewMat) const
@@ -210,6 +223,7 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 		mTexture->unbind();
 	}
 }
+
 Foto::Foto(GLdouble w, GLdouble h, Texture* t) {
 	mMesh = Mesh::generaRectanguloTexCor(w, h, 1, 1);
 	//mTexture = t;
@@ -230,6 +244,7 @@ void Foto::render(glm::dmat4 const& modelViewMat) const {
 void Foto::update() {
 	mTexture = mTexture->loadColorBuffer();
 }
+
 Plant::Plant(GLdouble w, GLdouble h, Texture* t) {
 	mMesh = Mesh::generaRectanguloTexCor(w, h, 1, 1);
 	mTexture = t;

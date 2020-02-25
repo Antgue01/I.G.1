@@ -255,7 +255,7 @@ Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 Mesh* Mesh::generaCajaTexCor(GLdouble nl) {
 	Mesh* m = m->generaContCubo(nl);
 
-	m->vTexCoords.reserve(16);
+	m->vTexCoords.reserve(16); //4 caras 
 
 	m->vTexCoords.emplace_back(0, 1);
 	m->vTexCoords.emplace_back(0, 0);

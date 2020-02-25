@@ -24,6 +24,7 @@ void Scene::init()
 
 	gTextures.push_back(new Texture());
 	gTextures.at(3)->load("..\\BMPS\\papelE.bmp");
+
 	gTextures.push_back(new Texture());
 	gTextures.back()->load("..\\BMPS\\grass.bmp");
 
@@ -77,6 +78,7 @@ void Scene::init()
 		
 		Foto* foto = new Foto(300, 300,gTextures.at(3));
 		gObjects.push_back(foto);
+
 		Plant* planta = new Plant(200, 200, gTextures.at(4));
 		gObjects.push_back(planta);
 		planta->setModelMat(translate(planta->modelMat(), dvec3(325.0, 100.0, -325)));
