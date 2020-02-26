@@ -55,14 +55,13 @@ void Texture::load(const std::string& BMP_Name, GLubyte alpha)
 }
 //-------------------------------------------------------------------------
 void Texture::save(const std::string& NAME) {
-	PixMap32RGBA* e = new PixMap32RGBA();
-	GLint* a=new GLint[1000];
+	PixMap32RGBA e;
+	//GLint* a=new GLint[1000];
+	std::array<GLint, 100>a();
 	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_INT,a);
-	e->save_bmp24BGR(NAME);
-	delete a;
-	a = nullptr;
-	delete e;
-	e = nullptr;
+	e.save_bmp24BGR(NAME);
+	//delete [] a;
+	//a = nullptr;
 }
 
 void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP
@@ -72,12 +71,22 @@ void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wp);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
-Texture* Texture::loadColorBuffer() {
+void Texture::loadColorBuffer(int w, int h) {
+
+
+	 init();
+
+	mWidth = w;
+	mHeight = h;
+	GLint level = 0;   //Base image level
+	GLint border = 0;  //No border
+
+	glBindTexture(GL_TEXTURE_2D, mId);
 	glReadBuffer(GL_FRONT);
-	glCopyTexImage2D(GL_TEXTURE_2D, 1, GL_RGBA, 1, 1, IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), 1);
-	return this;
+	glCopyTexImage2D(GL_TEXTURE_2D,level, GL_RGBA, 0, 0, w, h, border);
+	glReadBuffer(GL_BACK);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 }
-void Texture::Update() {
-	loadColorBuffer();
-}
+
 //-------------------------------------------------------------------------

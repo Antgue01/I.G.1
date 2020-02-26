@@ -1,5 +1,5 @@
 #include "Entity.h"
-
+#include "IG1App.h"
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 
@@ -157,8 +157,10 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 }
 void Estrella3D::update()
 {
-	mModelMat = rotate(dmat4(1), radians(yAngle), dvec3(0.0, 1.0, 0.0));
-	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0.0, 1.0));
+	mModelMat = translate(dmat4(1), dvec3(-325,100,-325));
+	mModelMat = rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0));
+	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0, 1.0));
+
 	zAngle++;
 	yAngle++;
 }
@@ -224,12 +226,12 @@ void Suelo::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Foto::Foto(GLdouble w, GLdouble h, Texture* t) {
+Foto::Foto(GLdouble w, GLdouble h) {
 	mMesh = Mesh::generaRectanguloTexCor(w, h, 1, 1);
-	//mTexture = t;
-	//mTexture = new Texture();
+	mTexture = new Texture();
 	mModelMat = translate(mModelMat, dvec3(0, 1, 0));
 	mModelMat = rotate(mModelMat, radians(180.0), dvec3(0.0, 1.0, 1.0));
+	
 }
 void Foto::render(glm::dmat4 const& modelViewMat) const {
 	if (mMesh != nullptr) {
@@ -242,7 +244,7 @@ void Foto::render(glm::dmat4 const& modelViewMat) const {
 	}
 }
 void Foto::update() {
-	mTexture = mTexture->loadColorBuffer();
+mTexture->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight());
 }
 
 Plant::Plant(GLdouble w, GLdouble h, Texture* t) {

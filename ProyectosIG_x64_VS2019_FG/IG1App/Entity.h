@@ -111,9 +111,10 @@ public:
 };
 class Foto :public Abs_Entity {
 public:
-	explicit Foto(GLdouble w, GLdouble h,Texture* t);
+	explicit Foto(GLdouble w, GLdouble h);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update();
+
 };
 class Plant :public Abs_Entity {
 public:

@@ -76,7 +76,7 @@ void Scene::init()
 		Suelo* suelo = new Suelo(700, 700, 10, 10,gTextures.at(1));		
 		gObjects.push_back(suelo);
 		
-		Foto* foto = new Foto(300, 300,gTextures.at(3));
+		Foto* foto = new Foto(300, 300);
 		gObjects.push_back(foto);
 
 		Plant* planta = new Plant(200, 200, gTextures.at(4));
