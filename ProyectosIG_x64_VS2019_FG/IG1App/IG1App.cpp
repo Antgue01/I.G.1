@@ -148,7 +148,8 @@ void IG1App::key(unsigned char key, int x, int y)
 			mScene->setState(1);
 		break;
 	case 'f':
-		Texture::save("ese.bmp ");
+		//Texture::save("ese.bmp ");
+		break;
 	} //switch
 
 	if (need_redisplay)

@@ -55,6 +55,7 @@ void Texture::load(const std::string& BMP_Name, GLubyte alpha)
 }
 //-------------------------------------------------------------------------
 void Texture::save(const std::string& NAME) {
+	/*
 	PixMap32RGBA e;
 	//GLint* a=new GLint[1000];
 	std::array<GLint, 100>a();
@@ -62,6 +63,7 @@ void Texture::save(const std::string& NAME) {
 	e.save_bmp24BGR(NAME);
 	//delete [] a;
 	//a = nullptr;
+	*/
 }
 
 void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP
