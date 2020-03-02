@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include "IG1App.h"
 
+
 //-------------------------------------------------------------------------
 
 Texture::~Texture()
@@ -53,17 +54,40 @@ void Texture::load(const std::string& BMP_Name, GLubyte alpha)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+void Texture::load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha) {
+	if (mId == 0) init();
+
+	PixMap32RGBA pixMap;
+
+	pixMap.load_bmp24BGR(BMP_Name);
+
+	if (alpha != 255) {
+		pixMap.set_colorkey_alpha(color, alpha);
+	}
+
+	mWidth = pixMap.width();
+	mHeight = pixMap.height();
+
+	GLint level = 0;   //Base image level
+	GLint border = 0;  //No border
+
+	glBindTexture(GL_TEXTURE_2D, mId);
+	glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, mWidth, mHeight, border, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
 //-------------------------------------------------------------------------
 void Texture::save(const std::string& NAME) {
-	/*
+	
 	PixMap32RGBA e;
-	//GLint* a=new GLint[1000];
-	std::array<GLint, 100>a();
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_INT,a);
+	e.reserve(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight());
+	glReadBuffer(GL_FRONT);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,e.data());
+	glReadPixels(0, 0, IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_RGBA, GL_UNSIGNED_BYTE, e.data());
 	e.save_bmp24BGR(NAME);
-	//delete [] a;
-	//a = nullptr;
-	*/
+	e.free();
+	
+	
 }
 
 void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP

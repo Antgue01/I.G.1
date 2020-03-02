@@ -19,6 +19,7 @@ public:
 
   void load(const std::string & BMP_Name, GLubyte alpha = 255); // load from file and upload to GPU
  static void save(const std::string& BMP_Name);
+ void load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha=0);
   void loadColorBuffer(int w,int h);
   void bind(GLuint mixMode);   // GL_REPLACE, GL_MODULATE, GL_ADD, ...
   void unbind() const { glBindTexture(GL_TEXTURE_2D, 0); };

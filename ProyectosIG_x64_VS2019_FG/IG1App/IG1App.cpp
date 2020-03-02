@@ -147,8 +147,8 @@ void IG1App::key(unsigned char key, int x, int y)
 		if (mScene->GetID() != 1)
 			mScene->setState(1);
 		break;
-	case 'f':
-		//Texture::save("ese.bmp ");
+	case 'F':
+		Texture::save("foto.bmp ");
 		break;
 	} //switch
 

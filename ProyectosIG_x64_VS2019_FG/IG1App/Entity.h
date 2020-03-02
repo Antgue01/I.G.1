@@ -122,4 +122,10 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
+class Cubo:public Abs_Entity {
+public:
+	explicit Cubo(GLdouble nl, Texture* t);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
 #endif //_H_Entities_H_

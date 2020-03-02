@@ -9,10 +9,10 @@ using namespace glm;
 void Scene::init()
 {
 	setGL();  // OpenGL settings
-
 	// allocate memory and load resources
 	// Lights
 	// Textures	
+
 	gTextures.push_back(new Texture());
 	gTextures.at(0)->load("..\\BMPS\\baldosaF.bmp");
 
@@ -26,7 +26,10 @@ void Scene::init()
 	gTextures.at(3)->load("..\\BMPS\\papelE.bmp");
 
 	gTextures.push_back(new Texture());
-	gTextures.back()->load("..\\BMPS\\grass.bmp");
+	gTextures.at(4)->load("..\\BMPS\\grass.bmp", u8vec3(0,0,0),0);
+
+	gTextures.push_back(new Texture());
+	gTextures.at(5)->load("..\\BMPS\\windowV.bmp",100);
 
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
@@ -63,6 +66,7 @@ void Scene::init()
 	}
 	else if (miId == 1)
 	{
+
 		gObjects.push_back(new EjesRGB(400.0));
 
 		Estrella3D* estrella3D = new Estrella3D(25, 4, 25,gTextures.at(0));
@@ -70,7 +74,7 @@ void Scene::init()
 		gObjects.push_back(estrella3D);
 
 		Caja* c = new Caja(50, gTextures.at(2), gTextures.at(3));
-		c->setModelMat(translate(c->modelMat(), dvec3(-325.0, 25.0, -325.0)));
+		c->setModelMat(translate(c->modelMat(), dvec3(-300.0, 26.0, -300.0)));
 		gObjects.push_back(c);
 
 		Suelo* suelo = new Suelo(700, 700, 10, 10,gTextures.at(1));		
@@ -81,7 +85,11 @@ void Scene::init()
 
 		Plant* planta = new Plant(200, 200, gTextures.at(4));
 		gObjects.push_back(planta);
-		planta->setModelMat(translate(planta->modelMat(), dvec3(325.0, 100.0, -325)));
+		planta->setModelMat(translate(planta->modelMat(), dvec3(250.0, 100.0, -250.0)));
+		Cubo* cuboConTransparencia = new Cubo(700, gTextures.at(5));
+		cuboConTransparencia->setModelMat(translate(cuboConTransparencia->modelMat(), dvec3(0, 350, 0)));
+		gObjects.push_back(cuboConTransparencia);
+		
 	}
 }
 //-------------------------------------------------------------------------
@@ -104,6 +112,7 @@ void Scene::setGL()
 	// OpenGL basic setting
 	glClearColor(0.0, 0.0, 0.0, 0.0);  // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
+	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_TEXTURE_2D);
 
 }
@@ -112,6 +121,7 @@ void Scene::resetGL()
 {
 	glClearColor(.0, .0, .0, .0);  // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 
+	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------

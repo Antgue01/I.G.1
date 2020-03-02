@@ -157,7 +157,7 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 }
 void Estrella3D::update()
 {
-	mModelMat = translate(dmat4(1), dvec3(-325,100,-325));
+	mModelMat = translate(dmat4(1), dvec3(-300, 101, -300));
 	mModelMat = rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0));
 	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0, 1.0));
 
@@ -177,14 +177,14 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-       glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 
 		//fondo caja
 		dmat4 fondoMatriz = modelViewMat * mModelMat;
-		fondoMatriz = translate(fondoMatriz, dvec3(0, -lado/2, 0));
+		fondoMatriz = translate(fondoMatriz, dvec3(0, -lado / 2, 0));
 		fondoMatriz = rotate(fondoMatriz, radians(180.0), dvec3(0.0, 1.0, 1.0));
 		upload(fondoMatriz);
-		
+
 		glCullFace(GL_FRONT);
 		if (texture2 != nullptr)texture2->bind(GL_REPLACE);
 		meshFondo->render();
@@ -193,7 +193,7 @@ void Caja::render(glm::dmat4 const& modelViewMat) const
 		//lados caja
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		
+
 		glCullFace(GL_FRONT);
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
@@ -231,20 +231,20 @@ Foto::Foto(GLdouble w, GLdouble h) {
 	mTexture = new Texture();
 	mModelMat = translate(mModelMat, dvec3(0, 1, 0));
 	mModelMat = rotate(mModelMat, radians(180.0), dvec3(0.0, 1.0, 1.0));
-	
+
 }
 void Foto::render(glm::dmat4 const& modelViewMat) const {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		
+
 		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
 		mMesh->render();
 		mTexture->unbind();
 	}
 }
 void Foto::update() {
-mTexture->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight());
+	mTexture->loadColorBuffer(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight());
 }
 
 Plant::Plant(GLdouble w, GLdouble h, Texture* t) {
@@ -255,6 +255,7 @@ void Plant::render(glm::dmat4 const& modelViewMat) const {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		aMat = rotate(aMat, radians(180.0), dvec3(0, 0, 1));
+		glAlphaFunc(GL_GREATER, 0);
 		upload(aMat);
 
 		if (mTexture != nullptr)mTexture->bind(GL_MODULATE);
@@ -265,3 +266,24 @@ void Plant::render(glm::dmat4 const& modelViewMat) const {
 		mTexture->unbind();
 	}
 }
+	void Cubo::render(glm::dmat4 const& modelViewMat) const {
+		if (mMesh != nullptr) {
+			glEnable(GL_BLEND);
+			glDepthMask(GL_FALSE);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+			upload(aMat);
+			if (mTexture != nullptr) {
+				mTexture->bind(GL_REPLACE);
+						}mMesh->render();
+			mTexture->unbind();
+			glBlendFunc(1, 0);
+			glDepthMask(GL_TRUE);
+			glDisable(GL_BLEND);
+		}
+	}
+	Cubo::Cubo(GLdouble nl, Texture * t) {
+		mMesh = Mesh::generaCajaTexCor(nl);
+		mTexture = t;
+	}
