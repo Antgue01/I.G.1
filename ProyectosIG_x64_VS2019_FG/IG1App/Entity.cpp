@@ -78,8 +78,6 @@ void Sierpinski::render(dmat4 const& modelViewMat)const
 		mTexture->unbind();
 		glPointSize(1);
 		glColor4d(1.0, 1.0, 1.0, 1.0);
-		//GLdouble db = 1.0;
-		//glColor4dv(&db);
 	}
 }
 
@@ -157,7 +155,7 @@ void Estrella3D::render(glm::dmat4 const& modelViewMat) const
 }
 void Estrella3D::update()
 {
-	mModelMat = translate(dmat4(1), dvec3(-300, 101, -300));
+	mModelMat = translate(dmat4(1), dvec3(-300, 100, -300));
 	mModelMat = rotate(mModelMat, radians(yAngle), dvec3(0.0, 1.0, 0.0));
 	mModelMat = rotate(mModelMat, radians(zAngle), dvec3(0.0, 0, 1.0));
 
@@ -274,9 +272,8 @@ void Plant::render(glm::dmat4 const& modelViewMat) const {
 
 			dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 			upload(aMat);
-			if (mTexture != nullptr) {
-				mTexture->bind(GL_REPLACE);
-						}mMesh->render();
+			if (mTexture != nullptr) mTexture->bind(GL_REPLACE);						
+			mMesh->render();
 			mTexture->unbind();
 			glBlendFunc(1, 0);
 			glDepthMask(GL_TRUE);

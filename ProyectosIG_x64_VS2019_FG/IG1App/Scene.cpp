@@ -70,7 +70,7 @@ void Scene::init()
 		gObjects.push_back(new EjesRGB(400.0));
 
 		Estrella3D* estrella3D = new Estrella3D(25, 4, 25,gTextures.at(0));
-		estrella3D->setModelMat(translate(estrella3D->modelMat(), dvec3(-325.0,100.0,-325.0)));
+		estrella3D->setModelMat(translate(estrella3D->modelMat(), dvec3(-300.0,100.0,-300.0)));
 		gObjects.push_back(estrella3D);
 
 		Caja* c = new Caja(50, gTextures.at(2), gTextures.at(3));
