@@ -150,6 +150,24 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'F':
 		Texture::save("foto.bmp ");
 		break;
+	case '2':
+		mCamera->moveLR(1);
+		break;
+	case '3':
+		mCamera->moveLR(-1);
+		break;
+	case '4':
+		mCamera->moveUD(1);
+		break;
+	case '5':
+		mCamera->moveUD(-1);
+		break;
+	case '6':
+		mCamera->moveFB(1);
+		break;
+	case '7':
+		mCamera->moveFB(-1);
+		break;
 	} //switch
 
 	if (need_redisplay)

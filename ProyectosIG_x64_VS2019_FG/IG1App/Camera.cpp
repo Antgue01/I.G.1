@@ -25,7 +25,9 @@ void Camera::uploadVM() const
 
 void Camera::setVM() 
 {
+
 	mViewMat = lookAt(mEye, mLook, mUp);  // glm::lookAt defines the view matrix 
+	SetAxes();
 }
 //-------------------------------------------------------------------------
 
@@ -102,5 +104,26 @@ void Camera::uploadPM() const
 	glMatrixMode(GL_MODELVIEW);
 }
 //-------------------------------------------------------------------------
+void Camera::moveLR(GLdouble cs) {
+	mEye.x += cs;
+	mLook.x += cs;
+	setVM();
+}
+void Camera::moveUD(GLdouble cs) {
+	mEye.y += cs;
+	mLook.y += cs;
+	setVM();
 
+}
+void Camera::moveFB(GLdouble cs) {
+	mEye.z += cs;
+	mLook.z += cs;
+	setVM();
 
+}
+void Camera::SetAxes() {
+	mRight = row(mViewMat, 0);
+	mUp = row(mViewMat, 1);
+	mFront = -row(mViewMat, 2);
+
+}
