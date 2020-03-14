@@ -73,6 +73,8 @@ void IG1App::iniWinOpenGL()
 	glutSpecialFunc(s_specialKey);
 	glutDisplayFunc(s_display);
 	glutIdleFunc(s_update);
+	glutMouseFunc(s_mouse);
+	glutMotionFunc(s_motion);
 
 
 	cout << glGetString(GL_VERSION) << '\n';
@@ -85,6 +87,11 @@ void IG1App::free()
 	delete mScene; mScene = nullptr;
 	delete mCamera; mCamera = nullptr;
 	delete mViewPort; mViewPort = nullptr;
+	if (auxCamera != nullptr) {
+		delete auxCamera;
+		auxCamera = nullptr;
+	}
+	
 }
 //-------------------------------------------------------------------------
 
@@ -168,6 +175,21 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '7':
 		mCamera->moveFB(-1);
 		break;
+	case 'p':
+		mCamera->changePrj();
+	case 'k':
+		Modo2Vistas = !Modo2Vistas;
+		if (Modo2Vistas) {
+			delete auxCamera;
+			auxCamera = nullptr;
+			mCamera->setViewport(new Viewport(winWidth(), winHeight()));
+		}
+		else {
+			mCamera->setViewport(new Viewport(winWidth() / 2, winHeight() / 2));
+			auxCamera = new Camera(new Viewport(winWidth() / 2, winHeight() / 2));
+			auxCamera->setCenital();
+		}
+		mCamera->setCenital();
 	} //switch
 
 	if (need_redisplay)
@@ -206,6 +228,27 @@ void IG1App::specialKey(int key, int x, int y)
 
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
+}
+void IG1App::mouse(int button, int state, int x, int y) {
+	mMouseCoord = glm::dvec2(x, y);
+	mMouseButt = button;
+	mMouseState = state;
+}
+void IG1App::motion(int x, int y) {
+	glm::dvec2 vector(x - mMouseCoord.x, y - mMouseCoord.y);
+	if (mMouseButt == 2)
+	{
+		if (vector.x == 0)
+			mCamera->moveUD(vector.y);
+		else if (vector.y == 0)
+			mCamera->moveLR(vector.x);
+
+	}
+	else if (mMouseButt == 0)
+		mCamera->orbit(45, 10);
+}
+void IG1App::mouseWheel(int n, int d, int x, int y) {
+
 }
 void IG1App::Update() {
 	int time = glutGet(GLUT_ELAPSED_TIME);

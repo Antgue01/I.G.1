@@ -29,6 +29,14 @@ public:
 	void moveLR(GLdouble cs);
 	void moveFB(GLdouble cs);
 	void moveUD(GLdouble cs);
+	void orbit(GLdouble incAng, GLdouble incY);
+	void changePrj();
+	void setCenital();
+	void setViewport(Viewport* nViewport) {
+		if (mViewPort != nullptr)
+			delete mViewPort;
+		mViewPort = nViewport;
+	}
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
@@ -62,7 +70,9 @@ protected:
 	bool bOrto = true;   // orthogonal or perspective projection
 
 	Viewport* mViewPort;   // the viewport
-
+	
+	GLdouble angle = 1000;
+	GLdouble radio = 1000;
 	void setVM();
 	void setPM();
 };

@@ -127,3 +127,29 @@ void Camera::SetAxes() {
 	mFront = -row(mViewMat, 2);
 
 }
+void Camera::orbit(GLdouble incAng, GLdouble incY) {
+	angle = incAng;
+	radio = incY;
+	mEye.x = mEye.x + incY * cos(radians(incAng));
+	mEye.z = mEye.z + incY * sin(radians(incAng));
+	setVM();
+}
+void Camera::changePrj() {
+
+	if (bOrto)
+	{
+		bOrto = false;
+		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
+	}
+	else {
+		bOrto = true;
+		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
+	}
+}
+void Camera::setCenital() {
+	mEye = { 0,1000,0 };
+	mLook = { 0,0,0 };
+	mUp = { -1,0,0 };
+	setVM();
+
+}
