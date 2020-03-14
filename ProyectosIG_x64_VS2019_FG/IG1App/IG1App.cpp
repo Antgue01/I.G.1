@@ -178,18 +178,20 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'p':
 		mCamera->changePrj();
 	case 'k':
-		Modo2Vistas = !Modo2Vistas;
 		if (Modo2Vistas) {
 			delete auxCamera;
 			auxCamera = nullptr;
-			mCamera->setViewport(new Viewport(winWidth(), winHeight()));
+			//mCamera->setViewport(new Viewport(winWidth(), winHeight()));
 		}
 		else {
-			mCamera->setViewport(new Viewport(winWidth() / 2, winHeight() / 2));
+			
+			//mCamera->setViewport(new Viewport(winWidth() / 2, winHeight() / 2));
+			//mCamera->viewPort().setLeft(winWidth() / 2);
 			auxCamera = new Camera(new Viewport(winWidth() / 2, winHeight() / 2));
 			auxCamera->setCenital();
 		}
 		mCamera->setCenital();
+		Modo2Vistas = !Modo2Vistas;
 	} //switch
 
 	if (need_redisplay)

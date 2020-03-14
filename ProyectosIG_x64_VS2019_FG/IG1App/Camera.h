@@ -32,11 +32,7 @@ public:
 	void orbit(GLdouble incAng, GLdouble incY);
 	void changePrj();
 	void setCenital();
-	void setViewport(Viewport* nViewport) {
-		if (mViewPort != nullptr)
-			delete mViewPort;
-		mViewPort = nViewport;
-	}
+	
 
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
