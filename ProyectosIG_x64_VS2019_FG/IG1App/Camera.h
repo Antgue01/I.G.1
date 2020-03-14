@@ -67,8 +67,8 @@ protected:
 
 	Viewport* mViewPort;   // the viewport
 	
-	GLdouble angle = 1000;
-	GLdouble radio = 1000;
+	GLdouble mAng = 30;
+	GLdouble mRadio = 1000;
 	void setVM();
 	void setPM();
 };

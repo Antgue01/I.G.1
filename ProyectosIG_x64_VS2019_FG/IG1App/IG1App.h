@@ -82,7 +82,7 @@ protected:
 	bool animActivated = false;
 	glm::dvec2  mMouseCoord;
 	int mMouseButt;
-	int mMouseState;
+	int mState;
 	bool Modo2Vistas = false;
 
 };

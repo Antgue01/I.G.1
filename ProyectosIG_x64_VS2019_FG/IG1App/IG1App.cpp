@@ -75,6 +75,7 @@ void IG1App::iniWinOpenGL()
 	glutIdleFunc(s_update);
 	glutMouseFunc(s_mouse);
 	glutMotionFunc(s_motion);
+	glutMouseWheelFunc(s_mouseWheel);
 
 
 	cout << glGetString(GL_VERSION) << '\n';
@@ -232,12 +233,34 @@ void IG1App::specialKey(int key, int x, int y)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
 }
 void IG1App::mouse(int button, int state, int x, int y) {
-	mMouseCoord = glm::dvec2(x, y);
+	mMouseCoord = glm::dvec2(x, mWinH - y);
 	mMouseButt = button;
-	mMouseState = state;
+	mState = state;
 }
-void IG1App::motion(int x, int y) {
-	glm::dvec2 vector(x - mMouseCoord.x, y - mMouseCoord.y);
+void IG1App::motion(int x, int y) 
+{
+	// guardamos la anterior posición en var. temp.
+	glm::dvec2 mp = mMouseCoord;
+
+	// Guardamos la posición actual
+	mMouseCoord = glm::dvec2(x, mWinH - y);
+
+    // calculamos el desplazamiento realizado
+	mp = mMouseCoord - mp;
+
+	if (mMouseButt == GLUT_RIGHT_BUTTON)
+	{		
+		mCamera->moveLR(mp.x);
+		mCamera->moveUD(mp.y);
+	}
+	else if (mMouseButt == GLUT_LEFT_BUTTON)
+	{
+       mCamera->orbit(mp.x * 0.05, mp.y);
+	}
+
+	glutPostRedisplay();
+
+	/*glm::dvec2 vector(x - mMouseCoord.x, y - mMouseCoord.y);
 	if (mMouseButt == 2)
 	{
 		if (vector.x == 0)
@@ -247,10 +270,20 @@ void IG1App::motion(int x, int y) {
 
 	}
 	else if (mMouseButt == 0)
-		mCamera->orbit(45, 10);
+		mCamera->orbit(45, 10);*/
 }
-void IG1App::mouseWheel(int n, int d, int x, int y) {
 
+void IG1App::mouseWheel(int n, int d, int x, int y) 
+{
+	int m = glutGetModifiers();
+
+	if ( m == 0) // ninguna está presionada
+	{
+		if (d == 1)mCamera->moveFB(10);
+		else mCamera->moveFB(-10);	
+
+		glutPostRedisplay();
+	}
 }
 void IG1App::Update() {
 	int time = glutGet(GLUT_ELAPSED_TIME);

@@ -36,6 +36,7 @@ void Camera::set2D()
 	mEye = dvec3(0, 0, 500);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
+	//mAng = 180;
 	setVM();
 }
 //-------------------------------------------------------------------------
@@ -45,6 +46,7 @@ void Camera::set3D()
 	mEye = dvec3(500, 500, 500);  
 	mLook = dvec3(0, 10, 0);   
 	mUp = dvec3(0, 1, 0);
+	//mAng = 45;
 	setVM();
 }
 //-------------------------------------------------------------------------
@@ -113,13 +115,11 @@ void Camera::moveUD(GLdouble cs) {
 	mEye.y += cs;
 	mLook.y += cs;
 	setVM();
-
 }
 void Camera::moveFB(GLdouble cs) {
 	mEye.z += cs;
 	mLook.z += cs;
 	setVM();
-
 }
 void Camera::SetAxes() {
 	mRight = row(mViewMat, 0);
@@ -128,11 +128,19 @@ void Camera::SetAxes() {
 
 }
 void Camera::orbit(GLdouble incAng, GLdouble incY) {
-	angle = incAng;
+
+	mAng += incAng;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+	mEye.y += incY;
+	setVM();
+
+
+	/*angle = incAng;
 	radio = incY;
 	mEye.x = mEye.x + incY * cos(radians(incAng));
 	mEye.z = mEye.z + incY * sin(radians(incAng));
-	setVM();
+	setVM();*/
 }
 void Camera::changePrj() {
 
