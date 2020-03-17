@@ -50,6 +50,7 @@ protected:
 	void iniWinOpenGL();
 	void free();
 
+	void display2Vistas()const;
 	void display() const;   // the scene
 	void resize(int newWidth, int newHeight);   // the viewport (without changing the scale) 
 	void key(unsigned char key, int x, int y);  // keypress event
@@ -83,7 +84,7 @@ protected:
 	glm::dvec2  mMouseCoord;
 	int mMouseButt;
 	int mState;
-	bool Modo2Vistas = false;
+	bool m2Vistas = false;
 
 };
 //-------------------------------------------------------------------------

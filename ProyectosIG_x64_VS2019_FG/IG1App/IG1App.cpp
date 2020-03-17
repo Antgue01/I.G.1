@@ -96,12 +96,29 @@ void IG1App::free()
 }
 //-------------------------------------------------------------------------
 
+void IG1App::display2Vistas()const
+{
+	Camera auxCam = *mCamera;
+	Viewport auxVP = *mViewPort;
+	mViewPort->setSize(mWinW / 2, mWinH);
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+	
+	mViewPort->setPos(0, 0);
+	
+	mScene->render(auxCam);
+	*mViewPort = auxVP;
+}
+
 void IG1App::display() const
 {  // double buffering
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-	mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+	if (m2Vistas)display2Vistas();
+	else 
+	{
+       mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+	}
 
 	glutSwapBuffers();	// swaps the front and back buffer
 }
@@ -179,20 +196,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'p':
 		mCamera->changePrj();
 	case 'k':
-		if (Modo2Vistas) {
-			delete auxCamera;
-			auxCamera = nullptr;
-			//mCamera->setViewport(new Viewport(winWidth(), winHeight()));
-		}
-		else {
-			
-			//mCamera->setViewport(new Viewport(winWidth() / 2, winHeight() / 2));
-			//mCamera->viewPort().setLeft(winWidth() / 2);
-			auxCamera = new Camera(new Viewport(winWidth() / 2, winHeight() / 2));
-			auxCamera->setCenital();
-		}
-		mCamera->setCenital();
-		Modo2Vistas = !Modo2Vistas;
+		m2Vistas = !m2Vistas;
 	} //switch
 
 	if (need_redisplay)
