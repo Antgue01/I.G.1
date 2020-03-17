@@ -136,19 +136,24 @@ void Camera::orbit(GLdouble incAng, GLdouble incY) {
 	setVM();
 }
 void Camera::changePrj() {
+	
 
 	if (bOrto)
 	{
+		int NTop = mViewPort->height()/2;
+		int NBot = -NTop;
+		 int NRight = mViewPort->width()/2;
+		int NLeft = -NRight;
 		bOrto = false;
-		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
+		mProjMat = frustum(NLeft * mScaleFact, NRight * mScaleFact, NBot * mScaleFact, NTop * mScaleFact, mNearVal, mFarVal);
 	}
 	else {
+		int NyTop = mNearVal * tan(45);
+		int NyBot = -NyTop;
+		int NxRight = mNearVal * tan(45) * (16 / 9);
+		int NxLeft = -NxRight;
 		bOrto = true;
-		yTop = mNearVal * tan(45);
-		yBot = -yTop;
-		xRight = mNearVal * tan(45) * (16 / 9);
-		xLeft = -xRight;
-		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
+				mProjMat = ortho(NxLeft * mScaleFact, NxRight * mScaleFact, NyBot * mScaleFact, NyTop * mScaleFact, mNearVal, mFarVal);
 	}
 }
 void Camera::setCenital() {

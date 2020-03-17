@@ -252,10 +252,10 @@ void IG1App::mouse(int button, int state, int x, int y) {
 }
 void IG1App::motion(int x, int y) 
 {
-	// guardamos la anterior posición en var. temp.
+	// guardamos la anterior posiciï¿½n en var. temp.
 	glm::dvec2 mp = mMouseCoord;
 
-	// Guardamos la posición actual
+	// Guardamos la posiciï¿½n actual
 	mMouseCoord = glm::dvec2(x, mWinH - y);
 
     // calculamos el desplazamiento realizado
@@ -278,7 +278,7 @@ void IG1App::mouseWheel(int n, int d, int x, int y)
 {
 	int m = glutGetModifiers();
 
-	if ( m == 0) // ninguna está presionada
+	if ( m == 0) // ninguna estï¿½ presionada
 	{
 		if (d == 1)mCamera->moveFB(10);
 		else mCamera->moveFB(-10);	
