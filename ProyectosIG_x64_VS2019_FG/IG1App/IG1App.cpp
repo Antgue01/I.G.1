@@ -100,12 +100,18 @@ void IG1App::display2Vistas()const
 {
 	Camera auxCam = *mCamera;
 	Viewport auxVP = *mViewPort;
+
+	//Usuario
 	mViewPort->setSize(mWinW / 2, mWinH);
-	auxCam.setSize(mViewPort->width(), mViewPort->height());
-	
-	mViewPort->setPos(0, 0);
-	
+	auxCam.setSize(mViewPort->width(), mViewPort->height());	
+	mViewPort->setPos(0, 0);	
 	mScene->render(auxCam);
+
+	//Cenital
+	mViewPort->setPos(mWinW / 2,0);
+	auxCam.setCenital();
+	mScene->render(auxCam);
+
 	*mViewPort = auxVP;
 }
 
@@ -195,9 +201,12 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 	case 'p':
 		mCamera->changePrj();
+		break;
 	case 'k':
 		m2Vistas = !m2Vistas;
-	} //switch
+		break;
+	} 
+	//switch
 
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to display()
@@ -211,22 +220,22 @@ void IG1App::specialKey(int key, int x, int y)
 
 	switch (key) {
 	case GLUT_KEY_RIGHT:
-		if (mdf == GLUT_ACTIVE_CTRL)
-			mCamera->pitch(-1);   // rotates -1 on the X axis
-		else
-			mCamera->pitch(1);    // rotates 1 on the X axis
+		//if (mdf == GLUT_ACTIVE_CTRL)
+		//	mCamera->pitch(-1);   // rotates -1 on the X axis
+		//else
+		//	mCamera->pitch(1);    // rotates 1 on the X axis
 		break;
 	case GLUT_KEY_LEFT:
-		if (mdf == GLUT_ACTIVE_CTRL)
-			mCamera->yaw(1);      // rotates 1 on the Y axis 
-		else
-			mCamera->yaw(-1);     // rotate -1 on the Y axis 
-		break;
+		//if (mdf == GLUT_ACTIVE_CTRL)
+		////	mCamera->yaw(1);      // rotates 1 on the Y axis 
+		//else
+		////	mCamera->yaw(-1);     // rotate -1 on the Y axis 
+		//break;
 	case GLUT_KEY_UP:
-		mCamera->roll(1);    // rotates 1 on the Z axis
+		//mCamera->roll(1);    // rotates 1 on the Z axis
 		break;
 	case GLUT_KEY_DOWN:
-		mCamera->roll(-1);   // rotates -1 on the Z axis
+		//mCamera->roll(-1);   // rotates -1 on the Z axis
 		break;
 	default:
 		need_redisplay = false;
@@ -263,18 +272,6 @@ void IG1App::motion(int x, int y)
 	}
 
 	glutPostRedisplay();
-
-	/*glm::dvec2 vector(x - mMouseCoord.x, y - mMouseCoord.y);
-	if (mMouseButt == 2)
-	{
-		if (vector.x == 0)
-			mCamera->moveUD(vector.y);
-		else if (vector.y == 0)
-			mCamera->moveLR(vector.x);
-
-	}
-	else if (mMouseButt == 0)
-		mCamera->orbit(45, 10);*/
 }
 
 void IG1App::mouseWheel(int n, int d, int x, int y) 
@@ -288,6 +285,13 @@ void IG1App::mouseWheel(int n, int d, int x, int y)
 
 		glutPostRedisplay();
 	}
+	else if (m == GLUT_ACTIVE_CTRL)
+	{
+		if (d == 1)mCamera->setScale(+0.01);
+		else mCamera->setScale(-0.01);
+	}
+
+	glutPostRedisplay();
 }
 void IG1App::Update() {
 	int time = glutGet(GLUT_ELAPSED_TIME);

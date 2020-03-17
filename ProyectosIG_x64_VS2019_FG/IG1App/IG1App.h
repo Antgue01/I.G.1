@@ -81,7 +81,7 @@ protected:
 	int mWinH = 600;    // window's height
 	GLuint mLastUpdateTime = 0;
 	bool animActivated = false;
-	glm::dvec2  mMouseCoord;
+	glm::dvec2 mMouseCoord;
 	int mMouseButt;
 	int mState;
 	bool m2Vistas = false;
