@@ -268,7 +268,7 @@ void IG1App::motion(int x, int y)
 	}
 	else if (mMouseButt == GLUT_LEFT_BUTTON)
 	{
-       mCamera->orbit(mp.x * 0.05, mp.y);
+       mCamera->orbit(mp.x * 0.05, -mp.y);
 	}
 
 	glutPostRedisplay();
