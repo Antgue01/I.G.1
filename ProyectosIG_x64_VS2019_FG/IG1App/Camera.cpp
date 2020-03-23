@@ -2,7 +2,7 @@
 
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
-//#include <gtc/matrix_access.hpp>
+#include <gtc/matrix_access.hpp>
 
 using namespace glm;
 
@@ -107,18 +107,19 @@ void Camera::uploadPM() const
 }
 //-------------------------------------------------------------------------
 void Camera::moveLR(GLdouble cs) {
-	mEye.x += cs;
-	mLook.x += cs;
+	mEye += (dvec3)(row(mViewMat,0))* cs;
+	mLook += (dvec3)(row(mViewMat, 0)) * cs;
 	setVM();
 }
 void Camera::moveUD(GLdouble cs) {
-	mEye.y += cs;
-	mLook.y += cs;
+	mEye += (dvec3)(row(mViewMat, 1)) * cs;
+	mLook += (dvec3)(row(mViewMat, 1)) * cs;
 	setVM();
 }
 void Camera::moveFB(GLdouble cs) {
-	mEye.z += cs;
-	mLook.z += cs;
+	mEye += (dvec3)(-row(mViewMat, 2)) * cs;
+	mLook += (dvec3)(-row(mViewMat, 2)) * cs;
+
 	setVM();
 }
 void Camera::SetAxes() {
@@ -137,23 +138,17 @@ void Camera::orbit(GLdouble incAng, GLdouble incY) {
 }
 void Camera::changePrj() {
 	
-
+	
 	if (bOrto)
 	{
-		int NTop = mViewPort->height()/2;
-		int NBot = -NTop;
-		 int NRight = mViewPort->width()/2;
-		int NLeft = -NRight;
 		bOrto = false;
-		mProjMat = frustum(NLeft * mScaleFact, NRight * mScaleFact, NBot * mScaleFact, NTop * mScaleFact, mNearVal, mFarVal);
+		mNearVal= 250;
+		mProjMat = frustum( xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 	}
 	else {
-		int NyTop = mNearVal * tan(45);
-		int NyBot = -NyTop;
-		int NxRight = mNearVal * tan(45) * (16 / 9);
-		int NxLeft = -NxRight;
+		mNearVal = 1;
 		bOrto = true;
-				mProjMat = ortho(NxLeft * mScaleFact, NxRight * mScaleFact, NyBot * mScaleFact, NyTop * mScaleFact, mNearVal, mFarVal);
+				mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 	}
 }
 void Camera::setCenital() {
