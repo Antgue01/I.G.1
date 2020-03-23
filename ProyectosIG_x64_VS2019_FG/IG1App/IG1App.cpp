@@ -280,8 +280,8 @@ void IG1App::mouseWheel(int n, int d, int x, int y)
 
 	if ( m == 0) // ninguna est� presionada
 	{
-		if (d == 1)mCamera->moveFB(10);
-		else mCamera->moveFB(-10);	
+		if (d == 1)mCamera->moveFB(.1);
+		else mCamera->moveFB(-.1);	
 
 		glutPostRedisplay();
 	}
