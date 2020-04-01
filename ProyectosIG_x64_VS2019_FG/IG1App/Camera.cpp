@@ -97,7 +97,7 @@ void Camera::setPM()
 		mProjMat = ortho(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 	}// glm::ortho defines the orthogonal projection matrix
 	else {		//if perspective projection
-		mNearVal = 250;
+		mNearVal = 2 * yTop;
 		mProjMat = frustum(xLeft * mScaleFact, xRight * mScaleFact, yBot * mScaleFact, yTop * mScaleFact, mNearVal, mFarVal);
 
 	}//glm::frustum defines the perspective projection matrix
