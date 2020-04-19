@@ -91,6 +91,12 @@ void Scene::init()
 		gObjects.push_back(cuboConTransparencia);
 		
 	}
+	else if (miId == 2) {
+		gObjects.push_back(new EjesRGB(400));
+		glClearColor(0.7, 0.8, 0.9,1);
+		Sphere* d = new Sphere(10, fvec3(0, 1, 0));
+		gObjects.push_back(d);
+	}
 }
 //-------------------------------------------------------------------------
 void Scene::free()
@@ -128,6 +134,7 @@ void Scene::resetGL()
 
 void Scene::render(Camera const& cam) const
 {
+	sceneDirLight(cam);
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects)
@@ -148,6 +155,21 @@ void Scene::setState(int id) {
 	miId = id;
 	init();
 }
+void Scene::sceneDirLight(Camera const& cam) const {
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glm::fvec4 posDir = { 1, 1, 1, 0 };
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd(value_ptr(cam.viewMat()));
+	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
+	glm::fvec4 ambient = { 0, 0, 0, 1 };
+	glm::fvec4 diffuse = { 1, 1, 1, 1 };
+	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
+	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+}
+
 //-------------------------------------------------------------------------
 
 

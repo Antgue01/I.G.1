@@ -264,23 +264,105 @@ void Plant::render(glm::dmat4 const& modelViewMat) const {
 		mTexture->unbind();
 	}
 }
-	void Cubo::render(glm::dmat4 const& modelViewMat) const {
-		if (mMesh != nullptr) {
-			glEnable(GL_BLEND);
-			glDepthMask(GL_FALSE);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+void Cubo::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		glEnable(GL_BLEND);
+		glDepthMask(GL_FALSE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-			upload(aMat);
-			if (mTexture != nullptr) mTexture->bind(GL_REPLACE);						
-			mMesh->render();
-			mTexture->unbind();
-			glBlendFunc(1, 0);
-			glDepthMask(GL_TRUE);
-			glDisable(GL_BLEND);
-		}
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		if (mTexture != nullptr) mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		mTexture->unbind();
+		glBlendFunc(1, 0);
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
 	}
-	Cubo::Cubo(GLdouble nl, Texture * t) {
-		mMesh = Mesh::generaCajaTexCor(nl);
-		mTexture = t;
-	}
+}
+Cubo::Cubo(GLdouble nl, Texture* t) {
+	mMesh = Mesh::generaCajaTexCor(nl);
+	mTexture = t;
+}
+
+QuadricEntity::QuadricEntity(glm::fvec3 Color) :Abs_Entity()
+{
+	q = gluNewQuadric();
+	color = Color;
+}
+
+Sphere::Sphere(GLdouble r, glm::fvec3 Color ) :QuadricEntity(Color), radious(r)
+{
+}
+
+void Sphere::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Aquí se puede fijar el color de la esfera así:
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(color.r, color.g, color.b);
+	// Aquí se puede fijar el modo de dibujar la esfera:
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluSphere(q, radious, 50, 50);
+	// Aquí se debe recuperar el color:
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+Cylinder::Cylinder(GLdouble baseRadious, GLdouble topRadious, GLdouble height, glm::fvec3 color) :QuadricEntity(color),
+baseRadious(baseRadious), topRadious(topRadious), height(height)
+{
+}
+
+void Cylinder::render(glm::dmat4 const& modelViewMat)const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Aquí se puede fijar el color de la esfera así:
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(color.r, color.g, color.b);
+	// Aquí se puede fijar el modo de dibujar la esfera:
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluCylinder(q, baseRadious, topRadious, height, 50, 50);
+	// Aquí se debe recuperar el color:
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+Disk::Disk(GLdouble innerRadious, GLdouble outerRadious, glm::fvec3 color )
+	:QuadricEntity(color), innerRadious(innerRadious), outerRadious(outerRadious)
+{
+}
+
+void Disk::render(glm::dmat4 const& modelViewMat)const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Aquí se puede fijar el color de la esfera así:
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(color.r, color.g, color.b);
+	// Aquí se puede fijar el modo de dibujar la esfera:
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluDisk(q, innerRadious, outerRadious, 50, 50);
+	// Aquí se debe recuperar el color:
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+PartialDisk::PartialDisk(GLdouble innerRadious, GLdouble outerRadious, GLdouble startAngle, GLdouble sweepAngle, glm::fvec3 color ) :
+	QuadricEntity(color), innerRadious(innerRadious), outerRadious(outerRadious), startAngle(startAngle),
+	sweepAngle(sweepAngle)
+{
+}
+
+void PartialDisk::render(glm::dmat4 const& modelViewMat)const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Aquí se puede fijar el color de la esfera así:
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(color.r, color.g, color.b);
+	// Aquí se puede fijar el modo de dibujar la esfera:
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluPartialDisk(q, innerRadious, outerRadious, 50, 50, startAngle, sweepAngle);
+	// Aquí se debe recuperar el color:
+	glColor3f(1.0, 1.0, 1.0);
+}

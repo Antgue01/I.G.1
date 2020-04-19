@@ -178,25 +178,28 @@ void IG1App::key(unsigned char key, int x, int y)
 		if (mScene->GetID() != 1)
 			mScene->setState(1);
 		break;
+	case '2':
+		if (mScene->GetID() != 2)
+			mScene->setState(2);
 	case 'F':
 		Texture::save("foto.bmp ");
 		break;
-	case '2':
+	case 'd':
 		mCamera->moveLR(1);
 		break;
-	case '3':
+	case 'a':
 		mCamera->moveLR(-1);
 		break;
-	case '4':
+	case 'w':
 		mCamera->moveUD(1);
 		break;
-	case '5':
+	case 's':
 		mCamera->moveUD(-1);
 		break;
-	case '6':
+	case 'S':
 		mCamera->moveFB(1);
 		break;
-	case '7':
+	case 'W':
 		mCamera->moveFB(-1);
 		break;
 	case 'p':

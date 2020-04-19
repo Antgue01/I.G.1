@@ -128,4 +128,47 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
+class QuadricEntity : public Abs_Entity {
+public:
+	explicit  QuadricEntity(glm::fvec3 color = glm::fvec3(-1, -1, -1));
+protected:
+	GLUquadricObj* q;
+	glm::fvec3 color;
+};
+class Sphere :public QuadricEntity {
+public: 
+	explicit Sphere(GLdouble r, glm::fvec3 color = glm::fvec3(-1, -1, -1));
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+private:
+	GLdouble radious;
+};
+class Cylinder :public QuadricEntity {
+public:
+	explicit Cylinder(GLdouble baseRadious, GLdouble topRadious, GLdouble height, glm::fvec3 color = glm::fvec3(-1, -1, -1));
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+private:
+	GLdouble baseRadious;
+	GLdouble topRadious;
+	GLdouble height;
+};
+class Disk :public QuadricEntity {
+public:
+	explicit Disk(GLdouble innerRadious, GLdouble outerRadious, glm::fvec3 color = glm::fvec3(-1, -1, -1));
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+private:
+	GLdouble innerRadious;
+	GLdouble outerRadious;
+};
+class PartialDisk :public QuadricEntity {
+public:
+	explicit PartialDisk(GLdouble innerRadious, GLdouble outerRadious, GLdouble startAngle, GLdouble sweepAngle, glm::fvec3 color = glm::fvec3(-1, -1, -1));
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+private:
+	GLdouble innerRadious;
+	GLdouble outerRadious;
+	GLdouble startAngle;
+	GLdouble sweepAngle;
+};
 #endif //_H_Entities_H_

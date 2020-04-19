@@ -27,12 +27,14 @@ public:
 	void update();
 	int GetID() { return miId; }
 	void setState(int id);
+
+	void sceneDirLight(Camera const& cam) const;
 	
 protected:
 	void free();
 	void setGL();
 	void resetGL();
-	int miId=1;
+	int miId=2;
 
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*>gTextures;
