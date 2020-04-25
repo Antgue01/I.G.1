@@ -171,4 +171,10 @@ private:
 	GLdouble startAngle;
 	GLdouble sweepAngle;
 };
+class AnilloCuadrado :public Abs_Entity {
+public:
+	explicit AnilloCuadrado();
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+private:
+};
 #endif //_H_Entities_H_

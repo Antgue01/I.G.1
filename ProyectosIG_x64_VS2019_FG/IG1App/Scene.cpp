@@ -38,9 +38,31 @@ void Scene::init()
 		
 	}
 	gObjects.clear();
+	gObjects.push_back(new EjesRGB(400));
+	glClearColor(0.7, 0.8, 0.9, 1);
 
 	if (miId == 0) {
-		gObjects.push_back(new EjesRGB(400.0));
+		Sphere* cabeza = new Sphere(175, fvec3(0.82, 0.41, 0.11));
+		Cylinder* ojo1 = new Cylinder(20, 0, 50, fvec3(0.13, 0.7, 0.67));
+		ojo1->setModelMat(translate(ojo1->modelMat(), dvec3(-60, 50, 160)));
+		Cylinder* ojo2 = new Cylinder(20, 0, 50, fvec3(0, 0, .5));
+		ojo2->setModelMat(translate(ojo2->modelMat(), dvec3(60, 50, 160)));
+		Disk* sombrero = new Disk(140, 190, dvec3(1, 0, 0));
+		sombrero->setModelMat(translate(sombrero->modelMat(), dvec3(0, 100, 0)));
+		sombrero->setModelMat(rotate(sombrero->modelMat(), radians(90.0), dvec3(1, 0, 0)));
+		PartialDisk* barba = new PartialDisk(150, 160, 90, 180, fvec3(0, 1, 0));
+		barba->setModelMat(translate(barba->modelMat(), dvec3(0, 0, 87.5)));
+
+		gObjects.push_back(cabeza);
+		gObjects.push_back(ojo1);
+		gObjects.push_back(ojo2);
+		gObjects.push_back(sombrero);
+		gObjects.push_back(barba);
+
+		//----------------------------------------------------------------------------------------
+		//Escena Ana
+
+		/*gObjects.push_back(new EjesRGB(400.0));
 		
 		Poligono* triangulo = new Poligono(3, 300);
 		triangulo->setColor(255, 255, 0, 255);
@@ -62,12 +84,17 @@ void Scene::init()
 		dvec3 v = { 0,0,-100 };
 		rgbr->setModelMat(translate(rgbr->modelMat(), v));
 		dvec3 s = { 8,12,0 };
-		rgbr->setModelMat(scale(rgbr->modelMat(), s));		
+		rgbr->setModelMat(scale(rgbr->modelMat(), s));		*/
 	}
 	else if (miId == 1)
 	{
+		AnilloCuadrado* ac = new AnilloCuadrado();
+		gObjects.push_back(ac);
+		
+		//------------------------------------------------------------------------------------------
+		//Escena Ana 
 
-		gObjects.push_back(new EjesRGB(400.0));
+		/*gObjects.push_back(new EjesRGB(400.0));
 
 		Estrella3D* estrella3D = new Estrella3D(25, 4, 25,gTextures.at(0));
 		estrella3D->setModelMat(translate(estrella3D->modelMat(), dvec3(-300.0,100.0,-300.0)));
@@ -89,14 +116,10 @@ void Scene::init()
 		Cubo* cuboConTransparencia = new Cubo(700, gTextures.at(5));
 		cuboConTransparencia->setModelMat(translate(cuboConTransparencia->modelMat(), dvec3(0, 350, 0)));
 		gObjects.push_back(cuboConTransparencia);
-		
+		*/
 	}
-	else if (miId == 2) {
-		gObjects.push_back(new EjesRGB(400));
-		glClearColor(0.7, 0.8, 0.9,1);
-		Sphere* d = new Sphere(10, fvec3(0, 1, 0));
-		gObjects.push_back(d);
-	}
+	
+	
 }
 //-------------------------------------------------------------------------
 void Scene::free()

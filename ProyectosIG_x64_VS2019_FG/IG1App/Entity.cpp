@@ -366,3 +366,21 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat)const
 	// Aquí se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
 }
+
+AnilloCuadrado::AnilloCuadrado()
+{
+	mMesh = Mesh::generaAnilloCuadrado();
+}
+
+void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_BACK, GL_POINT);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		mTexture->unbind();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
