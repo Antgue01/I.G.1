@@ -8,7 +8,8 @@ using namespace glm;
 
 void Mesh::draw() const
 {
-	glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+	//glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+	glDrawElements(mPrimitive, 10, GL_UNSIGNED_INT, stripIndices);
 }
 //-------------------------------------------------------------------------
 
@@ -284,7 +285,7 @@ Mesh* Mesh::generaAnilloCuadrado()
 {
 	Mesh* AnilloCuadrado = new Mesh();
 	AnilloCuadrado->mPrimitive = GL_TRIANGLE_STRIP;
-	AnilloCuadrado->mNumVertices = 10;
+	AnilloCuadrado->mNumVertices = 8;
 	AnilloCuadrado->vVertices.reserve(AnilloCuadrado->mNumVertices);
 	AnilloCuadrado->vVertices.emplace_back(30.0, 30.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(10.0, 10.0, 0.0);
@@ -293,11 +294,9 @@ Mesh* Mesh::generaAnilloCuadrado()
 	AnilloCuadrado->vVertices.emplace_back(70.0, 70.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(90.0, 90.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(30.0, 70.0, 0.0);
-	AnilloCuadrado->vVertices.emplace_back(10.0, 90.0, 0.0);
-	AnilloCuadrado->vVertices.emplace_back(30.0, 30.0, 0.0);
-	AnilloCuadrado->vVertices.emplace_back(10.0, 10.0, 0.0);
+	AnilloCuadrado->vVertices.emplace_back(10.0, 90.0, 0.0);	
 
-	AnilloCuadrado->vColors.reserve(10);
+	AnilloCuadrado->vColors.reserve(8);
 
 	AnilloCuadrado->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
 	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
@@ -306,9 +305,7 @@ Mesh* Mesh::generaAnilloCuadrado()
 	AnilloCuadrado->vColors.emplace_back(1.0, 1.0, 0.0, 1.0);
 	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 1.0, 1.0);
 	AnilloCuadrado->vColors.emplace_back(0.0, 1.0, 1.0, 1.0);
-	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-	AnilloCuadrado->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
-	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);	
 
 	return AnilloCuadrado;
 }
