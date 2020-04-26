@@ -9,7 +9,7 @@
 
 //-------------------------------------------------------------------------
 
-class Mesh 
+class Mesh
 {
 public:
 
@@ -26,28 +26,27 @@ public:
 	static Mesh* generaCajaTexCor(GLdouble nl);
 	static Mesh* generaAnilloCuadrado();
 
-	Mesh() {};
+	Mesh(std::vector<int>indexes = std::vector<int>()) :stripIndices(indexes){};
 	virtual ~Mesh() {};
 
-	Mesh(const Mesh & m) = delete;  // no copy constructor
-	Mesh & operator=(const Mesh & m) = delete;  // no copy assignment
-			
+	Mesh(const Mesh& m) = delete;  // no copy constructor
+	Mesh& operator=(const Mesh& m) = delete;  // no copy assignment
+
 	virtual void render() const;
-	
+
 	GLuint size() const { return mNumVertices; };   // number of elements
 	std::vector<glm::dvec3> const& vertices() const { return vVertices; };
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
 	std::vector<glm::dvec2> const& textCoords() const { return vTexCoords; };
 
 protected:
-	
+
 	GLuint mPrimitive = GL_TRIANGLES;   // graphic primitive: GL_POINTS, GL_LINES, GL_TRIANGLES, ...
 	GLuint mNumVertices = 0;  // number of elements ( = vVertices.size())
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
 	std::vector<glm::dvec2> vTexCoords;
-	unsigned int stripIndices[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 };
-	
+	std::vector<int> stripIndices;
 	virtual void draw() const;
 };
 //-------------------------------------------------------------------------

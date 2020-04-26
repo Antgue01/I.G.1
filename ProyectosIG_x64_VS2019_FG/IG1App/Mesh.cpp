@@ -8,8 +8,10 @@ using namespace glm;
 
 void Mesh::draw() const
 {
-	//glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
-	glDrawElements(mPrimitive, 10, GL_UNSIGNED_INT, stripIndices);
+	if (stripIndices.size() == 0)
+		glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+	else
+		glDrawElements(mPrimitive, stripIndices.size(), GL_UNSIGNED_INT, stripIndices.data());
 }
 //-------------------------------------------------------------------------
 
@@ -283,9 +285,9 @@ Mesh* Mesh::generaCajaTexCor(GLdouble nl) {
 
 Mesh* Mesh::generaAnilloCuadrado()
 {
-	Mesh* AnilloCuadrado = new Mesh();
+	Mesh* AnilloCuadrado = new Mesh({ 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 });
 	AnilloCuadrado->mPrimitive = GL_TRIANGLE_STRIP;
-	AnilloCuadrado->mNumVertices = 8;
+	AnilloCuadrado->mNumVertices = 8;/*10*/
 	AnilloCuadrado->vVertices.reserve(AnilloCuadrado->mNumVertices);
 	AnilloCuadrado->vVertices.emplace_back(30.0, 30.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(10.0, 10.0, 0.0);
@@ -294,9 +296,11 @@ Mesh* Mesh::generaAnilloCuadrado()
 	AnilloCuadrado->vVertices.emplace_back(70.0, 70.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(90.0, 90.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(30.0, 70.0, 0.0);
-	AnilloCuadrado->vVertices.emplace_back(10.0, 90.0, 0.0);	
+	AnilloCuadrado->vVertices.emplace_back(30.0, 30.0, 0.0);
+	//AnilloCuadrado->vVertices.emplace_back(30.0, 30.0, 0.0);
+	//AnilloCuadrado->vVertices.emplace_back(10.0, 10.0, 0.0);
 
-	AnilloCuadrado->vColors.reserve(8);
+	AnilloCuadrado->vColors.reserve(8/*10*/);
 
 	AnilloCuadrado->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
 	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
@@ -305,7 +309,9 @@ Mesh* Mesh::generaAnilloCuadrado()
 	AnilloCuadrado->vColors.emplace_back(1.0, 1.0, 0.0, 1.0);
 	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 1.0, 1.0);
 	AnilloCuadrado->vColors.emplace_back(0.0, 1.0, 1.0, 1.0);
-	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);	
+	AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	//AnilloCuadrado->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
+	//AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 
 	return AnilloCuadrado;
 }
