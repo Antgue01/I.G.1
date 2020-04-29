@@ -366,29 +366,43 @@ IndexMesh* IndexMesh::generaAnilloCuadrado()
 
 IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
 {
-	vector<unsigned int> indexes({ 0,1,2, 3,4,5,
-6,7/*,4, 4,3,5,
-4,5,6, 6,5,7,
-6,7,0, 0,7,1,
-4,6,2, 2,6,0,
-1,7,3, 3,7, 5 */});
+	vector<unsigned int> indexes({ 
+		0, 1, 2,
+		2, 3, 0,
+
+		1, 5, 6,
+		6, 2, 1,
+       
+		7, 6, 5,
+		5, 4, 7,
+
+		4, 0, 3,
+		3, 7, 4,
+
+		4, 5, 1,
+		1, 0, 4,
+
+		3, 2, 6,
+		6, 7, 3 });
+
 IndexMesh* m = new IndexMesh(indexes);
 	m->mPrimitive = GL_TRIANGLES;
 	m->mNumVertices = 8;
 	m->vVertices.reserve(8);
-	m->vVertices.emplace_back(l, l, l);
+	m->vVertices.emplace_back(-l, -l, l);	
 	m->vVertices.emplace_back(l, -l, l);
-	m->vVertices.emplace_back(l, -l, -l);
+    m->vVertices.emplace_back(l, l, l);
+    m->vVertices.emplace_back(-l, l, l);
+
+    m->vVertices.emplace_back(-l, -l, -l);
+	m->vVertices.emplace_back(l, -l, -l);	
 	m->vVertices.emplace_back(l, l, -l);
-	m->vVertices.emplace_back(-l, l, l);
 	m->vVertices.emplace_back(-l, l, -l);
-	m->vVertices.emplace_back(-l, -l, -l);
-	m->vVertices.emplace_back(-l, -l, l);
-	vector<glm::dvec4> colors;
-	colors.reserve(8);
-	for (size_t i = 0; i < colors.capacity(); i++)
+	
+	m->vColors.reserve(8);
+	for (size_t i = 0; i < m->vColors.capacity(); i++)
 	{
-		colors.emplace_back(1.0, 0, 0, 1.0);
+		m->vColors.emplace_back(1.0, 0, 0, 1.0);
 	}
 	return m;
 }
