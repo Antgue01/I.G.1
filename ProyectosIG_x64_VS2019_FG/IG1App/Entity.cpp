@@ -369,10 +369,28 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat)const
 
 AnilloCuadrado::AnilloCuadrado()
 {
-	mMesh = Mesh::generaAnilloCuadrado();
+	mMesh = IndexMesh::generaAnilloCuadrado();
 }
 
 void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_BACK, GL_POINT);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		mTexture->unbind();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+EntityWithIndexMesh::EntityWithIndexMesh(double l)
+{
+	mMesh = IndexMesh::generaIndexCuboConTapas(l);
+}
+
+void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication

@@ -24,9 +24,9 @@ public:
 	static Mesh* generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	static Mesh* generaCajaTexCor(GLdouble nl);
-	static Mesh* generaAnilloCuadrado();
+	
 
-	Mesh(std::vector<int>indexes = std::vector<int>()) :stripIndices(indexes){};
+	Mesh() {};
 	virtual ~Mesh() {};
 
 	Mesh(const Mesh& m) = delete;  // no copy constructor
@@ -39,6 +39,8 @@ public:
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
 	std::vector<glm::dvec2> const& textCoords() const { return vTexCoords; };
 
+	void SetNormalsVector(std::vector<glm::dvec3> NvNormals) { vNormals = NvNormals; }
+
 protected:
 
 	GLuint mPrimitive = GL_TRIANGLES;   // graphic primitive: GL_POINTS, GL_LINES, GL_TRIANGLES, ...
@@ -46,8 +48,19 @@ protected:
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
 	std::vector<glm::dvec2> vTexCoords;
-	std::vector<int> stripIndices;
+	std::vector<glm::dvec3> vNormals;
 	virtual void draw() const;
+};
+class IndexMesh :public Mesh {
+public:
+	IndexMesh(std::vector<unsigned int> indices):Mesh(), vIndices(indices){}
+	virtual void draw() const;
+	virtual void render() const;
+	static IndexMesh* generaAnilloCuadrado();
+	static IndexMesh* generaIndexCuboConTapas(GLdouble l);
+
+private:
+	std::vector<unsigned int> vIndices;
 };
 //-------------------------------------------------------------------------
 

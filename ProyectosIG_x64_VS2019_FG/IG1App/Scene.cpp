@@ -118,6 +118,9 @@ void Scene::init()
 		gObjects.push_back(cuboConTransparencia);
 		*/
 	}
+	else if (miId == 2) {
+		gObjects.push_back(new EntityWithIndexMesh(100.0));
+	}
 	
 	
 }

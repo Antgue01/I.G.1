@@ -177,4 +177,10 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 private:
 };
+class EntityWithIndexMesh : public Abs_Entity {
+public:
+	explicit EntityWithIndexMesh(double l);
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+private:
+};
 #endif //_H_Entities_H_

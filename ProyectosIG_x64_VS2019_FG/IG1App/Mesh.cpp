@@ -8,10 +8,8 @@ using namespace glm;
 
 void Mesh::draw() const
 {
-	if (stripIndices.size() == 0)
-		glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
-	else
-		glDrawElements(mPrimitive, stripIndices.size(), GL_UNSIGNED_INT, stripIndices.data());
+	glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
+
 }
 //-------------------------------------------------------------------------
 
@@ -32,7 +30,11 @@ void Mesh::render() const
 			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
 		}
 
-
+		if (vNormals.size() > 0)
+		{
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+		}
 
 		draw();
 
@@ -40,7 +42,9 @@ void Mesh::render() const
 		glDisableClientState(GL_VERTEX_ARRAY);
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_DOUBLE);
+
 	}
 }
 //-------------------------------------------------------------------------
@@ -283,9 +287,50 @@ Mesh* Mesh::generaCajaTexCor(GLdouble nl) {
 	return m;
 }
 
-Mesh* Mesh::generaAnilloCuadrado()
+
+
+void IndexMesh::draw() const
 {
-	Mesh* AnilloCuadrado = new Mesh({ 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 });
+	glDrawElements(mPrimitive, vIndices.size(), GL_UNSIGNED_INT, vIndices.data());
+}
+
+void IndexMesh::render() const
+{
+	if (vVertices.size() > 0) {  // transfer data
+	  // transfer the coordinates of the vertices
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
+		if (vColors.size() > 0) { // transfer colors
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+		}
+
+		if (vTexCoords.size() > 0)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+		}
+		if (vIndices.size() > 0) {
+			glEnableClientState(GL_INDEX_ARRAY);
+			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices.data());
+		}
+
+
+		draw();
+
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_DOUBLE);
+		glDisableClientState(GL_INDEX_ARRAY);
+	}
+}
+
+IndexMesh* IndexMesh::generaAnilloCuadrado()
+{
+	vector<unsigned int> aux({ 0, 1, 2, 3, 4, 5, 6, 7, 0, 1 });
+	IndexMesh* AnilloCuadrado = new IndexMesh(aux);
 	AnilloCuadrado->mPrimitive = GL_TRIANGLE_STRIP;
 	AnilloCuadrado->mNumVertices = 8;/*10*/
 	AnilloCuadrado->vVertices.reserve(AnilloCuadrado->mNumVertices);
@@ -296,7 +341,7 @@ Mesh* Mesh::generaAnilloCuadrado()
 	AnilloCuadrado->vVertices.emplace_back(70.0, 70.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(90.0, 90.0, 0.0);
 	AnilloCuadrado->vVertices.emplace_back(30.0, 70.0, 0.0);
-	AnilloCuadrado->vVertices.emplace_back(30.0, 30.0, 0.0);
+	AnilloCuadrado->vVertices.emplace_back(10.0, 90.0, 0.0);
 	//AnilloCuadrado->vVertices.emplace_back(30.0, 30.0, 0.0);
 	//AnilloCuadrado->vVertices.emplace_back(10.0, 10.0, 0.0);
 
@@ -313,6 +358,37 @@ Mesh* Mesh::generaAnilloCuadrado()
 	//AnilloCuadrado->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
 	//AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 
+	AnilloCuadrado->SetNormalsVector(vector<glm::dvec3>({ {0,0,1},{0,0,1},{0,0,1},{0,0,1},
+		{0,0,1}, {0,0,1}, {0,0,1}, {0,0,1}, {0,0,1}, {0,0,1} }));
+
 	return AnilloCuadrado;
 }
 
+IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
+{
+	vector<unsigned int> indexes({ 0,1,2, 3,4,5,
+6,7/*,4, 4,3,5,
+4,5,6, 6,5,7,
+6,7,0, 0,7,1,
+4,6,2, 2,6,0,
+1,7,3, 3,7, 5 */});
+IndexMesh* m = new IndexMesh(indexes);
+	m->mPrimitive = GL_TRIANGLES;
+	m->mNumVertices = 8;
+	m->vVertices.reserve(8);
+	m->vVertices.emplace_back(l, l, l);
+	m->vVertices.emplace_back(l, -l, l);
+	m->vVertices.emplace_back(l, -l, -l);
+	m->vVertices.emplace_back(l, l, -l);
+	m->vVertices.emplace_back(-l, l, l);
+	m->vVertices.emplace_back(-l, l, -l);
+	m->vVertices.emplace_back(-l, -l, -l);
+	m->vVertices.emplace_back(-l, -l, l);
+	vector<glm::dvec4> colors;
+	colors.reserve(8);
+	for (size_t i = 0; i < colors.capacity(); i++)
+	{
+		colors.emplace_back(1.0, 0, 0, 1.0);
+	}
+	return m;
+}
