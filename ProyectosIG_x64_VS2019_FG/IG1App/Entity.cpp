@@ -32,11 +32,14 @@ void EjesRGB::render(dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		glEnable(GL_COLOR_MATERIAL);
 		glLineWidth(2);
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
 		glLineWidth(1);
+		glDisable(GL_COLOR_MATERIAL);
+
 	}
 }
 //-------------------------------------------------------------------------
@@ -306,6 +309,7 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluSphere(q, radious, 50, 50);
 	// Aquí se debe recuperar el color:
+	glDisable(GL_COLOR_MATERIAL);
 	glColor3f(1.0, 1.0, 1.0);
 }
 
@@ -325,6 +329,7 @@ void Cylinder::render(glm::dmat4 const& modelViewMat)const
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluCylinder(q, baseRadious, topRadious, height, 50, 50);
 	// Aquí se debe recuperar el color:
+	glDisable(GL_COLOR_MATERIAL);
 	glColor3f(1.0, 1.0, 1.0);
 }
 
@@ -344,6 +349,7 @@ void Disk::render(glm::dmat4 const& modelViewMat)const
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluDisk(q, innerRadious, outerRadious, 50, 50);
 	// Aquí se debe recuperar el color:
+	glDisable(GL_COLOR_MATERIAL);
 	glColor3f(1.0, 1.0, 1.0);
 }
 
@@ -365,6 +371,7 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat)const
 	gluPartialDisk(q, innerRadious, outerRadious, 50, 50, startAngle, sweepAngle);
 	// Aquí se debe recuperar el color:
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 AnilloCuadrado::AnilloCuadrado()
@@ -377,10 +384,13 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		glEnable(GL_COLOR_MATERIAL);
+
 		glPolygonMode(GL_BACK, GL_POINT);
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
+		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
@@ -396,9 +406,11 @@ void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_FRONT, GL_POINT);
+		glEnable(GL_COLOR_MATERIAL);
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
+		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
