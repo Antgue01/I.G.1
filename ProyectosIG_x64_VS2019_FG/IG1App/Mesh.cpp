@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "CheckML.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 using namespace glm;
 
@@ -314,6 +315,11 @@ void IndexMesh::render() const
 			glEnableClientState(GL_INDEX_ARRAY);
 			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices.data());
 		}
+		if (vNormals.size() > 0)
+		{
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+		}
 
 
 		draw();
@@ -323,6 +329,7 @@ void IndexMesh::render() const
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_DOUBLE);
+		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_INDEX_ARRAY);
 	}
 }
@@ -366,43 +373,67 @@ IndexMesh* IndexMesh::generaAnilloCuadrado()
 
 IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
 {
-	vector<unsigned int> indexes({ 
+	vector<unsigned int> indexes({
 		0, 1, 2,
 		2, 3, 0,
-
+		
 		1, 5, 6,
 		6, 2, 1,
-       
+		
 		7, 6, 5,
-		5, 4, 7,
-
+		7, 5, 4,
+		
 		4, 0, 3,
 		3, 7, 4,
-
+		
 		4, 5, 1,
 		1, 0, 4,
-
+		
 		3, 2, 6,
 		6, 7, 3 });
 
-IndexMesh* m = new IndexMesh(indexes);
+	IndexMesh* m = new IndexMesh(indexes);
 	m->mPrimitive = GL_TRIANGLES;
 	m->mNumVertices = 8;
 	m->vVertices.reserve(8);
-	m->vVertices.emplace_back(-l, -l, l);	
+	m->vVertices.emplace_back(-l, -l, l);
 	m->vVertices.emplace_back(l, -l, l);
-    m->vVertices.emplace_back(l, l, l);
-    m->vVertices.emplace_back(-l, l, l);
+	m->vVertices.emplace_back(l, l, l);
+	m->vVertices.emplace_back(-l, l, l);
 
-    m->vVertices.emplace_back(-l, -l, -l);
-	m->vVertices.emplace_back(l, -l, -l);	
+	m->vVertices.emplace_back(-l, -l, -l);
+	m->vVertices.emplace_back(l, -l, -l);
 	m->vVertices.emplace_back(l, l, -l);
 	m->vVertices.emplace_back(-l, l, -l);
-	
+
 	m->vColors.reserve(8);
 	for (size_t i = 0; i < m->vColors.capacity(); i++)
 	{
-		m->vColors.emplace_back(1.0, 0, 0, 1.0);
+		m->vColors.emplace_back(0.5, 0, 0, 1.0);
 	}
+	m->buildNormalVectors();
 	return m;
+}
+
+void IndexMesh::buildNormalVectors()
+{
+	vNormals.reserve(mNumVertices);
+	for (int i = 0; i < vNormals.capacity(); i++)
+	{
+		vNormals.emplace_back(0, 0, 0);
+	}
+	for (int i = 0; i < vIndices.size() / 3; i++)
+	{
+		glm::dvec3* a = &vVertices[vIndices[3 * i]];
+		glm::dvec3* b = &vVertices[vIndices[3 * i + 1]];
+		glm::dvec3* c = &vVertices[vIndices[3 * i + 2]];
+		glm::dvec3 n = normalize(cross(*b - *a, *c - *a));
+		vNormals[vIndices[3 * i]] += n;
+		vNormals[vIndices[3 * i + 1]] += n;
+		vNormals[vIndices[3 * i + 2]] += n;
+		//cout << vIndices[3 * i] << " " << vIndices[3 * i + 1] << " " << vIndices[3 * i + 2] << endl;
+	}
+	for (glm::dvec3 m : vNormals) {
+		normalize(m);
+	}
 }

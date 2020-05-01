@@ -405,7 +405,7 @@ void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
-		glPolygonMode(GL_FRONT, GL_POINT);
+		glPolygonMode(GL_BACK, GL_POINT);
 		glEnable(GL_COLOR_MATERIAL);
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();

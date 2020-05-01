@@ -61,6 +61,7 @@ public:
 
 private:
 	std::vector<unsigned int> vIndices;
+	void buildNormalVectors();
 };
 //-------------------------------------------------------------------------
 
