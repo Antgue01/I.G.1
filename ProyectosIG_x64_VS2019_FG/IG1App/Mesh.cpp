@@ -424,14 +424,13 @@ void IndexMesh::buildNormalVectors()
 	}
 	for (int i = 0; i < vIndices.size() / 3; i++)
 	{
-		glm::dvec3* a = &vVertices[vIndices[3 * i]];
-		glm::dvec3* b = &vVertices[vIndices[3 * i + 1]];
-		glm::dvec3* c = &vVertices[vIndices[3 * i + 2]];
-		glm::dvec3 n = normalize(cross(*b - *a, *c - *a));
-		vNormals[vIndices[3 * i]] += n;
-		vNormals[vIndices[3 * i + 1]] += n;
-		vNormals[vIndices[3 * i + 2]] += n;
-		//cout << vIndices[3 * i] << " " << vIndices[3 * i + 1] << " " << vIndices[3 * i + 2] << endl;
+		glm::dvec3 a = vVertices[vIndices[(int8)(3 * i)]];
+		glm::dvec3 b = vVertices[vIndices[(int8)(3 * i + 1)]];
+		glm::dvec3 c = vVertices[vIndices[(int8)(3 * i + 2)]];
+		glm::dvec3 n = normalize(cross(b - a, c - a));
+		vNormals[vIndices[(int8)(3 * i)]] += n;
+		vNormals[vIndices[(int8)(3 * i + 1)]] += n;
+		vNormals[vIndices[(int8)(3 * i + 2)]] += n;
 	}
 	for (glm::dvec3 m : vNormals) {
 		normalize(m);

@@ -1,5 +1,1 @@
-﻿  Mesh.cpp
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(185,30): warning C4244: '=': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(208,8): warning C4244: 'inicializando': conversión de 'GLdouble' a 'int'; posible pérdida de datos
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(295,78): warning C4267: 'argumento': conversión de 'size_t' a 'GLsizei'; posible pérdida de datos
-  IG1App.vcxproj -> C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿
