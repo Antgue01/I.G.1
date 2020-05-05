@@ -9,8 +9,11 @@ using namespace glm;
 
 void Mesh::draw() const
 {
+	//if(vIndices.size()<=0)									   
 	glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
-
+	//else
+    //glDrawElements(mPrimitive, vIndices.size(), GL_UNSIGNED_INT, vIndices.data());
+	
 }
 //-------------------------------------------------------------------------
 
@@ -373,6 +376,7 @@ IndexMesh* IndexMesh::generaAnilloCuadrado()
 
 IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
 {
+	GLdouble lm = l / 2;
 	vector<unsigned int> indexes({
 		0, 1, 2,
 		2, 3, 0,
@@ -381,7 +385,7 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
 		6, 2, 1,
 		
 		7, 6, 5,
-		7, 5, 4,
+		5, 4, 7,
 		
 		4, 0, 3,
 		3, 7, 4,
@@ -396,15 +400,15 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
 	m->mPrimitive = GL_TRIANGLES;
 	m->mNumVertices = 8;
 	m->vVertices.reserve(8);
-	m->vVertices.emplace_back(-l, -l, l);
-	m->vVertices.emplace_back(l, -l, l);
-	m->vVertices.emplace_back(l, l, l);
-	m->vVertices.emplace_back(-l, l, l);
+	m->vVertices.emplace_back(-lm, -lm, lm);
+	m->vVertices.emplace_back(lm, -lm, lm);
+	m->vVertices.emplace_back(lm, lm, lm);
+	m->vVertices.emplace_back(-lm, lm, lm);
 
-	m->vVertices.emplace_back(-l, -l, -l);
-	m->vVertices.emplace_back(l, -l, -l);
-	m->vVertices.emplace_back(l, l, -l);
-	m->vVertices.emplace_back(-l, l, -l);
+	m->vVertices.emplace_back(-lm, -lm, -lm);
+	m->vVertices.emplace_back(lm, -lm, -lm);
+	m->vVertices.emplace_back(lm, lm, -lm);
+	m->vVertices.emplace_back(-lm, lm, -lm);
 
 	m->vColors.reserve(8);
 	for (size_t i = 0; i < m->vColors.capacity(); i++)

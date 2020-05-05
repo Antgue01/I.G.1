@@ -26,7 +26,8 @@ public:
 	static Mesh* generaCajaTexCor(GLdouble nl);
 	
 
-	Mesh() {};
+	
+	Mesh(/*std::vector<unsigned int> Indices = std::vector<unsigned int>()*/)/*:vIndices(Indices)*/ {};
 	virtual ~Mesh() {};
 
 	Mesh(const Mesh& m) = delete;  // no copy constructor
@@ -49,6 +50,7 @@ protected:
 	std::vector<glm::dvec4> vColors;    // color array
 	std::vector<glm::dvec2> vTexCoords;
 	std::vector<glm::dvec3> vNormals;
+	//std::vector<unsigned int> vIndices;
 	virtual void draw() const;
 };
 class IndexMesh :public Mesh {
