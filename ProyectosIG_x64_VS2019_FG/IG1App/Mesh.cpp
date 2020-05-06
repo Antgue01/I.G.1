@@ -368,8 +368,7 @@ IndexMesh* IndexMesh::generaAnilloCuadrado()
 	//AnilloCuadrado->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
 	//AnilloCuadrado->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 
-	AnilloCuadrado->SetNormalsVector(vector<glm::dvec3>({ {0,0,1},{0,0,1},{0,0,1},{0,0,1},
-		{0,0,1}, {0,0,1}, {0,0,1}, {0,0,1}, {0,0,1}, {0,0,1} }));
+	AnilloCuadrado->buildNormalVectors();
 
 	return AnilloCuadrado;
 }
