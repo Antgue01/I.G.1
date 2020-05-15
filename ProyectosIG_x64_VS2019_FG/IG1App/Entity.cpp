@@ -395,12 +395,13 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-EntityWithIndexMesh::EntityWithIndexMesh(double l)
+
+Cube::Cube(double l)
 {
 	mMesh = IndexMesh::generaIndexCuboConTapas(l);
 }
 
-void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
+void Cube::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -413,4 +414,10 @@ void EntityWithIndexMesh::render(glm::dmat4 const& modelViewMat) const
 		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
+{
+	
 }

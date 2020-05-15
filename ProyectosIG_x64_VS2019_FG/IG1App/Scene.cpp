@@ -119,7 +119,7 @@ void Scene::init()
 		*/
 	}
 	else if (miId == 2) {
-		gObjects.push_back(new EntityWithIndexMesh(100.0));
+		gObjects.push_back(new Cube(100.0));
 	}
 	
 	
