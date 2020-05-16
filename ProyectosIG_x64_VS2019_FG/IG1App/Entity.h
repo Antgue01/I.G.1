@@ -179,30 +179,8 @@ private:
 };
 class EntityWithIndexMesh : public Abs_Entity {
 public:
-	explicit EntityWithIndexMesh():Abs_Entity() {}
-private:
-
-};
-
-class Cube : public EntityWithIndexMesh {
-
-public:
-	explicit Cube(double l);
+	explicit EntityWithIndexMesh(double l);
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 private:
-
 };
-
-class CompoundEntity :public Abs_Entity
-{
-public:
-	explicit CompoundEntity() {}
-	~CompoundEntity() { for (Abs_Entity* el : gObjects) { delete el;  el = nullptr; } }
-	virtual void render(glm::dmat4 const& modelViewMat)const;
-				
-protected:
-	std::vector<Abs_Entity*> gObjects;
-	void addEntity(Abs_Entity* ae) { gObjects.push_back(ae); }
-};
-
 #endif //_H_Entities_H_
