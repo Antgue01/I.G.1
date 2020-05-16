@@ -294,7 +294,7 @@ QuadricEntity::QuadricEntity(glm::fvec3 Color) :Abs_Entity()
 	color = Color;
 }
 
-Sphere::Sphere(GLdouble r, glm::fvec3 Color ) :QuadricEntity(Color), radious(r)
+Sphere::Sphere(GLdouble r, glm::fvec3 Color) :QuadricEntity(Color), radious(r)
 {
 }
 
@@ -333,7 +333,7 @@ void Cylinder::render(glm::dmat4 const& modelViewMat)const
 	glColor3f(1.0, 1.0, 1.0);
 }
 
-Disk::Disk(GLdouble innerRadious, GLdouble outerRadious, glm::fvec3 color )
+Disk::Disk(GLdouble innerRadious, GLdouble outerRadious, glm::fvec3 color)
 	:QuadricEntity(color), innerRadious(innerRadious), outerRadious(outerRadious)
 {
 }
@@ -353,7 +353,7 @@ void Disk::render(glm::dmat4 const& modelViewMat)const
 	glColor3f(1.0, 1.0, 1.0);
 }
 
-PartialDisk::PartialDisk(GLdouble innerRadious, GLdouble outerRadious, GLdouble startAngle, GLdouble sweepAngle, glm::fvec3 color ) :
+PartialDisk::PartialDisk(GLdouble innerRadious, GLdouble outerRadious, GLdouble startAngle, GLdouble sweepAngle, glm::fvec3 color) :
 	QuadricEntity(color), innerRadious(innerRadious), outerRadious(outerRadious), startAngle(startAngle),
 	sweepAngle(sweepAngle)
 {
@@ -395,12 +395,12 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Cube::Cube(double l)
+Cube::Cube(double l, glm::dvec4 color):EntityWithIndexMesh(),color(color)
 {
-	mMesh = IndexMesh::generaIndexCuboConTapas(l);
+	mMesh = IndexMesh::generaIndexCuboConTapas(l,color);
 }
 
-void Cube ::render(glm::dmat4 const& modelViewMat) const
+void Cube::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
@@ -423,22 +423,29 @@ CompoundEntity :: ~CompoundEntity()
 	}
 }
 
+Abs_Entity* CompoundEntity::getEntity(int id)
+{
+	if (id < gObjects.size() && id >= 0)
+		return gObjects.at(id);
+	else return nullptr;
+}
+
 void CompoundEntity::render(glm::dmat4 const& modelViewMat)const
 {
 	/*if (mMesh != nullptr) {*/
-		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
-		upload(aMat);
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
 
-		for (Abs_Entity* e : gObjects)
-		{
-            glEnable(GL_COLOR_MATERIAL);
-			glPolygonMode(GL_BACK, GL_POINT);
-			
-			if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
-			e->render(aMat);
-			mTexture->unbind();
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}		
-		glDisable(GL_COLOR_MATERIAL);
+	for (Abs_Entity* e : gObjects)
+	{
+		glEnable(GL_COLOR_MATERIAL);
+		glPolygonMode(GL_BACK, GL_POINT);
+
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
+		e->render(aMat);
+		mTexture->unbind();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	glDisable(GL_COLOR_MATERIAL);
 	/*}*/
 }

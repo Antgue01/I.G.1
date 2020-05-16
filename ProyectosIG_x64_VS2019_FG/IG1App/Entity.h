@@ -13,7 +13,7 @@
 class Abs_Entity  // abstract class
 {
 public:
-	Abs_Entity(): mModelMat(1.0), mColor(1.0) {};  // 4x4 identity matrix
+	Abs_Entity() : mModelMat(1.0), mColor(1.0) {};  // 4x4 identity matrix
 	virtual ~Abs_Entity();
 
 	Abs_Entity(const Abs_Entity& e) = delete;  // no copy constructor
@@ -28,7 +28,7 @@ public:
 	void setColor(GLuint r, GLuint g, GLuint b, GLuint a) { mColor = { r,g,b,a }; };
 	void setTexture(Texture* tex) { mTexture = tex; }
 	Mesh* getMesh() { return mMesh; }
-	
+
 protected:
 
 	Texture* mTexture = nullptr;
@@ -36,11 +36,11 @@ protected:
 	glm::dmat4 mModelMat;    // modeling matrix
 	glm::dvec4 mColor;
 	// transfers modelViewMat to the GPU
-	virtual void upload(glm::dmat4 const& mModelViewMat) const; 
+	virtual void upload(glm::dmat4 const& mModelViewMat) const;
 };
 //-------------------------------------------------------------------------
 
-class EjesRGB : public Abs_Entity 
+class EjesRGB : public Abs_Entity
 {
 public:
 	explicit EjesRGB(GLdouble l);
@@ -85,7 +85,7 @@ public:
 class Estrella3D : public Abs_Entity
 {
 public:
-	explicit Estrella3D(GLdouble re, GLdouble np, GLdouble h,Texture*t);
+	explicit Estrella3D(GLdouble re, GLdouble np, GLdouble h, Texture* t);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 	virtual void update();
 private:
@@ -96,7 +96,7 @@ private:
 
 class Caja :public Abs_Entity {
 public:
-	explicit Caja(GLdouble ld,Texture* t,Texture* t2);
+	explicit Caja(GLdouble ld, Texture* t, Texture* t2);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 private:
 	Texture* texture2 = nullptr;
@@ -106,7 +106,7 @@ private:
 
 class Suelo :public Abs_Entity {
 public:
-	explicit Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh,Texture* t);
+	explicit Suelo(GLdouble w, GLdouble h, GLuint rw, GLuint rh, Texture* t);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
@@ -123,7 +123,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
-class Cubo:public Abs_Entity {
+class Cubo :public Abs_Entity {
 public:
 	explicit Cubo(GLdouble nl, Texture* t);
 	virtual void render(glm::dmat4 const& modelViewMat) const;
@@ -137,7 +137,7 @@ protected:
 	glm::fvec3 color;
 };
 class Sphere :public QuadricEntity {
-public: 
+public:
 	explicit Sphere(GLdouble r, glm::fvec3 color = glm::fvec3(-1, -1, -1));
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 private:
@@ -189,10 +189,10 @@ private:
 class Cube : public EntityWithIndexMesh
 {
 public:
-	explicit Cube(double l);
+	explicit Cube(double l, glm::dvec4 color = glm::dvec4(0.5, 0, 0, 1.0));
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 private:
-
+	glm::dvec4 color;
 };
 
 class CompoundEntity : public Abs_Entity
@@ -200,10 +200,14 @@ class CompoundEntity : public Abs_Entity
 public:
 	explicit CompoundEntity() { }
 	~CompoundEntity();
-		
-	
+
+
 	void addEntity(Abs_Entity* ae) { gObjects.push_back(ae); }
+	Abs_Entity* getEntity(int id);
 	virtual void render(glm::dmat4 const& modelViewMat)const;
+	const std::vector<Abs_Entity*>& getObjects() {
+		return gObjects;
+	}
 
 private:
 	std::vector<Abs_Entity*> gObjects;

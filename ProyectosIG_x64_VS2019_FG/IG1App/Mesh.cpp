@@ -374,7 +374,7 @@ IndexMesh* IndexMesh::generaAnilloCuadrado()
 	return AnilloCuadrado;
 }
 
-IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
+IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l, glm::dvec4 color)
 {
 	GLdouble lm = l / 2;
 	vector<unsigned int> indexes({
@@ -413,7 +413,7 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l)
 	m->vColors.reserve(8);
 	for (size_t i = 0; i < m->vColors.capacity(); i++)
 	{
-		m->vColors.emplace_back(0.5, 0, 0, 1.0);
+		m->vColors.emplace_back(color);
 	}
 	m->buildNormalVectors();
 	return m;

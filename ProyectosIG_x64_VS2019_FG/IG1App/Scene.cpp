@@ -126,10 +126,27 @@ void Scene::init()
 	{		
 
 		CompoundEntity* avion = new CompoundEntity();
-		gObjects.push_back(avion);
 
+		CompoundEntity* helices = new CompoundEntity();
+		helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
+		helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
+		for (Abs_Entity* c:helices->getObjects())
+		{
+			c->setModelMat(translate(c->modelMat(), glm::dvec3(0, 0, 100)));
+			c->setModelMat(rotate(c->modelMat(), radians(90.0),glm::dvec3(0, 1, 0)));
+
+		}
+		helices->getEntity(1)->setModelMat(rotate(helices->getEntity(1)->modelMat(), radians(180.0), glm::dvec3(0, 1, 0)));
 		Sphere* s = new Sphere(100.0, fvec3(1, 0, 0));
-		avion->addEntity(s);
+		CompoundEntity* chasis =new CompoundEntity();
+		chasis->addEntity(helices);
+		chasis->addEntity(s);
+		Cube* cube = new Cube(100, glm::dvec4(0, 1, 0, 1));
+		cube->setModelMat(scale(cube->modelMat(), glm::dvec3(4, .3, 1)));
+		avion->addEntity(chasis);
+		avion->addEntity(cube);
+		gObjects.push_back(avion);
+		//avion->addEntity(s);
 
 		
 	}

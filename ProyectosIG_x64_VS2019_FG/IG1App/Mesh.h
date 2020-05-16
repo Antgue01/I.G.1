@@ -59,7 +59,7 @@ public:
 	virtual void draw() const;
 	virtual void render() const;
 	static IndexMesh* generaAnilloCuadrado();
-	static IndexMesh* generaIndexCuboConTapas(GLdouble l);
+	static IndexMesh* generaIndexCuboConTapas(GLdouble l, glm::dvec4 color);
 
 private:
 	std::vector<unsigned int> vIndices;
