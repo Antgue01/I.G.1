@@ -118,8 +118,20 @@ void Scene::init()
 		gObjects.push_back(cuboConTransparencia);
 		*/
 	}
-	else if (miId == 2) {
-		gObjects.push_back(new EntityWithIndexMesh(100.0));
+	else if (miId == 2) 
+	{
+		gObjects.push_back(new Cube(100.0));
+	}
+	else if (miId == 3)
+	{		
+
+		CompoundEntity* avion = new CompoundEntity();
+		gObjects.push_back(avion);
+
+		Sphere* s = new Sphere(100.0, fvec3(1, 0, 0));
+		avion->addEntity(s);
+
+		
 	}
 	
 	

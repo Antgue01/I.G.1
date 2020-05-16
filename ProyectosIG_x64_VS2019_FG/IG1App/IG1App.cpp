@@ -167,9 +167,6 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'U':
 		animActivated = !animActivated;
 		break;
-	default:
-		need_redisplay = false;
-		break;
 	case '0':
 		if (mScene->GetID() != 0)
 			mScene->setState(0);
@@ -181,6 +178,11 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '2':
 		if (mScene->GetID() != 2)
 			mScene->setState(2);
+		break;
+	case '3':
+		if (mScene->GetID() != 3)
+			mScene->setState(3);
+		break;
 	case 'F':
 		Texture::save("foto.bmp ");
 		break;
@@ -208,7 +210,12 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'k':
 		m2Vistas = !m2Vistas;
 		break;
-	} 
+
+	default:
+		need_redisplay = false;
+		break;
+	}
+
 	//switch
 
 	if (need_redisplay)

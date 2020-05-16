@@ -27,6 +27,7 @@ public:
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void setColor(GLuint r, GLuint g, GLuint b, GLuint a) { mColor = { r,g,b,a }; };
 	void setTexture(Texture* tex) { mTexture = tex; }
+	Mesh* getMesh() { return mMesh; }
 	
 protected:
 
@@ -177,10 +178,34 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 private:
 };
+
 class EntityWithIndexMesh : public Abs_Entity {
 public:
-	explicit EntityWithIndexMesh(double l);
+	explicit EntityWithIndexMesh() { }
+	//virtual void render(glm::dmat4 const& modelViewMat)const;
+private:
+};
+
+class Cube : public EntityWithIndexMesh
+{
+public:
+	explicit Cube(double l);
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 private:
+
+};
+
+class CompoundEntity : public Abs_Entity
+{
+public:
+	explicit CompoundEntity() { }
+	~CompoundEntity();
+		
+	
+	void addEntity(Abs_Entity* ae) { gObjects.push_back(ae); }
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+
+private:
+	std::vector<Abs_Entity*> gObjects;
 };
 #endif //_H_Entities_H_
