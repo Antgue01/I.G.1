@@ -24,9 +24,9 @@ public:
 	static Mesh* generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	static Mesh* generaCajaTexCor(GLdouble nl);
-	
 
-	
+
+
 	Mesh(/*std::vector<unsigned int> Indices = std::vector<unsigned int>()*/)/*:vIndices(Indices)*/ {};
 	virtual ~Mesh() {};
 
@@ -55,15 +55,27 @@ protected:
 };
 class IndexMesh :public Mesh {
 public:
-	IndexMesh(std::vector<unsigned int> indices):Mesh(), vIndices(indices){}
+	IndexMesh(std::vector<unsigned int> indices) :Mesh(), vIndices(indices) {}
 	virtual void draw() const;
 	virtual void render() const;
 	static IndexMesh* generaAnilloCuadrado();
 	static IndexMesh* generaIndexCuboConTapas(GLdouble l, glm::dvec4 color);
-
-private:
+	//std::vector<unsigned int>
+protected:
 	std::vector<unsigned int> vIndices;
 	void buildNormalVectors();
+};
+class MbR :public IndexMesh {
+public:
+	MbR(int m, int n, std::vector<glm::dvec3> perfil) :IndexMesh(std::vector<unsigned int>()),
+		m(m), n(n), perfil(perfil) {}
+	static MbR* generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil);
+
+
+private:
+	int m;
+	int n;
+	std::vector<glm::dvec3> perfil;
 };
 //-------------------------------------------------------------------------
 

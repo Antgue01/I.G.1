@@ -395,9 +395,9 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Cube::Cube(double l, glm::dvec4 color):EntityWithIndexMesh(),color(color)
+Cube::Cube(double l, glm::dvec4 color) :EntityWithIndexMesh(), color(color)
 {
-	mMesh = IndexMesh::generaIndexCuboConTapas(l,color);
+	mMesh = IndexMesh::generaIndexCuboConTapas(l, color);
 }
 
 void Cube::render(glm::dmat4 const& modelViewMat) const
@@ -449,3 +449,58 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat)const
 	glDisable(GL_COLOR_MATERIAL);
 	/*}*/
 }
+
+Cono::Cono(int h, int r, int n) :h(h), r(r), n(n)
+{
+	std::vector<glm::dvec3> perfil;
+	perfil.push_back(glm::dvec3(.5, 0, 0));
+	perfil.push_back(glm::dvec3(r, 0, 0));
+	perfil.push_back(glm::dvec3(.5, h, 0));
+	mMesh = MbR::generaIndexMeshByRevolution(perfil.size(), n, perfil);
+}
+
+void Cono::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_BACK, GL_LINE);
+		glEnable(GL_COLOR_MATERIAL);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		mTexture->unbind();
+		glDisable(GL_COLOR_MATERIAL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+Esfera::Esfera(int r, int p, int m) :EntityWithIndexMesh(), r(r), p(p), m(m) {
+
+	std::vector<glm::dvec3> perfil;
+	GLdouble angle= radians(90.0);
+	GLdouble sum = radians(180.0 / p);
+	for (int i = 0; i < p; i++)
+
+	{
+		perfil.push_back(glm::dvec3(r*cos(angle),r*sin(angle),0));
+		angle += sum;
+	}
+	mMesh = MbR::generaIndexMeshByRevolution(p, m, perfil);
+}
+
+void Esfera::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glEnable(GL_COLOR_MATERIAL);
+		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		mTexture->unbind();
+		glDisable(GL_COLOR_MATERIAL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+

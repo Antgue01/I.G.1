@@ -1,20 +1,18 @@
-﻿  Camera.cpp
-  Entity.cpp
+﻿  Entity.cpp
 C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(69,39): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
 C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(140,41): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
+C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(428,9): warning C4018: '<': no coinciden signed/unsigned
   IG1App.cpp
-  main.cpp
   Mesh.cpp
 C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(188,30): warning C4244: '=': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
 C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(211,8): warning C4244: 'inicializando': conversión de 'GLdouble' a 'int'; posible pérdida de datos
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(424,20): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(428,20): warning C4018: '<': no coinciden signed/unsigned
-  Pixmap32RGBA.cpp
+C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(425,20): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(429,20): warning C4018: '<': no coinciden signed/unsigned
   Scene.cpp
 C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Scene.cpp(35,20): warning C4018: '<': no coinciden signed/unsigned
 C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Scene.cpp(42,31): warning C4305: 'argumento': truncamiento de 'double' a 'GLclampf'
   Texture.cpp
-  Viewport.cpp
+  main.cpp
   Generando código...
 IG1App.obj : error LNK2019: símbolo externo __imp__glutInitWindowSize@8 sin resolver al que se hace referencia en la función "protected: void __thiscall IG1App::iniWinOpenGL(void)" (?iniWinOpenGL@IG1App@@IAEXXZ)
 IG1App.obj : error LNK2019: símbolo externo __imp__glutInitDisplayMode@4 sin resolver al que se hace referencia en la función "protected: void __thiscall IG1App::iniWinOpenGL(void)" (?iniWinOpenGL@IG1App@@IAEXXZ)

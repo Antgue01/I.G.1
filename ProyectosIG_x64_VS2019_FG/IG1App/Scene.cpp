@@ -123,22 +123,22 @@ void Scene::init()
 		gObjects.push_back(new Cube(100.0));
 	}
 	else if (miId == 3)
-	{		
+	{
 
 		CompoundEntity* avion = new CompoundEntity();
 
 		CompoundEntity* helices = new CompoundEntity();
 		helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
 		helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
-		for (Abs_Entity* c:helices->getObjects())
+		for (Abs_Entity* c : helices->getObjects())
 		{
 			c->setModelMat(translate(c->modelMat(), glm::dvec3(0, 0, 100)));
-			c->setModelMat(rotate(c->modelMat(), radians(90.0),glm::dvec3(0, 1, 0)));
+			c->setModelMat(rotate(c->modelMat(), radians(90.0), glm::dvec3(0, 1, 0)));
 
 		}
 		helices->getEntity(1)->setModelMat(rotate(helices->getEntity(1)->modelMat(), radians(180.0), glm::dvec3(0, 1, 0)));
 		Sphere* s = new Sphere(100.0, fvec3(1, 0, 0));
-		CompoundEntity* chasis =new CompoundEntity();
+		CompoundEntity* chasis = new CompoundEntity();
 		chasis->addEntity(helices);
 		chasis->addEntity(s);
 		Cube* cube = new Cube(100, glm::dvec4(0, 1, 0, 1));
@@ -148,7 +148,10 @@ void Scene::init()
 		gObjects.push_back(avion);
 		//avion->addEntity(s);
 
-		
+	}
+	else if (miId == 4)
+	{
+	gObjects.push_back(new Cono(100, 10, 5));
 	}
 	
 	

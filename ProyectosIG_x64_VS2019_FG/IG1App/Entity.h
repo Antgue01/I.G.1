@@ -212,4 +212,24 @@ public:
 private:
 	std::vector<Abs_Entity*> gObjects;
 };
+class Cono :public EntityWithIndexMesh {
+public:
+	Cono(int h, int r, int n);
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+
+private:
+	int h;
+	int r;
+	int n;
+};
+class Esfera :public EntityWithIndexMesh {
+public:
+	Esfera(int r, int p, int m);
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+
+private:
+	int r;
+	int p;
+	int m;
+};
 #endif //_H_Entities_H_

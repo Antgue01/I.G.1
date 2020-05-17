@@ -12,8 +12,8 @@ void Mesh::draw() const
 	//if(vIndices.size()<=0)									   
 	glDrawArrays(mPrimitive, 0, size());   // primitive graphic, first index and number of elements to be rendered
 	//else
-    //glDrawElements(mPrimitive, vIndices.size(), GL_UNSIGNED_INT, vIndices.data());
-	
+	//glDrawElements(mPrimitive, vIndices.size(), GL_UNSIGNED_INT, vIndices.data());
+
 }
 //-------------------------------------------------------------------------
 
@@ -380,19 +380,19 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l, glm::dvec4 color)
 	vector<unsigned int> indexes({
 		0, 1, 2,
 		2, 3, 0,
-		
+
 		1, 5, 6,
 		6, 2, 1,
-		
+
 		7, 6, 5,
 		5, 4, 7,
-		
+
 		4, 0, 3,
 		3, 7, 4,
-		
+
 		4, 5, 1,
 		1, 0, 4,
-		
+
 		3, 2, 6,
 		6, 7, 3 });
 
@@ -439,4 +439,45 @@ void IndexMesh::buildNormalVectors()
 	for (glm::dvec3 m : vNormals) {
 		normalize(m);
 	}
+}
+
+MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil)
+{
+	MbR* m = new MbR(mm, nn, perfil);
+	m->mPrimitive = GL_TRIANGLES;
+	m->mNumVertices = mm * nn;
+	std::vector<dvec3>vertices;
+	vertices.reserve(m->mNumVertices);
+	for (int i = 0; i < nn; i++) {
+		GLdouble theta = i * 360 / nn;
+		GLdouble c = cos(radians(theta));
+		GLdouble s = sin(radians(theta));
+		for (int j = 0; j < mm; j++) {
+			int indice = i * mm + j;
+			GLdouble x = c * perfil[j].x + s * perfil[j].z;
+			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+			vertices.push_back(dvec3(x, perfil[j].y, z));
+		}
+	}
+	for (glm::dvec3 vet : vertices) {
+		m->vVertices.emplace_back(vet);
+	}
+	for (int i = 0; i < nn; i++)
+		for (int j = 0; j < mm - 1; j++)
+		{
+			int indice = i * mm + j;
+			m->vIndices.push_back(indice);
+			int indice2 = (indice + mm) % (nn * mm);
+			m->vIndices.push_back(indice2);
+			int indice3 = (indice + mm + 1) % (nn * mm);
+			m->vIndices.push_back(indice3);
+			int indice4 = indice + 1;
+			m->vIndices.push_back(indice);
+			m->vIndices.push_back(indice3);
+			m->vIndices.push_back(indice4);
+
+
+		}
+	m->buildNormalVectors();
+	return m;
 }

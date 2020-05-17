@@ -183,6 +183,10 @@ void IG1App::key(unsigned char key, int x, int y)
 		if (mScene->GetID() != 3)
 			mScene->setState(3);
 		break;
+	case '4':
+		if (mScene->GetID() != 4)
+			mScene->setState(4);
+		break;
 	case 'F':
 		Texture::save("foto.bmp ");
 		break;
