@@ -134,7 +134,6 @@ void Scene::init()
 		{
 			c->setModelMat(translate(c->modelMat(), glm::dvec3(0, 0, 100)));
 			c->setModelMat(rotate(c->modelMat(), radians(90.0), glm::dvec3(0, 1, 0)));
-
 		}
 		helices->getEntity(1)->setModelMat(rotate(helices->getEntity(1)->modelMat(), radians(180.0), glm::dvec3(0, 1, 0)));
 		Sphere* s = new Sphere(100.0, fvec3(1, 0, 0));
@@ -145,13 +144,18 @@ void Scene::init()
 		cube->setModelMat(scale(cube->modelMat(), glm::dvec3(4, .3, 1)));
 		avion->addEntity(chasis);
 		avion->addEntity(cube);
+		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 225, 0)));
+		avion->setModelMat(scale(avion->modelMat(), glm::dvec3(.3, .3, .3)));
 		gObjects.push_back(avion);
-		//avion->addEntity(s);
+
+		gObjects.push_back(new Esfera(200, 100, 100));
 
 	}
 	else if (miId == 4)
-	{
-	gObjects.push_back(new Cono(100, 10, 5));
+	{	    	     
+	
+		 /*gObjects.push_back(new Cono(100, 50, 4));*/
+		 gObjects.push_back(new Esfera(200, 100, 100));
 	}
 	
 	
