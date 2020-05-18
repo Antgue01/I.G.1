@@ -69,13 +69,15 @@ class MbR :public IndexMesh {
 public:
 	MbR(int m, int n, std::vector<glm::dvec3> perfil) :IndexMesh(std::vector<unsigned int>()),
 		m(m), n(n), perfil(perfil) {}
-	static MbR* generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil);
+	static MbR* generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil, glm::dvec4 color=
+		glm::dvec4(0.12, 0.69, 0.6, 1));
 
 
 private:
 	int m;
 	int n;
 	std::vector<glm::dvec3> perfil;
+	glm::dvec4 color;
 };
 //-------------------------------------------------------------------------
 

@@ -224,7 +224,7 @@ private:
 };
 class Esfera :public EntityWithIndexMesh {
 public:
-	Esfera(int r, int p, int m);
+	Esfera(int r, int p, int m, glm::dvec4 color = glm::dvec4(0.12, 0.69, 0.6, 1));
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 
 private:

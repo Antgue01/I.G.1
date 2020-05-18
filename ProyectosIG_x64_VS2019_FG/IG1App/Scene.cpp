@@ -16,7 +16,7 @@ void Scene::init()
 	gTextures.push_back(new Texture());
 	gTextures.at(0)->load("..\\BMPS\\baldosaF.bmp");
 
-	gTextures.push_back(new Texture()); 
+	gTextures.push_back(new Texture());
 	gTextures.at(1)->load("..\\BMPS\\baldosaC.bmp");
 
 	gTextures.push_back(new Texture());
@@ -26,16 +26,16 @@ void Scene::init()
 	gTextures.at(3)->load("..\\BMPS\\papelE.bmp");
 
 	gTextures.push_back(new Texture());
-	gTextures.at(4)->load("..\\BMPS\\grass.bmp", u8vec3(0,0,0),0);
+	gTextures.at(4)->load("..\\BMPS\\grass.bmp", u8vec3(0, 0, 0), 0);
 
 	gTextures.push_back(new Texture());
-	gTextures.at(5)->load("..\\BMPS\\windowV.bmp",100);
+	gTextures.at(5)->load("..\\BMPS\\windowV.bmp", 100);
 
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
 	{
 		delete gObjects.at(i);
-		
+
 	}
 	gObjects.clear();
 	gObjects.push_back(new EjesRGB(400));
@@ -63,7 +63,7 @@ void Scene::init()
 		//Escena Ana
 
 		/*gObjects.push_back(new EjesRGB(400.0));
-		
+
 		Poligono* triangulo = new Poligono(3, 300);
 		triangulo->setColor(255, 255, 0, 255);
 		gObjects.push_back(triangulo);
@@ -75,7 +75,7 @@ void Scene::init()
 		Sierpinski* sierpinski = new Sierpinski(300, 5000);
 		sierpinski->setColor(255, 255, 0, 255);
 		gObjects.push_back(sierpinski);
-	
+
 		TrianguloRGB* rgbt = new TrianguloRGB(50);
 		gObjects.push_back(rgbt);
 
@@ -90,7 +90,7 @@ void Scene::init()
 	{
 		AnilloCuadrado* ac = new AnilloCuadrado();
 		gObjects.push_back(ac);
-		
+
 		//------------------------------------------------------------------------------------------
 		//Escena Ana 
 
@@ -104,9 +104,9 @@ void Scene::init()
 		c->setModelMat(translate(c->modelMat(), dvec3(-300.0, 26.0, -300.0)));
 		gObjects.push_back(c);
 
-		Suelo* suelo = new Suelo(700, 700, 10, 10,gTextures.at(1));		
+		Suelo* suelo = new Suelo(700, 700, 10, 10,gTextures.at(1));
 		gObjects.push_back(suelo);
-		
+
 		Foto* foto = new Foto(300, 300);
 		gObjects.push_back(foto);
 
@@ -118,7 +118,7 @@ void Scene::init()
 		gObjects.push_back(cuboConTransparencia);
 		*/
 	}
-	else if (miId == 2) 
+	else if (miId == 2)
 	{
 		gObjects.push_back(new Cube(100.0));
 	}
@@ -152,9 +152,15 @@ void Scene::init()
 
 	}
 	else if (miId == 4)
-	{	    	     			 
-		gObjects.push_back(new Esfera(200, 55, 55));
-	}		
+	{
+		Esfera* esfera = new Esfera(100, 55, 55, glm::dvec4(0, 0, 1, 1));
+		esfera->setModelMat(translate(esfera->modelMat(), dvec3(-150, 0, 0)));
+		gObjects.push_back(esfera);
+
+		Sphere* sphere = new Sphere(100, glm::fvec3(0, 0, 1));
+		sphere->setModelMat(translate(sphere->modelMat(), dvec3(150, 0, 0)));
+		gObjects.push_back(sphere);
+	}
 }
 //-------------------------------------------------------------------------
 void Scene::free()

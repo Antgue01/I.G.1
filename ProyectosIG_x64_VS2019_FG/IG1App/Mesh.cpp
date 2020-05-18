@@ -441,9 +441,10 @@ void IndexMesh::buildNormalVectors()
 	}
 }
 
-MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil)
+MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil,glm::dvec4 Color)
 {
 	MbR* m = new MbR(mm, nn, perfil);
+	m->color = Color;
 	m->mPrimitive = GL_TRIANGLES;
 	m->mNumVertices = mm * nn;
 	std::vector<dvec3>vertices;
@@ -481,7 +482,7 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> pe
 	m->vColors.reserve(m->mNumVertices);
 	for (size_t i = 0; i < m->vColors.capacity(); i++)
 	{
-		m->vColors.emplace_back(glm::dvec4(0.12,0.69,0.6,1));
+		m->vColors.emplace_back(m->color);
 	}
 
 	m->buildNormalVectors();

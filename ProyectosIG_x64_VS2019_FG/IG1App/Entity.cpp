@@ -474,20 +474,21 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Esfera::Esfera(int r, int p, int m) :EntityWithIndexMesh(), r(r), p(p), m(m) {
+Esfera::Esfera(int r, int p, int m,glm::dvec4 color) :EntityWithIndexMesh(), r(r), p(p), m(m) {
 
 	std::vector<glm::dvec3> perfil;
 	GLdouble angle = radians(-90.0);
 	GLdouble sum = radians(180.0 / p);
-	
+
 	perfil.push_back(glm::dvec3(0.0, r * sin(angle), 0.0));
-	for (int i = 0; i < p-1; i++)
+	angle -= sum;
+	for (int i = 0; i < p; i++)
 	{
-		angle -= sum;
 		perfil.push_back(glm::dvec3(r * cos(angle), r * sin(angle), 0.0));
+		angle -= sum;
 	}
-		
-	mMesh = MbR::generaIndexMeshByRevolution(p, m, perfil);
+
+	mMesh = MbR::generaIndexMeshByRevolution(p + 1, m, perfil,color);
 }
 
 void Esfera::render(glm::dmat4 const& modelViewMat) const
