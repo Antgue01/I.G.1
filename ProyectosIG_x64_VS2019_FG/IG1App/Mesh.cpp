@@ -475,10 +475,15 @@ MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> pe
 			m->vIndices.push_back(indice);
 			m->vIndices.push_back(indice3);
 			m->vIndices.push_back(indice4);
-
-
 		}
 	}
+
+	m->vColors.reserve(m->mNumVertices);
+	for (size_t i = 0; i < m->vColors.capacity(); i++)
+	{
+		m->vColors.emplace_back(glm::dvec4(0.12,0.69,0.6,1));
+	}
+
 	m->buildNormalVectors();
 	return m;
 }

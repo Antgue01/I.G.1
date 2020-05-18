@@ -1,3 +1,1 @@
-﻿  Scene.cpp
-C:\Users\felip\OneDrive\Desktop\Programas\GitHub\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Scene.cpp(42,31): warning C4305: 'argumento': truncamiento de 'double' a 'GLclampf'
-  IG1App.vcxproj -> C:\Users\felip\OneDrive\Desktop\Programas\GitHub\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿

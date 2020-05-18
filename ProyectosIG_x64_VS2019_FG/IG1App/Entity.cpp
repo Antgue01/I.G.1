@@ -484,10 +484,9 @@ Esfera::Esfera(int r, int p, int m) :EntityWithIndexMesh(), r(r), p(p), m(m) {
 	for (int i = 0; i < p-1; i++)
 	{
 		angle -= sum;
-		perfil.push_back(glm::dvec3(r*cos(angle), r*sin(angle), 0.0));
+		perfil.push_back(glm::dvec3(r * cos(angle), r * sin(angle), 0.0));
 	}
-	//perfil.push_back(glm::dvec3(0.0, r * sin(radians(90.0)), 0.0));
-
+		
 	mMesh = MbR::generaIndexMeshByRevolution(p, m, perfil);
 }
 

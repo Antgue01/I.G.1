@@ -152,13 +152,9 @@ void Scene::init()
 
 	}
 	else if (miId == 4)
-	{	    	     
-	
-		 /*gObjects.push_back(new Cono(100, 50, 4));*/
-		 gObjects.push_back(new Esfera(200, 100, 100));
-	}
-	
-	
+	{	    	     			 
+		gObjects.push_back(new Esfera(200, 55, 55));
+	}		
 }
 //-------------------------------------------------------------------------
 void Scene::free()
