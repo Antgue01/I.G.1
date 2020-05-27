@@ -136,7 +136,7 @@ void Scene::init()
 			c->setModelMat(rotate(c->modelMat(), radians(90.0), glm::dvec3(0, 1, 0)));
 		}
 		helices->getEntity(1)->setModelMat(rotate(helices->getEntity(1)->modelMat(), radians(180.0), glm::dvec3(0, 1, 0)));
-		Sphere* s = new Sphere(100.0, fvec3(1, 0, 0));
+		Sphere* s = new Sphere(100.0,glm::fvec3(1,0,0));
 		CompoundEntity* chasis = new CompoundEntity();
 		chasis->addEntity(helices);
 		chasis->addEntity(s);
@@ -147,9 +147,10 @@ void Scene::init()
 		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 225, 0)));
 		avion->setModelMat(scale(avion->modelMat(), glm::dvec3(.3, .3, .3)));
 		gObjects.push_back(avion);
-		Esfera* esfera = new Esfera(200, 100, 100);
+
+		Esfera* esfera = new Esfera(200,100,100);
 		gObjects.push_back(esfera);
-		esfera->setGold();
+	/*	esfera->setGold();*/
 
 	}
 	else if (miId == 4)
@@ -203,6 +204,7 @@ void Scene::resetGL()
 
 void Scene::render(Camera const& cam) const
 {
+	
 	sceneDirLight(cam);
 	scenePosLight(cam);
 	sceneSpotLight(cam);
@@ -249,7 +251,7 @@ void Scene::scenePosLight(Camera const& cam) const
 {
 	if (PositionalLightActivated) {
 		glEnable(GL_LIGHT1);
-		glm::fvec4 posDir = { 0, 0, 0, 1 };
+		glm::fvec4 posDir = { 250, 125, 0, 1 };
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixd(value_ptr(cam.viewMat()));
 		glLightfv(GL_LIGHT1, GL_POSITION, value_ptr(posDir));
@@ -257,7 +259,7 @@ void Scene::scenePosLight(Camera const& cam) const
 		glm::fvec4 diffuse = { 1, 1, 1, 1 };
 		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };		
 		const GLfloat constantAtt(1);
-		glLightfv(GL_LIGHT2, GL_CONSTANT_ATTENUATION, &constantAtt);
+		glLightfv(GL_LIGHT1, GL_CONSTANT_ATTENUATION, &constantAtt);
 		glLightfv(GL_LIGHT1, GL_AMBIENT, value_ptr(ambient));
 		glLightfv(GL_LIGHT1, GL_DIFFUSE, value_ptr(diffuse));
 		glLightfv(GL_LIGHT1, GL_SPECULAR, value_ptr(specular));
@@ -270,8 +272,8 @@ void Scene::scenePosLight(Camera const& cam) const
 void Scene::sceneSpotLight(Camera const& cam) const
 {
 	if (SpotLightActivated) {
-		glEnable(GL_LIGHT2);
-		glm::fvec4 posDir = { 0, 0, 100, 1 };
+		glEnable(GL_LIGHT2);		
+		glm::fvec4 posDir = { 0, 0, 250, 1 };
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixd(value_ptr(cam.viewMat()));
 		glLightfv(GL_LIGHT2, GL_POSITION, value_ptr(posDir));
@@ -281,17 +283,17 @@ void Scene::sceneSpotLight(Camera const& cam) const
 		glLightfv(GL_LIGHT2, GL_AMBIENT, value_ptr(ambient));
 		glLightfv(GL_LIGHT2, GL_DIFFUSE, value_ptr(diffuse));
 		glLightfv(GL_LIGHT2, GL_SPECULAR, value_ptr(specular));
-		fvec3 dir(0, 1, -1);
+		fvec3 dir(0, 0, -1);
 		glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, value_ptr(dir));
 		const GLfloat cutoff(45.0);
 		glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, &cutoff);
-		const GLfloat exponent(1.0);
+		const GLfloat exponent(10.0);
 		glLightfv(GL_LIGHT2, GL_SPOT_EXPONENT, &exponent);
-		const GLfloat constantAtt(1);
+		/*const GLfloat constantAtt(1);
 		glLightfv(GL_LIGHT2, GL_CONSTANT_ATTENUATION, &constantAtt);
 		const GLfloat linQuadrAtt(0);
 		glLightfv(GL_LIGHT2, GL_LINEAR_ATTENUATION, &linQuadrAtt);
-		glLightfv(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, &linQuadrAtt);
+		glLightfv(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, &linQuadrAtt);*/
 
 	}
 	else {

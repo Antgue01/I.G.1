@@ -497,12 +497,8 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_FRONT, GL_FILL);
-		glEnable(GL_COLOR_MATERIAL);
-		if (gold) {
-			glColorMaterial(GL_FRONT, GL_AMBIENT);
-			glColorMaterial(GL_FRONT, GL_DIFFUSE);
-			glColorMaterial(GL_FRONT, GL_SPECULAR);
-			glColorMaterial(GL_FRONT, GL_SHININESS);
+		if (gold) 
+		{			
 			fvec4 a(0.24725, 0.1995, 0.0745, 1.0);
 			fvec4 d(0.75164, 0.60648, 0.22648, 1.0);
 			fvec4 sp(0.628281, 0.555802, 0.366065, 1.0);
@@ -511,6 +507,10 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 			glMaterialfv(GL_FRONT, GL_DIFFUSE, value_ptr(d));
 			glMaterialfv(GL_FRONT, GL_SPECULAR, value_ptr(sp));
 			glMaterialfv(GL_FRONT, GL_SHININESS, &sh);
+		}
+		else 
+		{
+		   glEnable(GL_COLOR_MATERIAL);
 		}
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
