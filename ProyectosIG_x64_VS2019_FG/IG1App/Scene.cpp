@@ -147,8 +147,9 @@ void Scene::init()
 		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 225, 0)));
 		avion->setModelMat(scale(avion->modelMat(), glm::dvec3(.3, .3, .3)));
 		gObjects.push_back(avion);
-
-		gObjects.push_back(new Esfera(200, 100, 100));
+		Esfera* esfera = new Esfera(200, 100, 100);
+		gObjects.push_back(esfera);
+		esfera->setGold();
 
 	}
 	else if (miId == 4)
@@ -184,7 +185,8 @@ void Scene::setGL()
 	glEnable(GL_DEPTH_TEST);  // enable Depth test 
 	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_TEXTURE_2D);
-
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
 }
 //-------------------------------------------------------------------------
 void Scene::resetGL()
@@ -193,12 +195,17 @@ void Scene::resetGL()
 	glDisable(GL_DEPTH_TEST);  // disable Depth test 
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_NORMALIZE);
+	glDisable(GL_LIGHTING);
+
 }
 //-------------------------------------------------------------------------
 
 void Scene::render(Camera const& cam) const
 {
 	sceneDirLight(cam);
+	scenePosLight(cam);
+	sceneSpotLight(cam);
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects)
@@ -220,18 +227,76 @@ void Scene::setState(int id) {
 	init();
 }
 void Scene::sceneDirLight(Camera const& cam) const {
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glm::fvec4 posDir = { 1, 1, 1, 0 };
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixd(value_ptr(cam.viewMat()));
-	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
-	glm::fvec4 ambient = { 0, 0, 0, 1 };
-	glm::fvec4 diffuse = { 1, 1, 1, 1 };
-	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
-	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+	if (LightsActivated) {
+		glEnable(GL_LIGHT0);
+		glm::fvec4 posDir = { 1, 1, 1, 0 };
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixd(value_ptr(cam.viewMat()));
+		glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
+		glm::fvec4 ambient = { 0, 0, 0, 1 };
+		glm::fvec4 diffuse = { 1, 1, 1, 1 };
+		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
+		glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
+		glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+	}
+	else {
+		glDisable(GL_LIGHT0);
+	}
+}
+
+void Scene::scenePosLight(Camera const& cam) const
+{
+	if (PositionalLightActivated) {
+		glEnable(GL_LIGHT1);
+		glm::fvec4 posDir = { 0, 0, 0, 1 };
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixd(value_ptr(cam.viewMat()));
+		glLightfv(GL_LIGHT1, GL_POSITION, value_ptr(posDir));
+		glm::fvec4 ambient = { 0, 0, 0, 1 };
+		glm::fvec4 diffuse = { 1, 1, 1, 1 };
+		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };		
+		const GLfloat constantAtt(1);
+		glLightfv(GL_LIGHT2, GL_CONSTANT_ATTENUATION, &constantAtt);
+		glLightfv(GL_LIGHT1, GL_AMBIENT, value_ptr(ambient));
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, value_ptr(diffuse));
+		glLightfv(GL_LIGHT1, GL_SPECULAR, value_ptr(specular));
+	}
+	else {
+		glDisable(GL_LIGHT1);
+	}
+}
+
+void Scene::sceneSpotLight(Camera const& cam) const
+{
+	if (SpotLightActivated) {
+		glEnable(GL_LIGHT2);
+		glm::fvec4 posDir = { 0, 0, 100, 1 };
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixd(value_ptr(cam.viewMat()));
+		glLightfv(GL_LIGHT2, GL_POSITION, value_ptr(posDir));
+		glm::fvec4 ambient = { 0, 0, 0, 1 };
+		glm::fvec4 diffuse = { 1, 1, 1, 1 };
+		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
+		glLightfv(GL_LIGHT2, GL_AMBIENT, value_ptr(ambient));
+		glLightfv(GL_LIGHT2, GL_DIFFUSE, value_ptr(diffuse));
+		glLightfv(GL_LIGHT2, GL_SPECULAR, value_ptr(specular));
+		fvec3 dir(0, 1, -1);
+		glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, value_ptr(dir));
+		const GLfloat cutoff(45.0);
+		glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, &cutoff);
+		const GLfloat exponent(1.0);
+		glLightfv(GL_LIGHT2, GL_SPOT_EXPONENT, &exponent);
+		const GLfloat constantAtt(1);
+		glLightfv(GL_LIGHT2, GL_CONSTANT_ATTENUATION, &constantAtt);
+		const GLfloat linQuadrAtt(0);
+		glLightfv(GL_LIGHT2, GL_LINEAR_ATTENUATION, &linQuadrAtt);
+		glLightfv(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, &linQuadrAtt);
+
+	}
+	else {
+		glDisable(GL_LIGHT2);
+	}
 }
 
 //-------------------------------------------------------------------------

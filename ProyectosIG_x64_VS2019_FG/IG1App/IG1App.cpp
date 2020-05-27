@@ -92,7 +92,7 @@ void IG1App::free()
 		delete auxCamera;
 		auxCamera = nullptr;
 	}
-	
+
 }
 //-------------------------------------------------------------------------
 
@@ -103,12 +103,12 @@ void IG1App::display2Vistas()const
 
 	//Usuario
 	mViewPort->setSize(mWinW / 2, mWinH);
-	auxCam.setSize(mViewPort->width(), mViewPort->height());	
-	mViewPort->setPos(0, 0);	
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
+	mViewPort->setPos(0, 0);
 	mScene->render(auxCam);
 
 	//Cenital
-	mViewPort->setPos(mWinW / 2,0);
+	mViewPort->setPos(mWinW / 2, 0);
 	auxCam.setCenital();
 	mScene->render(auxCam);
 
@@ -121,9 +121,9 @@ void IG1App::display() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
 	if (m2Vistas)display2Vistas();
-	else 
+	else
 	{
-       mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
 	}
 
 	glutSwapBuffers();	// swaps the front and back buffer
@@ -190,22 +190,22 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'F':
 		Texture::save("foto.bmp ");
 		break;
-	case 'd':
+	case 'D':
 		mCamera->moveLR(1);
 		break;
-	case 'a':
+	case 'A':
 		mCamera->moveLR(-1);
 		break;
-	case 'w':
+	case 'W':
 		mCamera->moveUD(1);
 		break;
-	case 's':
+	case 'S':
 		mCamera->moveUD(-1);
 		break;
-	case 'S':
+	case 'Q':
 		mCamera->moveFB(1);
 		break;
-	case 'W':
+	case 'E':
 		mCamera->moveFB(-1);
 		break;
 	case 'p':
@@ -214,6 +214,42 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'k':
 		m2Vistas = !m2Vistas;
 		break;
+	case 'q':
+		if (!mScene->getLightsActivated())
+			mScene->setLightsActivated(true);
+		break;
+	case 'w':
+		if (mScene->getLightsActivated())
+			mScene->setLightsActivated(false);
+		break;
+	case 'a':
+		if (!mScene->getPositionalLightActivated())
+			mScene->setPositionalLightActivated(true);
+		break;
+	case 's':
+		if (mScene->getPositionalLightActivated())
+			mScene->setPositionalLightActivated(false);
+		break;
+	case 'z':
+		if (!mScene->getSpotLightActivated())
+			mScene->setSpotLightActivated(true);
+		break;
+	case 'x':
+		if (mScene->getSpotLightActivated())
+			mScene->setSpotLightActivated(false);
+		break;
+	case 'e':
+		GLfloat* amb;
+		if (mScene->getLightsOff())
+
+			amb = new GLfloat[4]{ 0, 0, 0, 1.0 };
+
+		else
+			amb = new GLfloat[4]{ 0.2, 0.2, 0.2, 1.0 };
+		mScene->switchLightsOnOff();
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+			break;
+
 
 	default:
 		need_redisplay = false;
@@ -264,7 +300,7 @@ void IG1App::mouse(int button, int state, int x, int y) {
 	mMouseButt = button;
 	mState = state;
 }
-void IG1App::motion(int x, int y) 
+void IG1App::motion(int x, int y)
 {
 	// guardamos la anterior posici�n en var. temp.
 	glm::dvec2 mp = mMouseCoord;
@@ -272,30 +308,30 @@ void IG1App::motion(int x, int y)
 	// Guardamos la posici�n actual
 	mMouseCoord = glm::dvec2(x, mWinH - y);
 
-    // calculamos el desplazamiento realizado
+	// calculamos el desplazamiento realizado
 	mp = mMouseCoord - mp;
 
 	if (mMouseButt == GLUT_RIGHT_BUTTON)
-	{		
+	{
 		mCamera->moveLR(mp.x);
 		mCamera->moveUD(mp.y);
 	}
 	else if (mMouseButt == GLUT_LEFT_BUTTON)
 	{
-       mCamera->orbit(mp.x * 0.05, -mp.y);
+		mCamera->orbit(mp.x * 0.05, -mp.y);
 	}
 
 	glutPostRedisplay();
 }
 
-void IG1App::mouseWheel(int n, int d, int x, int y) 
+void IG1App::mouseWheel(int n, int d, int x, int y)
 {
 	int m = glutGetModifiers();
 
-	if ( m == 0) // ninguna est� presionada
+	if (m == 0) // ninguna est� presionada
 	{
 		if (d == 1)mCamera->moveFB(.1);
-		else mCamera->moveFB(-.1);	
+		else mCamera->moveFB(-.1);
 
 		glutPostRedisplay();
 	}

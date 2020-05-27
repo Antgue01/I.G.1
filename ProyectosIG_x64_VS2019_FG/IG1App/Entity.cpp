@@ -474,7 +474,7 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Esfera::Esfera(int r, int p, int m,glm::dvec4 color) :EntityWithIndexMesh(), r(r), p(p), m(m) {
+Esfera::Esfera(int r, int p, int m, glm::dvec4 color) :EntityWithIndexMesh(), r(r), p(p), m(m) {
 
 	std::vector<glm::dvec3> perfil;
 	GLdouble angle = radians(-90.0);
@@ -488,7 +488,7 @@ Esfera::Esfera(int r, int p, int m,glm::dvec4 color) :EntityWithIndexMesh(), r(r
 		angle -= sum;
 	}
 
-	mMesh = MbR::generaIndexMeshByRevolution(p + 1, m, perfil,color);
+	mMesh = MbR::generaIndexMeshByRevolution(p + 1, m, perfil, color);
 }
 
 void Esfera::render(glm::dmat4 const& modelViewMat) const
@@ -498,12 +498,31 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glEnable(GL_COLOR_MATERIAL);
+		if (gold) {
+			glColorMaterial(GL_FRONT, GL_AMBIENT);
+			glColorMaterial(GL_FRONT, GL_DIFFUSE);
+			glColorMaterial(GL_FRONT, GL_SPECULAR);
+			glColorMaterial(GL_FRONT, GL_SHININESS);
+			fvec4 a(0.24725, 0.1995, 0.0745, 1.0);
+			fvec4 d(0.75164, 0.60648, 0.22648, 1.0);
+			fvec4 sp(0.628281, 0.555802, 0.366065, 1.0);
+			GLfloat sh(51.2);
+			glMaterialfv(GL_FRONT, GL_AMBIENT, value_ptr(a));
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, value_ptr(d));
+			glMaterialfv(GL_FRONT, GL_SPECULAR, value_ptr(sp));
+			glMaterialfv(GL_FRONT, GL_SHININESS, &sh);
+		}
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
 		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+void Esfera::setGold()
+{
+	gold = true;
 }
 
 
