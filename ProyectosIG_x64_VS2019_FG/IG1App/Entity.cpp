@@ -587,3 +587,13 @@ void Plane::move()
 	helices->getObjects().at(1)->setModelMat(rotate(helices->getObjects().at(1)->modelMat(), radians(HelixRotAngle), dvec3(1, 0, 0)));
 
 }
+
+void Plane::render(glm::dmat4 const& modelViewMat) const
+{
+	CompoundEntity::render(modelViewMat);
+
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+
+	spotLight->upload(aMat);
+}

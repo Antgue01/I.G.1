@@ -251,6 +251,7 @@ class Plane : public CompoundEntity {
 public:
 	explicit Plane(SpotLight* sp, GLdouble WorldRadious);
 	virtual void move();
+	virtual void render(glm::dmat4 const& modelViewMat)const;
 private:
 	CompoundEntity* helices = nullptr;
 	SpotLight* spotLight = nullptr;
