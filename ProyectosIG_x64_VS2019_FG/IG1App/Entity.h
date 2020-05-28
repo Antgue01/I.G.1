@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Material.h"
+#include "Light.h"
 
 //-------------------------------------------------------------------------
 
@@ -29,6 +30,8 @@ public:
 	void setColor(GLuint r, GLuint g, GLuint b, GLuint a) { mColor = { r,g,b,a }; };
 	void setTexture(Texture* tex) { mTexture = tex; }
 	Mesh* getMesh() { return mMesh; }
+
+	virtual void move() {}
 
 protected:
 
@@ -202,7 +205,7 @@ public:
 		return gObjects;
 	}
 
-private:
+protected:
 	std::vector<Abs_Entity*> gObjects;
 };
 class Cono :public EntityWithIndexMesh {
@@ -240,9 +243,21 @@ class Cube : public EntityWithMaterial
 public:
 	explicit Cube(double l, glm::dvec4 color = glm::dvec4(0.5, 0, 0, 1.0));
 	virtual void render(glm::dmat4 const& modelViewMat)const;
-	 void setCopper();
+	void setCopper();
 private:
 	glm::dvec4 color;
+};
+class Plane : public CompoundEntity {
+public:
+	explicit Plane(SpotLight* sp, GLdouble WorldRadious);
+	virtual void move();
+private:
+	CompoundEntity* helices = nullptr;
+	SpotLight* spotLight = nullptr;
+	GLdouble rotationRadius;
+	GLdouble PlaneRotAngle = 0;
+	GLdouble HelixRotAngle = 0;
+
 };
 
 #endif //_H_Entities_H_

@@ -127,32 +127,12 @@ void Scene::init()
 	}
 	else if (miId == 3)
 	{
-
-		 avion = new CompoundEntity();
-
-		CompoundEntity* helices = new CompoundEntity();
-		helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
-		helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
-		for (Abs_Entity* c : helices->getObjects())
-		{
-			c->setModelMat(translate(c->modelMat(), glm::dvec3(0, 0, 100)));
-			c->setModelMat(rotate(c->modelMat(), radians(90.0), glm::dvec3(0, 1, 0)));
-		}
-		helices->getEntity(1)->setModelMat(rotate(helices->getEntity(1)->modelMat(), radians(180.0), glm::dvec3(0, 1, 0)));
-		Sphere* s = new Sphere(100.0, glm::fvec3(1, 0, 0));
-		CompoundEntity* chasis = new CompoundEntity();
-		chasis->addEntity(helices);
-		chasis->addEntity(s);
-		Cube* cube = new Cube(100, glm::dvec4(0, 1, 0, 1));
-		cube->setModelMat(scale(cube->modelMat(), glm::dvec3(4, .3, 1)));
-		avion->addEntity(chasis);
-		avion->addEntity(cube);
-		cube->setMaterial(new Material());
-		cube->setCopper();
+		GLdouble sphereRadious = 200;
+		avion = new Plane(planeSpotLight, sphereRadious);
 		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 300, 0)));
 		avion->setModelMat(scale(avion->modelMat(), glm::dvec3(.3, .3, .3)));
 		gObjects.push_back(avion);
-		Esfera* esfera = new Esfera(200, 100, 100);
+		Esfera* esfera = new Esfera(sphereRadious, 100, 100);
 		gObjects.push_back(esfera);
 		esfera->setMaterial(new Material());
 		esfera->setGold();
@@ -218,7 +198,7 @@ void Scene::resetGL()
 }
 void Scene::setLights()
 {
-	directionalLight = new DirLight(glm::dvec3(1,1,1));
+	directionalLight = new DirLight(glm::dvec3(1, 1, 1));
 	directionalLight->setDiff(fvec4(1, 1, 1, 1));
 	positionalLight = new PosLight(glm::fvec3(250, 125, 0));
 	positionalLight->setDiff(fvec4(0, 1, 0, 1));
@@ -249,7 +229,7 @@ void Scene::render(Camera const& cam) const
 	if (planeSpotLight != nullptr)
 		planeSpotLight->upload(cam.viewMat());
 	cam.upload();
-	
+
 
 	for (Abs_Entity* el : gObjects)
 	{
@@ -334,6 +314,14 @@ void Scene::sceneSpotLight(Camera const& cam) const
 	}
 	else {
 		glDisable(GL_LIGHT2);
+	}
+}
+
+void Scene::move()
+{
+	for (Abs_Entity* ent:gObjects)
+	{
+		ent->move();
 	}
 }
 

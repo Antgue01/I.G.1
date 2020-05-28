@@ -267,7 +267,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	}
 	case 't':
 	{
- 		if (mScene->getPlane() != nullptr)
+		if (mScene->getPlane() != nullptr)
 		{
 			SpotLight* SPL = mScene->getPlaneLight();
 			if (SPL != nullptr)
@@ -296,7 +296,10 @@ void IG1App::key(unsigned char key, int x, int y)
 		mScene->switchLightsOnOff();
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		break;
-
+	case 'y':
+		hasToMove = !hasToMove;
+		animActivated = !animActivated;
+		break;
 
 	default:
 		need_redisplay = false;
@@ -396,6 +399,8 @@ void IG1App::Update() {
 	if (animActivated && time - mLastUpdateTime > 1000 / 60)
 	{
 		mScene->update();
+		if (hasToMove)
+			mScene->move();
 		display();
 		mLastUpdateTime = time;
 

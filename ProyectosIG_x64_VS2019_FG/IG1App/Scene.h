@@ -45,6 +45,7 @@ public:
 	inline CompoundEntity* getPlane() { return avion; }
 	void scenePosLight(Camera const& cam)const;
 	void sceneSpotLight(Camera const& cam)const;
+	void move();
 	
 
 
@@ -63,7 +64,7 @@ protected:
 	SpotLight* planeSpotLight = nullptr;
 
 	void setLights();
-	CompoundEntity* avion = nullptr;
+	Plane* avion = nullptr;
 
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*>gTextures;

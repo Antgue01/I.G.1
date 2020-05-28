@@ -87,6 +87,7 @@ protected:
 	int mState;
 	bool m2Vistas = false;
 
+	bool hasToMove = false;
 };
 //-------------------------------------------------------------------------
 

@@ -2,6 +2,7 @@
 #include "IG1App.h"
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+#include <iostream>
 
 using namespace glm;
 
@@ -407,7 +408,7 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		glPolygonMode(GL_BACK, GL_POINT);
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
-		if (material!=nullptr) {
+		if (material != nullptr) {
 			material->upload();
 		}
 		else
@@ -419,10 +420,10 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
- void Cube::setCopper()
+void Cube::setCopper()
 {
-	 if (material != nullptr)
-		 material->setCopper();
+	if (material != nullptr)
+		material->setCopper();
 }
 
 CompoundEntity :: ~CompoundEntity()
@@ -528,4 +529,61 @@ void EntityWithMaterial::quitMaterial()
 		delete material;
 		material = nullptr;
 	}
+}
+Plane::Plane(SpotLight* sp, GLdouble WorldRadious) :CompoundEntity(), spotLight(sp), rotationRadius(WorldRadious), HelixRotAngle(3) {
+	helices = new CompoundEntity();
+	helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
+	helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
+	for (Abs_Entity* c : helices->getObjects())
+	{
+		c->setModelMat(translate(c->modelMat(), glm::dvec3(0, 0, 100)));
+		c->setModelMat(rotate(c->modelMat(), radians(90.0), glm::dvec3(0, 1, 0)));
+	}
+	helices->getEntity(1)->setModelMat(rotate(helices->getEntity(1)->modelMat(), radians(180.0), glm::dvec3(0, 1, 0)));
+	Sphere* s = new Sphere(100.0, glm::fvec3(1, 0, 0));
+	CompoundEntity* chasis = new CompoundEntity();
+	chasis->addEntity(helices);
+	chasis->addEntity(s);
+	Cube* cube = new Cube(100, glm::dvec4(0, 1, 0, 1));
+	cube->setModelMat(scale(cube->modelMat(), glm::dvec3(4, .3, 1)));
+	addEntity(chasis);
+	addEntity(cube);
+	cube->setMaterial(new Material());
+	cube->setCopper();
+}
+
+void Plane::move()
+{
+	//for (Abs_Entity* ent : gObjects)
+	//	ent->setModelMat(dmat4(1));
+
+	if (PlaneRotAngle > 360.0)
+		PlaneRotAngle = 0.0;
+	else PlaneRotAngle += 1.0;
+
+	//for (Abs_Entity* ent : gObjects)
+	//{
+	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, -1, 0)));
+	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, 0, 1)));
+	//}
+	////movemos y rotamos el avión
+	//for (Abs_Entity* ent : gObjects)
+	//{
+	//	std::cout << mModelMat[0].x << std::endl;
+	//	std::cout << mModelMat[1].y << std::endl;
+	//	std::cout << mModelMat[2].z<<std::endl;
+	//	ent->setModelMat(translate(modelMat(), dvec3(0, -1+ 1 * sin(radians(1.0)), +1 * cos(radians(1.0)))));
+	//	ent->setModelMat(rotate(modelMat(),radians(2.0), dvec3(0, 1, 0)));
+	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, -1, 0)));
+	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, 0, 1)));
+	//}
+	//gObjects.at(1)->setModelMat(scale(gObjects.at(1)->modelMat(), glm::dvec3(4, .3, 1)));
+	setModelMat(translate(modelMat(), dvec3(0, + 20* sin(radians(1.0)), 0 +  20* cos(radians(1.0)))));
+	setModelMat(rotate(modelMat(),radians(1.0), dvec3(1,0,0)));
+
+
+	//rotamos las hélices
+	helices->getObjects().at(0)->setModelMat(rotate(helices->getObjects().at(0)->modelMat(), radians(-HelixRotAngle), dvec3(1, 0, 0)));
+	helices->getObjects().at(1)->setModelMat(rotate(helices->getObjects().at(1)->modelMat(), radians(HelixRotAngle), dvec3(1, 0, 0)));
+
 }
