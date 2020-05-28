@@ -12,6 +12,7 @@
 
 #include "Viewport.h"
 #include "Camera.h"
+#include "Light.h"
 #include "Scene.h"
 
 //-------------------------------------------------------------------------

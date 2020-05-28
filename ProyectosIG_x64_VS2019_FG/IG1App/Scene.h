@@ -9,6 +9,7 @@
 #include "Entity.h"
 
 #include <vector>
+#include "Light.h"
 
 //-------------------------------------------------------------------------
 
@@ -37,8 +38,15 @@ public:
 	inline bool getSpotLightActivated() { return SpotLightActivated; }
 	inline void switchLightsOnOff() { lightsOFF = !lightsOFF; }
 	inline bool getLightsOff() { return lightsOFF; }
+	inline DirLight* getDirectionalLight() { return directionalLight; }
+	inline PosLight* getPositionalLight() { return positionalLight; }
+	inline SpotLight* getSpotLight() { return spotSceneLight; }
+	inline SpotLight* getPlaneLight() { return planeSpotLight; }
+	inline CompoundEntity* getPlane() { return avion; }
 	void scenePosLight(Camera const& cam)const;
 	void sceneSpotLight(Camera const& cam)const;
+	
+
 
 protected:
 	void free();
@@ -49,6 +57,13 @@ protected:
 	bool PositionalLightActivated = false;
 	bool SpotLightActivated = false;
 	bool lightsOFF = false;
+	DirLight* directionalLight = nullptr;
+	PosLight* positionalLight = nullptr;
+	SpotLight* spotSceneLight = nullptr;
+	SpotLight* planeSpotLight = nullptr;
+
+	void setLights();
+	CompoundEntity* avion = nullptr;
 
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*>gTextures;

@@ -2,6 +2,7 @@
 #include "CheckML.h"
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
+#include <iostream>
 
 using namespace glm;
 //-------------------------------------------------------------------------
@@ -11,6 +12,8 @@ void Scene::init()
 	setGL();  // OpenGL settings
 	// allocate memory and load resources
 	// Lights
+	setLights();
+
 	// Textures	
 
 	gTextures.push_back(new Texture());
@@ -125,7 +128,7 @@ void Scene::init()
 	else if (miId == 3)
 	{
 
-		CompoundEntity* avion = new CompoundEntity();
+		 avion = new CompoundEntity();
 
 		CompoundEntity* helices = new CompoundEntity();
 		helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
@@ -136,7 +139,7 @@ void Scene::init()
 			c->setModelMat(rotate(c->modelMat(), radians(90.0), glm::dvec3(0, 1, 0)));
 		}
 		helices->getEntity(1)->setModelMat(rotate(helices->getEntity(1)->modelMat(), radians(180.0), glm::dvec3(0, 1, 0)));
-		Sphere* s = new Sphere(100.0,glm::fvec3(1,0,0));
+		Sphere* s = new Sphere(100.0, glm::fvec3(1, 0, 0));
 		CompoundEntity* chasis = new CompoundEntity();
 		chasis->addEntity(helices);
 		chasis->addEntity(s);
@@ -144,14 +147,15 @@ void Scene::init()
 		cube->setModelMat(scale(cube->modelMat(), glm::dvec3(4, .3, 1)));
 		avion->addEntity(chasis);
 		avion->addEntity(cube);
-		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 225, 0)));
+		cube->setMaterial(new Material());
+		cube->setCopper();
+		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 300, 0)));
 		avion->setModelMat(scale(avion->modelMat(), glm::dvec3(.3, .3, .3)));
 		gObjects.push_back(avion);
-
-		Esfera* esfera = new Esfera(200,100,100);
+		Esfera* esfera = new Esfera(200, 100, 100);
 		gObjects.push_back(esfera);
-	/*	esfera->setGold();*/
-
+		esfera->setMaterial(new Material());
+		esfera->setGold();
 	}
 	else if (miId == 4)
 	{
@@ -177,6 +181,18 @@ void Scene::free()
 	{
 		delete t;  t = nullptr;
 	}
+	if (directionalLight != nullptr) {
+		delete directionalLight;
+		directionalLight = nullptr;
+	}
+	if (positionalLight != nullptr) {
+		delete positionalLight;
+		positionalLight = nullptr;
+	}
+	if (spotSceneLight != nullptr) {
+		delete spotSceneLight;
+		spotSceneLight = nullptr;
+	}
 }
 //-------------------------------------------------------------------------
 void Scene::setGL()
@@ -200,15 +216,40 @@ void Scene::resetGL()
 	glDisable(GL_LIGHTING);
 
 }
+void Scene::setLights()
+{
+	directionalLight = new DirLight(glm::dvec3(1,1,1));
+	directionalLight->setDiff(fvec4(1, 1, 1, 1));
+	positionalLight = new PosLight(glm::fvec3(250, 125, 0));
+	positionalLight->setDiff(fvec4(0, 1, 0, 1));
+	spotSceneLight = new SpotLight(glm::fvec3(0, 0, 300));
+	spotSceneLight->setDiff(fvec4(0, 1, 0, 1));
+	spotSceneLight->setSpot(fvec3(0, 1, -1), 45, 10);
+	positionalLight->disable();
+	spotSceneLight->disable();
+	planeSpotLight = new SpotLight(glm::fvec3(0, 300, 0));
+	planeSpotLight->setSpot(fvec3(0, -1, 0), 45, 10);
+	planeSpotLight->disable();
+
+}
 //-------------------------------------------------------------------------
 
 void Scene::render(Camera const& cam) const
 {
-	
-	sceneDirLight(cam);
+
+	/*sceneDirLight(cam);
 	scenePosLight(cam);
-	sceneSpotLight(cam);
+	sceneSpotLight(cam);*/
+	if (directionalLight != nullptr)
+		directionalLight->upload(cam.viewMat());
+	if (spotSceneLight != nullptr)
+		spotSceneLight->upload(cam.viewMat());
+	if (positionalLight != nullptr)
+		positionalLight->upload(cam.viewMat());
+	if (planeSpotLight != nullptr)
+		planeSpotLight->upload(cam.viewMat());
 	cam.upload();
+	
 
 	for (Abs_Entity* el : gObjects)
 	{
@@ -256,8 +297,8 @@ void Scene::scenePosLight(Camera const& cam) const
 		glLoadMatrixd(value_ptr(cam.viewMat()));
 		glLightfv(GL_LIGHT1, GL_POSITION, value_ptr(posDir));
 		glm::fvec4 ambient = { 0, 0, 0, 1 };
-		glm::fvec4 diffuse = { 1, 1, 1, 1 };
-		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };		
+		glm::fvec4 diffuse = { 0, 1, 0, 1 };
+		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 		const GLfloat constantAtt(1);
 		glLightfv(GL_LIGHT1, GL_CONSTANT_ATTENUATION, &constantAtt);
 		glLightfv(GL_LIGHT1, GL_AMBIENT, value_ptr(ambient));
@@ -272,28 +313,23 @@ void Scene::scenePosLight(Camera const& cam) const
 void Scene::sceneSpotLight(Camera const& cam) const
 {
 	if (SpotLightActivated) {
-		glEnable(GL_LIGHT2);		
-		glm::fvec4 posDir = { 0, 0, 250, 1 };
+		glEnable(GL_LIGHT2);
+		glm::fvec4 posDir = { 0, 0, 300, 1 };
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixd(value_ptr(cam.viewMat()));
 		glLightfv(GL_LIGHT2, GL_POSITION, value_ptr(posDir));
 		glm::fvec4 ambient = { 0, 0, 0, 1 };
-		glm::fvec4 diffuse = { 1, 1, 1, 1 };
+		glm::fvec4 diffuse = { 0, 1, 0, 1 };
 		glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 		glLightfv(GL_LIGHT2, GL_AMBIENT, value_ptr(ambient));
 		glLightfv(GL_LIGHT2, GL_DIFFUSE, value_ptr(diffuse));
 		glLightfv(GL_LIGHT2, GL_SPECULAR, value_ptr(specular));
-		fvec3 dir(0, 0, -1);
+		fvec4 dir(0, 1, -1, 0);
 		glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, value_ptr(dir));
 		const GLfloat cutoff(45.0);
 		glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, &cutoff);
 		const GLfloat exponent(10.0);
 		glLightfv(GL_LIGHT2, GL_SPOT_EXPONENT, &exponent);
-		/*const GLfloat constantAtt(1);
-		glLightfv(GL_LIGHT2, GL_CONSTANT_ATTENUATION, &constantAtt);
-		const GLfloat linQuadrAtt(0);
-		glLightfv(GL_LIGHT2, GL_LINEAR_ATTENUATION, &linQuadrAtt);
-		glLightfv(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, &linQuadrAtt);*/
 
 	}
 	else {

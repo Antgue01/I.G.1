@@ -7,6 +7,7 @@
 
 #include "Mesh.h"
 #include "Texture.h"
+#include "Material.h"
 
 //-------------------------------------------------------------------------
 
@@ -186,14 +187,6 @@ public:
 private:
 };
 
-class Cube : public EntityWithIndexMesh
-{
-public:
-	explicit Cube(double l, glm::dvec4 color = glm::dvec4(0.5, 0, 0, 1.0));
-	virtual void render(glm::dmat4 const& modelViewMat)const;
-private:
-	glm::dvec4 color;
-};
 
 class CompoundEntity : public Abs_Entity
 {
@@ -222,15 +215,34 @@ private:
 	int r;
 	int n;
 };
-class Esfera :public EntityWithIndexMesh {
+class EntityWithMaterial : public EntityWithIndexMesh {
+public:
+	EntityWithMaterial() : EntityWithIndexMesh() { };
+	virtual ~EntityWithMaterial() { quitMaterial(); };
+
+	void setMaterial(Material* matl) { material = matl; };
+	void quitMaterial();
+protected:
+	Material* material = nullptr;
+};
+class Esfera :public EntityWithMaterial {
 public:
 	Esfera(int r, int p, int m, glm::dvec4 color = glm::dvec4(0.12, 0.69, 0.6, 1));
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 	void setGold();
 private:
-	bool gold=false;
 	int r;
 	int p;
 	int m;
 };
+class Cube : public EntityWithMaterial
+{
+public:
+	explicit Cube(double l, glm::dvec4 color = glm::dvec4(0.5, 0, 0, 1.0));
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	 void setCopper();
+private:
+	glm::dvec4 color;
+};
+
 #endif //_H_Entities_H_

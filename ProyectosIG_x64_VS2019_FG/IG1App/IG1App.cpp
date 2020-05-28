@@ -215,31 +215,78 @@ void IG1App::key(unsigned char key, int x, int y)
 		m2Vistas = !m2Vistas;
 		break;
 	case 'q':
-		if (!mScene->getLightsActivated())
-			mScene->setLightsActivated(true);
+	{//if (!mScene->getLightsActivated())
+		//	mScene->setLightsActivated(true);
+		DirLight* DL = mScene->getDirectionalLight();
+		if (DL != nullptr)
+			DL->enable();
 		break;
+	}
 	case 'w':
-		if (mScene->getLightsActivated())
-			mScene->setLightsActivated(false);
+	{	//if (mScene->getLightsActivated())
+		//	mScene->setLightsActivated(false);
+		DirLight* DL = mScene->getDirectionalLight();
+		if (DL != nullptr)
+			DL->disable();
 		break;
+	}
 	case 'a':
-		if (!mScene->getPositionalLightActivated())
-			mScene->setPositionalLightActivated(true);
+	{
+		//if (!mScene->getPositionalLightActivated())
+		//	mScene->setPositionalLightActivated(true);
+		PosLight* PL = mScene->getPositionalLight();
+		if (PL != nullptr)
+			PL->enable();
+
 		break;
+	}
 	case 's':
-		if (mScene->getPositionalLightActivated())
-			mScene->setPositionalLightActivated(false);
+	{	//if (mScene->getPositionalLightActivated())
+		//	mScene->setPositionalLightActivated(false);
+		PosLight* PL = mScene->getPositionalLight();
+		if (PL != nullptr)
+			PL->disable();
 		break;
+	}
 	case 'z':
-		if (!mScene->getSpotLightActivated())
-			mScene->setSpotLightActivated(true);
+	{	//if (!mScene->getSpotLightActivated())
+		//	mScene->setSpotLightActivated(true);
+		SpotLight* SPL = mScene->getSpotLight();
+		if (SPL != nullptr)
+			SPL->enable();
 		break;
+	}
 	case 'x':
-		if (mScene->getSpotLightActivated())
-			mScene->setSpotLightActivated(false);
+	{	//if (mScene->getSpotLightActivated())
+		//	mScene->setSpotLightActivated(false);
+		SpotLight* SPL = mScene->getSpotLight();
+		if (SPL != nullptr)
+			SPL->disable();
 		break;
+
+	}
+	case 't':
+	{
+ 		if (mScene->getPlane() != nullptr)
+		{
+			SpotLight* SPL = mScene->getPlaneLight();
+			if (SPL != nullptr)
+				SPL->enable();
+		}
+		break;
+	}
+	case 'g':
+	{
+		if (mScene->getPlane() != nullptr)
+		{
+			SpotLight* SPL = mScene->getPlaneLight();
+			if (SPL != nullptr)
+				SPL->disable();
+		}
+		break;
+	}
 	case 'e':
-		GLfloat* amb;
+		GLfloat * amb;
 		if (mScene->getLightsOff())
 
 			amb = new GLfloat[4]{ 0, 0, 0, 1.0 };
@@ -248,7 +295,7 @@ void IG1App::key(unsigned char key, int x, int y)
 			amb = new GLfloat[4]{ 0.2, 0.2, 0.2, 1.0 };
 		mScene->switchLightsOnOff();
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
-			break;
+		break;
 
 
 	default:

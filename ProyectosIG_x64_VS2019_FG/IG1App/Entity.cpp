@@ -395,7 +395,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Cube::Cube(double l, glm::dvec4 color) :EntityWithIndexMesh(), color(color)
+Cube::Cube(double l, glm::dvec4 color) :EntityWithMaterial(), color(color)
 {
 	mMesh = IndexMesh::generaIndexCuboConTapas(l, color);
 }
@@ -406,13 +406,23 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_BACK, GL_POINT);
-		glEnable(GL_COLOR_MATERIAL);
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
+		if (material!=nullptr) {
+			material->upload();
+		}
+		else
+			glEnable(GL_COLOR_MATERIAL);
 		mMesh->render();
 		mTexture->unbind();
 		glDisable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+ void Cube::setCopper()
+{
+	 if (material != nullptr)
+		 material->setCopper();
 }
 
 CompoundEntity :: ~CompoundEntity()
@@ -432,22 +442,14 @@ Abs_Entity* CompoundEntity::getEntity(int id)
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat)const
 {
-	/*if (mMesh != nullptr) {*/
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
 
 	for (Abs_Entity* e : gObjects)
 	{
-		glEnable(GL_COLOR_MATERIAL);
-		glPolygonMode(GL_BACK, GL_POINT);
 
-		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		e->render(aMat);
-		mTexture->unbind();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	glDisable(GL_COLOR_MATERIAL);
-	/*}*/
 }
 
 Cono::Cono(int h, int r, int n) :h(h), r(r), n(n)
@@ -474,7 +476,7 @@ void Cono::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Esfera::Esfera(int r, int p, int m, glm::dvec4 color) :EntityWithIndexMesh(), r(r), p(p), m(m) {
+Esfera::Esfera(int r, int p, int m, glm::dvec4 color) :EntityWithMaterial(), r(r), p(p), m(m) {
 
 	std::vector<glm::dvec3> perfil;
 	GLdouble angle = radians(-90.0);
@@ -497,20 +499,13 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_FRONT, GL_FILL);
-		if (gold) 
-		{			
-			fvec4 a(0.24725, 0.1995, 0.0745, 1.0);
-			fvec4 d(0.75164, 0.60648, 0.22648, 1.0);
-			fvec4 sp(0.628281, 0.555802, 0.366065, 1.0);
-			GLfloat sh(51.2);
-			glMaterialfv(GL_FRONT, GL_AMBIENT, value_ptr(a));
-			glMaterialfv(GL_FRONT, GL_DIFFUSE, value_ptr(d));
-			glMaterialfv(GL_FRONT, GL_SPECULAR, value_ptr(sp));
-			glMaterialfv(GL_FRONT, GL_SHININESS, &sh);
-		}
-		else 
+		if (material != nullptr)
 		{
-		   glEnable(GL_COLOR_MATERIAL);
+			material->upload();
+		}
+		else
+		{
+			glEnable(GL_COLOR_MATERIAL);
 		}
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
@@ -522,7 +517,15 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 
 void Esfera::setGold()
 {
-	gold = true;
+	if (material != nullptr)
+		material->setGold();
 }
 
-
+void EntityWithMaterial::quitMaterial()
+{
+	if (material != nullptr)
+	{
+		delete material;
+		material = nullptr;
+	}
+}
