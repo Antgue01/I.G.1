@@ -530,7 +530,7 @@ void EntityWithMaterial::quitMaterial()
 		material = nullptr;
 	}
 }
-Plane::Plane(SpotLight* sp, GLdouble WorldRadious) :CompoundEntity(), spotLight(sp), rotationRadius(WorldRadious), HelixRotAngle(3) {
+Plane::Plane(SpotLight* sp) :CompoundEntity(), spotLight(sp), HelixRotAngle(3),PlaneRotAngle(1) {
 	helices = new CompoundEntity();
 	helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
 	helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
@@ -552,34 +552,12 @@ Plane::Plane(SpotLight* sp, GLdouble WorldRadious) :CompoundEntity(), spotLight(
 	cube->setCopper();
 }
 
-void Plane::move()
+void Plane::update()
 {
-	//for (Abs_Entity* ent : gObjects)
-	//	ent->setModelMat(dmat4(1));
 
-	if (PlaneRotAngle > 360.0)
-		PlaneRotAngle = 0.0;
-	else PlaneRotAngle += 1.0;
-
-	//for (Abs_Entity* ent : gObjects)
-	//{
-	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, -1, 0)));
-	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, 0, 1)));
-	//}
-	////movemos y rotamos el avión
-	//for (Abs_Entity* ent : gObjects)
-	//{
-	//	std::cout << mModelMat[0].x << std::endl;
-	//	std::cout << mModelMat[1].y << std::endl;
-	//	std::cout << mModelMat[2].z<<std::endl;
-	//	ent->setModelMat(translate(modelMat(), dvec3(0, -1+ 1 * sin(radians(1.0)), +1 * cos(radians(1.0)))));
-	//	ent->setModelMat(rotate(modelMat(),radians(2.0), dvec3(0, 1, 0)));
-	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, -1, 0)));
-	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, 0, 1)));
-	//}
-	//gObjects.at(1)->setModelMat(scale(gObjects.at(1)->modelMat(), glm::dvec3(4, .3, 1)));
-	setModelMat(translate(modelMat(), dvec3(0,  20* sin(radians(1.0)), 20* cos(radians(1.0)))));
-	setModelMat(rotate(modelMat(),radians(1.0), dvec3(1,0,0)));
+	//trasladamos el avión y lo rotamos
+	setModelMat(translate(modelMat(), dvec3(0, 20 * sin(radians(PlaneRotAngle)), 20 * cos(radians(PlaneRotAngle)))));
+	setModelMat(rotate(modelMat(), radians(1.0), dvec3(1, 0, 0)));
 
 
 	//rotamos las hélices
@@ -594,6 +572,6 @@ void Plane::render(glm::dmat4 const& modelViewMat) const
 
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
-
+	//colocamos el foco en la posición del avión y con su misma rotación
 	spotLight->upload(aMat);
 }

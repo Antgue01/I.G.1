@@ -31,7 +31,6 @@ public:
 	void setTexture(Texture* tex) { mTexture = tex; }
 	Mesh* getMesh() { return mMesh; }
 
-	virtual void move() {}
 
 protected:
 
@@ -249,13 +248,12 @@ private:
 };
 class Plane : public CompoundEntity {
 public:
-	explicit Plane(SpotLight* sp, GLdouble WorldRadious);
-	virtual void move();
+	explicit Plane(SpotLight* sp);
+	virtual void update();
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 private:
 	CompoundEntity* helices = nullptr;
 	SpotLight* spotLight = nullptr;
-	GLdouble rotationRadius;
 	GLdouble PlaneRotAngle = 0;
 	GLdouble HelixRotAngle = 0;
 

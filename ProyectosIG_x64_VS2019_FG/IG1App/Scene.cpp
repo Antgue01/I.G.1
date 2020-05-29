@@ -12,7 +12,11 @@ void Scene::init()
 	setGL();  // OpenGL settings
 	// allocate memory and load resources
 	// Lights
-	setLights();
+	//Solo creo las luces si no están ya inicializadas para evitar crear nuevas luces al cambiar de escena
+	if (!lightsAreInitialized) {
+		setLights();
+		lightsAreInitialized = true;
+	}
 
 	// Textures	
 
@@ -127,15 +131,16 @@ void Scene::init()
 	}
 	else if (miId == 3)
 	{
-		GLdouble sphereRadious = 200;
-		avion = new Plane(planeSpotLight, sphereRadious);
+		
+		avion = new Plane(planeSpotLight);
 		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 300, 0)));
 		avion->setModelMat(scale(avion->modelMat(), glm::dvec3(.3, .3, .3)));
 		gObjects.push_back(avion);
-		Esfera* esfera = new Esfera(sphereRadious, 100, 100);
+		Esfera* esfera = new Esfera(200, 100, 100);
 		gObjects.push_back(esfera);
-		esfera->setMaterial(new Material());
-		esfera->setGold();
+		//al descomentar las líneas de abajo, el planeta saldrá dorado
+		//esfera->setMaterial(new Material());
+		//esfera->setGold();
 	}
 	else if (miId == 4)
 	{
@@ -211,8 +216,8 @@ void Scene::setLights()
 	planeSpotLight->setSpot(fvec3(0, -1, 0), 45, 10);
 	planeSpotLight->disable();
 
-	luzMinero = new PosLight(glm::dvec3(0,0,550));
-	luzMinero->setDiff(glm::dvec4(1, 1, 1,1));
+	luzMinero = new PosLight(glm::dvec3(0, 0, 550));
+	luzMinero->setDiff(glm::dvec4(1, 1, 1, 1));
 	luzMinero->disable();
 
 }
@@ -224,6 +229,8 @@ void Scene::render(Camera const& cam) const
 	/*sceneDirLight(cam);
 	scenePosLight(cam);
 	sceneSpotLight(cam);*/
+
+	//subimos las luces a la tarjeta
 	if (directionalLight != nullptr)
 		directionalLight->upload(cam.viewMat());
 	if (spotSceneLight != nullptr)
@@ -324,13 +331,6 @@ void Scene::sceneSpotLight(Camera const& cam) const
 	}
 }
 
-void Scene::move()
-{
-	for (Abs_Entity* ent:gObjects)
-	{
-		ent->move();
-	}
-}
 
 //-------------------------------------------------------------------------
 

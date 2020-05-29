@@ -307,8 +307,10 @@ void IG1App::key(unsigned char key, int x, int y)
 	}
 	case 'e':
 		GLfloat * amb;
+		mScene->switchLightsOnOff();
 		if (mScene->getLightsOff())
 		{
+			//apagamos las luces y ponemos la luz ambiente global a 0
 			amb = new GLfloat[4]{ 0, 0, 0, 1.0 };
 			if (mScene->getPlaneLight() != nullptr)mScene->getPlaneLight()->disable();
 			if (mScene->getDirectionalLight() != nullptr)mScene->getDirectionalLight()->disable();
@@ -317,13 +319,12 @@ void IG1App::key(unsigned char key, int x, int y)
 			if (mScene->getLuzMinero() != nullptr)mScene->getLuzMinero()->disable();
 
 		}
+		//reestablecemos la luz ambiente global
 		else amb = new GLfloat[4]{ 0.2, 0.2, 0.2, 1.0 };
-			
-		mScene->switchLightsOnOff();
+		//volcamos la variable en la luz ambiente global
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		break;
 	case 'y':
-		hasToMove = !hasToMove;
 		animActivated = !animActivated;
 		break;
 
@@ -425,8 +426,6 @@ void IG1App::Update() {
 	if (animActivated && time - mLastUpdateTime > 1000 / 60)
 	{
 		mScene->update();
-		if (hasToMove)
-			mScene->move();
 		display();
 		mLastUpdateTime = time;
 

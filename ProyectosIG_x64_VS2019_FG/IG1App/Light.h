@@ -25,7 +25,6 @@ protected:
 	glm::fvec4 diffuse = { 0.5, 0.5, 0.5, 1 };
 	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 	glm::fvec4 posDir = { 0, 0, 1, 0 };
-	// Añade setter’s para cambiar el valor de los atributos lumínicos
 
 };
 class DirLight :public Light {

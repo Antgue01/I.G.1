@@ -3,14 +3,14 @@
 GLuint Light::cont = 0;
 Light::Light()
 {
+	//solo añadimos la luz si hay menos de GL_MAX_LIGHTS luces
 	if (cont < GL_MAX_LIGHTS) {
 		id = GL_LIGHT0 + cont;
 		++cont;
 		glEnable(id);
 	}
 }
-void Light::uploadL() const
-{
+void Light::uploadL() const{
 	glLightfv(id, GL_AMBIENT, value_ptr(ambient));
 	glLightfv(id, GL_DIFFUSE, value_ptr(diffuse));
 	glLightfv(id, GL_SPECULAR, value_ptr(specular));

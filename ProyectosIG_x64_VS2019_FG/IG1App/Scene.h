@@ -46,7 +46,6 @@ public:
 	inline CompoundEntity* getPlane() { return avion; }
 	void scenePosLight(Camera const& cam)const;
 	void sceneSpotLight(Camera const& cam)const;
-	void move();
 	
 
 
@@ -64,7 +63,7 @@ protected:
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* planeSpotLight = nullptr;
 	PosLight* luzMinero = nullptr;
-
+	bool lightsAreInitialized = false;
 
 	void setLights();
 	Plane* avion = nullptr;
