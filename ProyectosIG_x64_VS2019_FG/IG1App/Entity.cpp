@@ -578,7 +578,7 @@ void Plane::move()
 	//	//ent->setModelMat(rotate(ent->modelMat(), radians(1.0), dvec3(0, 0, 1)));
 	//}
 	//gObjects.at(1)->setModelMat(scale(gObjects.at(1)->modelMat(), glm::dvec3(4, .3, 1)));
-	setModelMat(translate(modelMat(), dvec3(0, + 20* sin(radians(1.0)), 0 +  20* cos(radians(1.0)))));
+	setModelMat(translate(modelMat(), dvec3(0,  20* sin(radians(1.0)), 20* cos(radians(1.0)))));
 	setModelMat(rotate(modelMat(),radians(1.0), dvec3(1,0,0)));
 
 

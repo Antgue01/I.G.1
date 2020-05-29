@@ -285,14 +285,40 @@ void IG1App::key(unsigned char key, int x, int y)
 		}
 		break;
 	}
+	case 'd':
+	{
+		if (mScene->getPlane() != nullptr)
+		{
+			PosLight* SPL = mScene->getLuzMinero();
+			if (SPL != nullptr)
+				SPL->enable();
+		}
+		break;
+	}
+	case 'f':
+	{
+		if (mScene->getPlane() != nullptr)
+		{
+			PosLight* SPL = mScene->getLuzMinero();
+			if (SPL != nullptr)
+				SPL->disable();
+		}
+		break;
+	}
 	case 'e':
 		GLfloat * amb;
 		if (mScene->getLightsOff())
-
+		{
 			amb = new GLfloat[4]{ 0, 0, 0, 1.0 };
+			if (mScene->getPlaneLight() != nullptr)mScene->getPlaneLight()->disable();
+			if (mScene->getDirectionalLight() != nullptr)mScene->getDirectionalLight()->disable();
+			if (mScene->getPositionalLight() != nullptr)mScene->getPositionalLight()->disable();
+			if (mScene->getSpotLight() != nullptr)mScene->getSpotLight()->disable();
+			if (mScene->getLuzMinero() != nullptr)mScene->getLuzMinero()->disable();
 
-		else
-			amb = new GLfloat[4]{ 0.2, 0.2, 0.2, 1.0 };
+		}
+		else amb = new GLfloat[4]{ 0.2, 0.2, 0.2, 1.0 };
+			
 		mScene->switchLightsOnOff();
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		break;

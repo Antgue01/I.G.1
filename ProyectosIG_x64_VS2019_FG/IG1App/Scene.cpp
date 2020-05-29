@@ -211,6 +211,10 @@ void Scene::setLights()
 	planeSpotLight->setSpot(fvec3(0, -1, 0), 45, 10);
 	planeSpotLight->disable();
 
+	luzMinero = new PosLight(glm::dvec3(0,0,550));
+	luzMinero->setDiff(glm::dvec4(1, 1, 1,1));
+	luzMinero->disable();
+
 }
 //-------------------------------------------------------------------------
 
@@ -228,6 +232,9 @@ void Scene::render(Camera const& cam) const
 		positionalLight->upload(cam.viewMat());
 	if (planeSpotLight != nullptr)
 		planeSpotLight->upload(cam.viewMat());
+	if (luzMinero != nullptr)
+		luzMinero->upload(dmat4(1));
+
 	cam.upload();
 
 

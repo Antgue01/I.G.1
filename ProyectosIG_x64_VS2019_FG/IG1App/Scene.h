@@ -42,6 +42,7 @@ public:
 	inline PosLight* getPositionalLight() { return positionalLight; }
 	inline SpotLight* getSpotLight() { return spotSceneLight; }
 	inline SpotLight* getPlaneLight() { return planeSpotLight; }
+	inline PosLight* getLuzMinero() { return luzMinero; }
 	inline CompoundEntity* getPlane() { return avion; }
 	void scenePosLight(Camera const& cam)const;
 	void sceneSpotLight(Camera const& cam)const;
@@ -62,6 +63,8 @@ protected:
 	PosLight* positionalLight = nullptr;
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* planeSpotLight = nullptr;
+	PosLight* luzMinero = nullptr;
+
 
 	void setLights();
 	Plane* avion = nullptr;
