@@ -448,7 +448,6 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat)const
 
 	for (Abs_Entity* e : gObjects)
 	{
-
 		e->render(aMat);
 	}
 }
@@ -500,18 +499,16 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
 		glPolygonMode(GL_FRONT, GL_FILL);
+
+		glEnable(GL_COLOR_MATERIAL); //comentar esta linea para que la esfera se vea maciza y brillante si tiene activo el oro
 		if (material != nullptr)
 		{
 			material->upload();
-		}
-		else
-		{
-			glEnable(GL_COLOR_MATERIAL);
-		}
+		}		
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
-		glDisable(GL_COLOR_MATERIAL);
+		glDisable(GL_COLOR_MATERIAL); //comentar esta linea para que la esfera se vea maciza y brillante si tiene activo el oro
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
@@ -556,14 +553,11 @@ void Plane::update()
 {
 
 	//trasladamos el avión y lo rotamos
-	setModelMat(translate(modelMat(), dvec3(0, 20 * sin(radians(PlaneRotAngle)), 20 * cos(radians(PlaneRotAngle)))));
-	setModelMat(rotate(modelMat(), radians(1.0), dvec3(1, 0, 0)));
-
-
-	//rotamos las hélices
-	helices->getObjects().at(0)->setModelMat(rotate(helices->getObjects().at(0)->modelMat(), radians(-HelixRotAngle), dvec3(1, 0, 0)));
-	helices->getObjects().at(1)->setModelMat(rotate(helices->getObjects().at(1)->modelMat(), radians(HelixRotAngle), dvec3(1, 0, 0)));
-
+	setModelMat(translate(modelMat(), dvec3(0, 17*sin(radians(PlaneRotAngle)), 17*cos(radians(PlaneRotAngle)))));
+	setModelMat(rotate(modelMat(), radians(PlaneRotAngle), dvec3(1, 0, 0)));
+	
+	//rotamos las hélices	
+	helices->setModelMat(rotate(helices->modelMat(),radians(HelixRotAngle),glm::dvec3(0,0,1)));
 }
 
 void Plane::render(glm::dmat4 const& modelViewMat) const

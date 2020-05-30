@@ -139,8 +139,8 @@ void Scene::init()
 		Esfera* esfera = new Esfera(200, 100, 100);
 		gObjects.push_back(esfera);
 		//al descomentar las líneas de abajo, el planeta saldrá dorado
-		//esfera->setMaterial(new Material());
-		//esfera->setGold();
+		/*esfera->setMaterial(new Material());
+		esfera->setGold();*/
 	}
 	else if (miId == 4)
 	{
@@ -205,13 +205,16 @@ void Scene::setLights()
 {
 	directionalLight = new DirLight(glm::dvec3(1, 1, 1));
 	directionalLight->setDiff(fvec4(1, 1, 1, 1));
+
 	positionalLight = new PosLight(glm::fvec3(250, 125, 0));
 	positionalLight->setDiff(fvec4(0, 1, 0, 1));
+	positionalLight->disable();
+
 	spotSceneLight = new SpotLight(glm::fvec3(0, 0, 300));
 	spotSceneLight->setDiff(fvec4(0, 1, 0, 1));
 	spotSceneLight->setSpot(fvec3(0, 1, -1), 45, 10);
-	positionalLight->disable();
 	spotSceneLight->disable();
+
 	planeSpotLight = new SpotLight(glm::fvec3(0, 300, 0));
 	planeSpotLight->setSpot(fvec3(0, -1, 0), 45, 10);
 	planeSpotLight->disable();
@@ -237,8 +240,6 @@ void Scene::render(Camera const& cam) const
 		spotSceneLight->upload(cam.viewMat());
 	if (positionalLight != nullptr)
 		positionalLight->upload(cam.viewMat());
-	if (planeSpotLight != nullptr)
-		planeSpotLight->upload(cam.viewMat());
 	if (luzMinero != nullptr)
 		luzMinero->upload(dmat4(1));
 
