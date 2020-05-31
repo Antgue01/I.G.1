@@ -178,6 +178,16 @@ void Scene::free()
 		delete spotSceneLight;
 		spotSceneLight = nullptr;
 	}
+	if (luzMinero != nullptr)
+	{
+		delete luzMinero;
+		luzMinero = nullptr;
+	}
+	if (planeSpotLight != nullptr)
+	{
+		delete planeSpotLight;
+		planeSpotLight = nullptr;
+	}
 }
 //-------------------------------------------------------------------------
 void Scene::setGL()
@@ -215,7 +225,7 @@ void Scene::setLights()
 	spotSceneLight->setSpot(fvec3(0, 1, -1), 45, 10);
 	spotSceneLight->disable();
 
-	planeSpotLight = new SpotLight(glm::fvec3(0, 300, 0));
+	planeSpotLight = new SpotLight(glm::fvec3(0, -100, 0));
 	planeSpotLight->setSpot(fvec3(0, -1, 0), 45, 10);
 	planeSpotLight->disable();
 

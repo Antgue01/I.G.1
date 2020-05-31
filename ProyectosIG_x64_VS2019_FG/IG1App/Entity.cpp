@@ -551,7 +551,6 @@ Plane::Plane(SpotLight* sp) :CompoundEntity(), spotLight(sp), HelixRotAngle(3),P
 
 void Plane::update()
 {
-
 	//trasladamos el avión y lo rotamos
 	setModelMat(translate(modelMat(), dvec3(0, 17*sin(radians(PlaneRotAngle)), 17*cos(radians(PlaneRotAngle)))));
 	setModelMat(rotate(modelMat(), radians(PlaneRotAngle), dvec3(1, 0, 0)));
