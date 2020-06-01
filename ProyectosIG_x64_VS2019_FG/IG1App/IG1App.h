@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Scene.h"
+#include "Fondo.h"
 
 //-------------------------------------------------------------------------
 
@@ -86,6 +87,8 @@ protected:
 	int mMouseButt;
 	int mState;
 	bool m2Vistas = false;
+	//Extra 1
+	Fondo* mFondo = nullptr;
 
 };
 //-------------------------------------------------------------------------

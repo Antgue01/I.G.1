@@ -43,6 +43,12 @@ void IG1App::init()
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 
+	//EXTRA 1
+	mFondo = new Fondo();
+	mFondo->setSize(mWinW, mWinH);
+	//FIN EXTRA 1
+
+
 	mCamera->set2D();
 	mScene->init();
 }
@@ -88,6 +94,11 @@ void IG1App::free()
 	delete mScene; mScene = nullptr;
 	delete mCamera; mCamera = nullptr;
 	delete mViewPort; mViewPort = nullptr;
+
+	//EXTRA 1
+	delete mFondo; mFondo = nullptr;
+	//FIN EXTRA 1
+
 	if (auxCamera != nullptr) {
 		delete auxCamera;
 		auxCamera = nullptr;
@@ -120,9 +131,14 @@ void IG1App::display() const
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
+	//EXTRA 1
+	//mFondo->getCamera()->foo();
+	mFondo->render();
+
 	if (m2Vistas)display2Vistas();
 	else
 	{
+		//FIN EXTRA 1
 		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
 	}
 
@@ -139,6 +155,10 @@ void IG1App::resize(int newWidth, int newHeight)
 
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height());
+
+	//EXTRA 1
+	//Resize background image
+	mFondo->setSize(newWidth, newHeight);
 }
 //-------------------------------------------------------------------------
 
@@ -392,10 +412,14 @@ void IG1App::motion(int x, int y)
 	{
 		mCamera->moveLR(mp.x);
 		mCamera->moveUD(mp.y);
+
+		mFondo->getCamera()->foo();
 	}
 	else if (mMouseButt == GLUT_LEFT_BUTTON)
 	{
 		mCamera->orbit(mp.x * 0.05, -mp.y);
+		mFondo->getCamera()->foo();
+
 	}
 
 	glutPostRedisplay();

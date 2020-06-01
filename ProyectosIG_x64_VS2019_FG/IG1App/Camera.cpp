@@ -49,6 +49,14 @@ void Camera::set3D()
 	mUp = dvec3(0, 1, 0);
 	setVM();
 }
+void Camera::foo()
+{
+	mEye = dvec3(0, 0, 0);
+	mLook = dvec3(0, 0, 1);
+	mUp = dvec3(0, -1, 0);
+	mAng = 0;
+	setVM();
+}
 //-------------------------------------------------------------------------
 
 void Camera::pitch(GLdouble a)
