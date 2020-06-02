@@ -3,7 +3,6 @@
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 #include <iostream>
-#include "Fondo.h"
 
 using namespace glm;
 //-------------------------------------------------------------------------
@@ -46,9 +45,8 @@ void Scene::init()
 
 	}
 	gObjects.clear();
-
 	gObjects.push_back(new EjesRGB(400));
-	//glClearColor(0.7, 0.8, 0.9, 1);
+	glClearColor(0.7, 0.8, 0.9, 1);
 
 	if (miId == 0) {
 		Sphere* cabeza = new Sphere(175, fvec3(0.82, 0.41, 0.11));

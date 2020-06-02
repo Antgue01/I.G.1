@@ -22,9 +22,6 @@ public:
 	
 	void set2D();
 	void set3D();
-	//EXTRA 1
-	void foo();
-	//FIN EXTRA 1
 	
 	void pitch(GLdouble a); // rotates a degrees on the X axis
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
