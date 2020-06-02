@@ -43,6 +43,8 @@ public:
 	inline PosLight* getPositionalLight() { return positionalLight; }
 	inline SpotLight* getSpotLight() { return spotSceneLight; }
 	inline SpotLight* getPlaneLight() { return planeSpotLight; }
+	inline SpotLight* getGridLight() { return gridSpotLight; }
+	inline SpotLight* getSirenLight() { return SirenSpotLight; }
 	inline PosLight* getLuzMinero() { return luzMinero; }
 	inline CompoundEntity* getPlane() { return avion; }
 	void scenePosLight(Camera const& cam)const;
@@ -54,7 +56,7 @@ protected:
 	void free();
 	void setGL();
 	void resetGL();
-	int miId = 3;
+	int miId = 6;
 	bool LightsActivated = true;
 	bool PositionalLightActivated = false;
 	bool SpotLightActivated = false;
@@ -63,6 +65,8 @@ protected:
 	PosLight* positionalLight = nullptr;
 	SpotLight* spotSceneLight = nullptr;
 	SpotLight* planeSpotLight = nullptr;
+	SpotLight* gridSpotLight = nullptr;
+	SpotLight* SirenSpotLight = nullptr;
 	PosLight* luzMinero = nullptr;
 	bool lightsAreInitialized = false;
 

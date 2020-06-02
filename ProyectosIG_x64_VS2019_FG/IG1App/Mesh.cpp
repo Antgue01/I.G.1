@@ -419,6 +419,75 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l, glm::dvec4 color)
 	return m;
 }
 
+IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint nDiv)
+{
+
+
+	vector<unsigned int> indexes;
+
+
+	for (int i = 0; i < nDiv; i++)
+	{
+		for (int j = 0; j < nDiv; j++)
+		{
+			int filaBase = i * (nDiv + 1);
+			int filaSiguiente = (i + 1) * (nDiv + 1);
+			indexes.push_back(filaBase + j);
+			indexes.push_back((filaBase + j + 1));
+			indexes.push_back((filaSiguiente + j + 1));
+			indexes.push_back(filaBase + j);
+			indexes.push_back((filaSiguiente + j + 1));
+			indexes.push_back((filaSiguiente + j));
+
+		}
+	}
+
+	IndexMesh* m = new IndexMesh(indexes);
+	m->mNumVertices = pow(nDiv + 1, 2);
+	GLdouble init = -lado / 2;
+	for (size_t i = 0; i < nDiv + 1; i++)
+	{
+		m->vVertices.emplace_back(init, -lado / 2, 0);
+		init += lado / nDiv;
+	}
+	int avanceY = lado / nDiv;
+	int start = (-lado / 2) + avanceY;
+	for (int i = 0; i < nDiv; i++)
+	{
+		for (int j = 0; j < nDiv + 1; j++)
+		{
+			m->vVertices.emplace_back(m->vVertices.at(j).x, start, 0);
+		}
+		start += avanceY;
+	}
+	m->mPrimitive = GL_TRIANGLES;
+	m->buildNormalVectors();
+	return m;
+}
+
+IndexMesh* IndexMesh::generateGridTex(GLdouble lado, GLuint nDiv)
+{
+	IndexMesh* mesh = IndexMesh::generaGrid(lado, nDiv);
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+	double init = 0.0;
+	for (size_t i = 0; i < nDiv + 1; i++)
+	{
+		mesh->vTexCoords.emplace_back(init, 0);
+		init = init +(1.0 / nDiv);
+	}
+	double avanceY = 1.0 / nDiv;
+	double start = avanceY;
+	for (int i = 0; i < nDiv; i++)
+	{
+		for (int j = 0; j < nDiv + 1; j++)
+		{
+			mesh->vTexCoords.emplace_back(mesh->vTexCoords.at(j).x, start);
+		}
+		start += avanceY;
+	}
+	return mesh;
+}
+
 void IndexMesh::buildNormalVectors()
 {
 	vNormals.reserve(mNumVertices);
@@ -429,7 +498,7 @@ void IndexMesh::buildNormalVectors()
 	for (int i = 0; i < vIndices.size() / 3; i++)
 	{
 		glm::dvec3 a = vVertices[vIndices[3 * i]];
-		glm::dvec3 b = vVertices[vIndices[(3 * i) + 1]];		
+		glm::dvec3 b = vVertices[vIndices[(3 * i) + 1]];
 		glm::dvec3 c = vVertices[vIndices[(3 * i) + 2]];
 		glm::dvec3 n = normalize(cross(b - a, c - a));
 		vNormals[vIndices[3 * i]] += n;
@@ -441,7 +510,7 @@ void IndexMesh::buildNormalVectors()
 	}
 }
 
-MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil,glm::dvec4 Color)
+MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, std::vector<glm::dvec3> perfil, glm::dvec4 Color)
 {
 	MbR* m = new MbR(mm, nn, perfil);
 	m->color = Color;

@@ -504,7 +504,7 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 		if (material != nullptr)
 		{
 			material->upload();
-		}		
+		}
 		if (mTexture != nullptr)mTexture->bind(GL_REPLACE);
 		mMesh->render();
 		mTexture->unbind();
@@ -527,7 +527,7 @@ void EntityWithMaterial::quitMaterial()
 		material = nullptr;
 	}
 }
-Plane::Plane(SpotLight* sp) :CompoundEntity(), spotLight(sp), HelixRotAngle(3),PlaneRotAngle(1) {
+Plane::Plane(SpotLight* sp) :CompoundEntity(), spotLight(sp), HelixRotAngle(3), PlaneRotAngle(1) {
 	helices = new CompoundEntity();
 	helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
 	helices->addEntity(new Cylinder(30, 10, 100, glm::fvec3(0, 0, 1)));
@@ -552,11 +552,11 @@ Plane::Plane(SpotLight* sp) :CompoundEntity(), spotLight(sp), HelixRotAngle(3),P
 void Plane::update()
 {
 	//trasladamos el avión y lo rotamos
-	setModelMat(translate(modelMat(), dvec3(0, 17*sin(radians(PlaneRotAngle)), 17*cos(radians(PlaneRotAngle)))));
+	setModelMat(translate(modelMat(), dvec3(0, 17 * sin(radians(PlaneRotAngle)), 17 * cos(radians(PlaneRotAngle)))));
 	setModelMat(rotate(modelMat(), radians(PlaneRotAngle), dvec3(1, 0, 0)));
-	
+
 	//rotamos las hélices	
-	helices->setModelMat(rotate(helices->modelMat(),radians(HelixRotAngle),glm::dvec3(0,0,1)));
+	helices->setModelMat(rotate(helices->modelMat(), radians(HelixRotAngle), glm::dvec3(0, 0, 1)));
 }
 
 void Plane::render(glm::dmat4 const& modelViewMat) const
@@ -567,4 +567,97 @@ void Plane::render(glm::dmat4 const& modelViewMat) const
 	upload(aMat);
 	//colocamos el foco en la posición del avión y con su misma rotación
 	spotLight->upload(aMat);
+}
+
+Grid::Grid(GLdouble lado, GLuint nDiv)
+{
+	mMesh = IndexMesh::generateGridTex(lado, nDiv);
+}
+
+void Grid::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		if (mTexture == nullptr)
+		{
+			glPolygonMode(GL_FRONT, GL_LINE);
+			glLineWidth(2);
+		}
+		else {
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			glPolygonMode(GL_FRONT, GL_FILL);
+			mTexture->bind(GL_MODULATE);
+		}
+		mMesh->render();
+		glLineWidth(1);
+		if (mTexture != nullptr)mTexture->unbind();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* tapaYBase , Texture* lados)
+{
+	//frontal y trasera
+	gObjects.push_back(new Grid(lado, nDiv));
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, 0, -lado / 2)));
+	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(),radians(180.0),dvec3(0,1,0)));
+	gObjects.back()->setTexture(lados);
+	gObjects.push_back(new Grid(lado, nDiv));
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, 0, lado / 2)));
+	gObjects.back()->setTexture(lados);
+
+	//lados
+	gObjects.push_back(new Grid(lado, nDiv));
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(-lado / 2, 0, 0)));
+	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(-90.0), dvec3(0, 1, 0)));
+	gObjects.back()->setTexture(lados);
+	gObjects.push_back(new Grid(lado, nDiv));
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(lado / 2, 0, 0)));
+	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(90.0), dvec3(0, 1, 0)));
+	gObjects.back()->setTexture(lados);
+
+	//tapa y base
+	gObjects.push_back(new Grid(lado, nDiv));
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, lado / 2, 0)));
+	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(-90.0), dvec3(1, 0, 0)));
+	gObjects.back()->setTexture(tapaYBase);
+	gObjects.push_back(new Grid(lado, nDiv));
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, -lado / 2, 0)));
+	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(90.0), dvec3(1, 0, 0)));
+	gObjects.back()->setTexture(tapaYBase);
+
+}
+
+void GridCube::render(glm::dmat4 const& modelViewMat) const
+{
+
+	CompoundEntity::render(modelViewMat);
+}
+
+SirenCube::SirenCube(SpotLight* light, Texture* tapaYBase , Texture* lados ):CompoundEntity(),light_(light)
+{
+	gObjects.push_back(new GridCube(200, 10,tapaYBase,lados));
+	gObjects.push_back(new Esfera(50, 100, 100, dvec4(1, 0, 0, 1)));
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, 110, 0)));
+	light_->setPosDir(dvec3(-110,-110,73));
+	light_->setDiff(fvec4(1, 1, 1, 1));
+	light_->setSpot(dvec3(0, 0, 1), 45, 3);
+}
+
+void SirenCube::render(glm::dmat4 const& modelViewMat) const
+{
+	CompoundEntity::render(modelViewMat);
+	dmat4 aMat = modelViewMat * mModelMat;
+	aMat = rotate(aMat, radians(radians_), dvec3(0, 1, 0));
+	light_->upload(aMat);
+}
+
+void SirenCube::update()
+{
+	setModelMat(translate(modelMat(), dvec3(0, 17 * sin(radians(rotAngle)), 17 * cos(radians(rotAngle)))));
+	setModelMat(rotate(modelMat(), radians(rotAngle), dvec3(1, 0, 0)));
+	radians_++;
+	if (radians_ > 360)
+		radians_ = 0;
 }

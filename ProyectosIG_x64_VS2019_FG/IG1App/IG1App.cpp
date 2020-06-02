@@ -187,6 +187,14 @@ void IG1App::key(unsigned char key, int x, int y)
 		if (mScene->GetID() != 4)
 			mScene->setState(4);
 		break;
+	case '5':
+		if (mScene->GetID() != 5)
+			mScene->setState(5);
+		break;
+	case '6':
+		if (mScene->GetID() != 6)
+			mScene->setState(6);
+		break;
 	case 'F':
 		Texture::save("foto.bmp ");
 		break;
@@ -265,6 +273,15 @@ void IG1App::key(unsigned char key, int x, int y)
 		break;
 
 	}
+	
+	case 'm':
+	{
+		SpotLight* SPL = mScene->getGridLight();
+		if (SPL != nullptr)
+			SPL->enable();
+		break;
+
+	}
 	case 't':
 	{
 		if (mScene->getPlane() != nullptr)
@@ -272,6 +289,10 @@ void IG1App::key(unsigned char key, int x, int y)
 			SpotLight* SPL = mScene->getPlaneLight();
 			if (SPL != nullptr)
 				SPL->enable();
+		}
+		else if(mScene->getSirenLight()!=nullptr)
+		{
+			mScene->getSirenLight()->enable();
 		}
 		break;
 	}
@@ -283,26 +304,26 @@ void IG1App::key(unsigned char key, int x, int y)
 			if (SPL != nullptr)
 				SPL->disable();
 		}
+		else if (mScene->getSirenLight() != nullptr)
+		{
+			mScene->getSirenLight()->disable();
+		}
 		break;
 	}
 	case 'd':
 	{
-		if (mScene->getPlane() != nullptr)
-		{
-			PosLight* SPL = mScene->getLuzMinero();
-			if (SPL != nullptr)
-				SPL->enable();
-		}
+
+		PosLight* SPL = mScene->getLuzMinero();
+		if (SPL != nullptr)
+			SPL->enable();
+
 		break;
 	}
 	case 'f':
 	{
-		if (mScene->getPlane() != nullptr)
-		{
-			PosLight* SPL = mScene->getLuzMinero();
-			if (SPL != nullptr)
-				SPL->disable();
-		}
+		PosLight* SPL = mScene->getLuzMinero();
+		if (SPL != nullptr)
+			SPL->disable();
 		break;
 	}
 	case 'e':
@@ -325,6 +346,17 @@ void IG1App::key(unsigned char key, int x, int y)
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 		break;
 	case 'y':
+		animActivated = !animActivated;
+		break;
+	case 'n':
+	{
+		SpotLight* SPL = mScene->getGridLight();
+		if (SPL != nullptr)
+			SPL->disable();
+		break;
+
+	}
+	case 'j':
 		animActivated = !animActivated;
 		break;
 

@@ -60,6 +60,10 @@ public:
 	virtual void render() const;
 	static IndexMesh* generaAnilloCuadrado();
 	static IndexMesh* generaIndexCuboConTapas(GLdouble l, glm::dvec4 color);
+	static IndexMesh* generaGrid(GLdouble lado, GLuint nDiv);
+	static IndexMesh* generateGridTex(GLdouble lado, GLuint nDiv);
+
+
 	//std::vector<unsigned int>
 protected:
 	std::vector<unsigned int> vIndices;

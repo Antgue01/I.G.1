@@ -258,5 +258,26 @@ private:
 	GLdouble HelixRotAngle = 0;
 
 };
+class Grid : public EntityWithIndexMesh {
+public:
+	Grid(GLdouble lado, GLuint nDiv);
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+};
+class GridCube : public CompoundEntity {
+public:
+	GridCube(GLdouble lado, GLuint nDiv, Texture* tapaYBase = nullptr, Texture* lados = nullptr);
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+
+};
+class SirenCube : public CompoundEntity {
+public:
+	SirenCube(SpotLight* light,Texture* tapaYBase = nullptr, Texture* lados = nullptr);
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	virtual void update();
+private:
+	double rotAngle = 1.0;
+	SpotLight* light_;
+	double radians_ = 0.0;
+};
 
 #endif //_H_Entities_H_

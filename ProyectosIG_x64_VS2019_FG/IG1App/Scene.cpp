@@ -38,6 +38,12 @@ void Scene::init()
 	gTextures.push_back(new Texture());
 	gTextures.at(5)->load("..\\BMPS\\windowV.bmp", 100);
 
+	gTextures.push_back(new Texture());
+	gTextures.at(6)->load("..\\BMPS\\checker.bmp");
+
+	gTextures.push_back(new Texture());
+	gTextures.at(7)->load("..\\BMPS\\stones.bmp");
+
 	// Graphics objects (entities) of the scene
 	for (int i = 0; i < gObjects.size(); i++)
 	{
@@ -131,7 +137,7 @@ void Scene::init()
 	}
 	else if (miId == 3)
 	{
-		
+
 		avion = new Plane(planeSpotLight);
 		avion->setModelMat(translate(avion->modelMat(), glm::dvec3(0, 300, 0)));
 		avion->setModelMat(scale(avion->modelMat(), glm::dvec3(.3, .3, .3)));
@@ -151,6 +157,20 @@ void Scene::init()
 		Sphere* sphere = new Sphere(100, glm::fvec3(0, 0, 1));
 		sphere->setModelMat(translate(sphere->modelMat(), dvec3(150, 0, 0)));
 		gObjects.push_back(sphere);
+	}
+	else if (miId == 5) {
+
+		GridCube* gridcube = new GridCube(200, 10, gTextures.at(6), gTextures.at(7));
+		gObjects.push_back(gridcube);
+	}
+	else if (miId == 6) {
+	SirenCube* sirenCube = new SirenCube(SirenSpotLight,gTextures.at(6), gTextures.at(7));
+	sirenCube->setModelMat(translate(sirenCube->modelMat(), glm::dvec3(0, 245, 0)));
+	sirenCube->setModelMat(scale(sirenCube->modelMat(), glm::dvec3(.3, .3, .3)));
+	gObjects.push_back(sirenCube);
+	Esfera* esfera = new Esfera(200, 100, 100);
+	gObjects.push_back(esfera);
+
 	}
 }
 //-------------------------------------------------------------------------
@@ -188,7 +208,17 @@ void Scene::free()
 		delete planeSpotLight;
 		planeSpotLight = nullptr;
 	}
+	if (gridSpotLight != nullptr) {
+		delete gridSpotLight;
+		gridSpotLight = nullptr;
+	}
+	if (SirenSpotLight != nullptr)
+	{
+		delete SirenSpotLight;
+		SirenSpotLight = nullptr;
+	}
 }
+
 //-------------------------------------------------------------------------
 void Scene::setGL()
 {
@@ -233,6 +263,14 @@ void Scene::setLights()
 	luzMinero->setDiff(glm::dvec4(1, 1, 1, 1));
 	luzMinero->disable();
 
+	gridSpotLight = new SpotLight(glm::dvec3(0, 0, 300));
+	gridSpotLight->setDiff(fvec4(1, 1, 1, 1));
+	gridSpotLight->setAmb(fvec4(0, 0, 0, 0));
+	gridSpotLight->setSpot(fvec3(0, 0, -1), 45, 20);
+
+	//La vamos a inicializar en la constructora de SirenCube
+	SirenSpotLight = new SpotLight();
+	SirenSpotLight->disable();
 }
 //-------------------------------------------------------------------------
 
@@ -244,6 +282,7 @@ void Scene::render(Camera const& cam) const
 	sceneSpotLight(cam);*/
 
 	//subimos las luces a la tarjeta
+	//glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 	if (directionalLight != nullptr)
 		directionalLight->upload(cam.viewMat());
 	if (spotSceneLight != nullptr)
@@ -252,6 +291,8 @@ void Scene::render(Camera const& cam) const
 		positionalLight->upload(cam.viewMat());
 	if (luzMinero != nullptr)
 		luzMinero->upload(dmat4(1));
+	if (gridSpotLight != nullptr)
+		gridSpotLight->upload(cam.viewMat());
 
 	cam.upload();
 
