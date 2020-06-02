@@ -655,9 +655,9 @@ void SirenCube::render(glm::dmat4 const& modelViewMat) const
 
 void SirenCube::update()
 {
-	setModelMat(translate(modelMat(), dvec3(0, 17 * sin(radians(rotAngle)), 17 * cos(radians(rotAngle)))));
+	setModelMat(translate(modelMat(), dvec3(0, 14 * sin(radians(rotAngle)), 14 * cos(radians(rotAngle)))));
 	setModelMat(rotate(modelMat(), radians(rotAngle), dvec3(1, 0, 0)));
-	radians_++;
+	radians_+=4;
 	if (radians_ > 360)
 		radians_ = 0;
 }
