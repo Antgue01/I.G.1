@@ -1,5 +1,1 @@
-﻿  Entity.cpp
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(70,39): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(141,41): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLuint'; posible pérdida de datos
-C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(461,67): warning C4267: 'argumento': conversión de 'size_t' a 'int'; posible pérdida de datos
-  IG1App.vcxproj -> C:\Users\madar\Desktop\Uni\2º V\IG\Repo\I.G.1\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿

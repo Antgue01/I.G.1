@@ -425,7 +425,7 @@ IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint nDiv)
 
 	vector<unsigned int> indexes;
 
-
+	//indicamos los índices correspondientes a los triángulos en sentido antihorario
 	for (int i = 0; i < nDiv; i++)
 	{
 		for (int j = 0; j < nDiv; j++)
@@ -443,15 +443,19 @@ IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint nDiv)
 	}
 
 	IndexMesh* m = new IndexMesh(indexes);
+	//la grid tendra nDiv ^ 2 vertices
 	m->mNumVertices = pow(nDiv + 1, 2);
 	GLdouble init = -lado / 2;
+	//creamos el perfil
 	for (size_t i = 0; i < nDiv + 1; i++)
 	{
+		//cada vertice esta separado del siguiente por lado/nDiv unidades
 		m->vVertices.emplace_back(init, -lado / 2, 0);
 		init += lado / nDiv;
 	}
 	int avanceY = lado / nDiv;
 	int start = (-lado / 2) + avanceY;
+	//trasladamos el perfil nDiv veces (ya que la primera está hecha
 	for (int i = 0; i < nDiv; i++)
 	{
 		for (int j = 0; j < nDiv + 1; j++)
@@ -467,13 +471,15 @@ IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint nDiv)
 
 IndexMesh* IndexMesh::generateGridTex(GLdouble lado, GLuint nDiv)
 {
+	//tenemos que asignar a cada vertice una coordenada de textura asi que
+	//seguimos el mismo procedimiento que al generar la malla
 	IndexMesh* mesh = IndexMesh::generaGrid(lado, nDiv);
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 	double init = 0.0;
 	for (size_t i = 0; i < nDiv + 1; i++)
 	{
 		mesh->vTexCoords.emplace_back(init, 0);
-		init = init +(1.0 / nDiv);
+		init = init + (1.0 / nDiv);
 	}
 	double avanceY = 1.0 / nDiv;
 	double start = avanceY;

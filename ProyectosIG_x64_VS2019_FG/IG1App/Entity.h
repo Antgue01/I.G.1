@@ -277,7 +277,7 @@ public:
 private:
 	double rotAngle = 1.0;
 	SpotLight* light_;
-	double radians_ = 0.0;
+	double degrees_ = 0.0;
 };
 
 #endif //_H_Entities_H_

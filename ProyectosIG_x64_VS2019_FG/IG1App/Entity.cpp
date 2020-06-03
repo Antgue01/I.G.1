@@ -579,12 +579,14 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+	//si no tiene texturas se renderiza la grid y si tiene se renderiza la textura
 		if (mTexture == nullptr)
 		{
 			glPolygonMode(GL_FRONT, GL_LINE);
 			glLineWidth(2);
 		}
 		else {
+			//hacemos que la luz se mezcle con las texturas
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glPolygonMode(GL_FRONT, GL_FILL);
 			mTexture->bind(GL_MODULATE);
@@ -640,16 +642,18 @@ SirenCube::SirenCube(SpotLight* light, Texture* tapaYBase , Texture* lados ):Com
 	gObjects.push_back(new GridCube(200, 10,tapaYBase,lados));
 	gObjects.push_back(new Esfera(50, 100, 100, dvec4(1, 0, 0, 1)));
 	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, 110, 0)));
-	light_->setPosDir(dvec3(-110, -110, 73));
+	//colocamos el foco de forma que no ilumine a la propia entidad
+	light_->setPosDir(dvec3(-110, -130, 73));
 	light_->setDiff(fvec4(1, 1, 1, 1));
-	light_->setSpot(dvec3(0, 0, 1), 45, 3);
+	light_->setSpot(dvec3(0, 0, 1), 45, 1);
 }
 
 void SirenCube::render(glm::dmat4 const& modelViewMat) const
 {
 	CompoundEntity::render(modelViewMat);
 	dmat4 aMat = modelViewMat * mModelMat;
-	aMat = rotate(aMat, radians(radians_), dvec3(0, 1, 0));
+	//rotamos un poco el foco y subimos su matriz
+	aMat = rotate(aMat, radians(degrees_), dvec3(0, 1, 0));
 	light_->upload(aMat);
 }
 
@@ -657,7 +661,9 @@ void SirenCube::update()
 {
 	setModelMat(translate(modelMat(), dvec3(0, 14 * sin(radians(rotAngle)), 14 * cos(radians(rotAngle)))));
 	setModelMat(rotate(modelMat(), radians(rotAngle), dvec3(1, 0, 0)));
-	radians_+=4;
-	if (radians_ > 360)
-		radians_ = 0;
+	//hacemos que el foco rote más con respecto a su posición de reposo en cada frame,
+	//dando la sensación de que gira
+	degrees_+=4;
+	if (degrees_ > 360)
+		degrees_ = 0;
 }

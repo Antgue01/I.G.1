@@ -284,12 +284,14 @@ void IG1App::key(unsigned char key, int x, int y)
 	}
 	case 't':
 	{
+		//si tenemos el avión en la escena activamos su luz
 		if (mScene->getPlane() != nullptr)
 		{
 			SpotLight* SPL = mScene->getPlaneLight();
 			if (SPL != nullptr)
 				SPL->enable();
 		}
+		//si no, si tenemos la luz de sirena en la escena la activamos
 		else if(mScene->getSirenLight()!=nullptr)
 		{
 			mScene->getSirenLight()->enable();
@@ -298,12 +300,14 @@ void IG1App::key(unsigned char key, int x, int y)
 	}
 	case 'g':
 	{
+		//si tenemos el avión en la escena activamos su luz
 		if (mScene->getPlane() != nullptr)
 		{
 			SpotLight* SPL = mScene->getPlaneLight();
 			if (SPL != nullptr)
 				SPL->disable();
 		}
+		//si no, si tenemos la luz de sirena en la escena la desactivamos
 		else if (mScene->getSirenLight() != nullptr)
 		{
 			mScene->getSirenLight()->disable();
@@ -357,6 +361,7 @@ void IG1App::key(unsigned char key, int x, int y)
 
 	}
 	case 'j':
+		//hacemos que se activen las animaciones
 		animActivated = !animActivated;
 		break;
 
