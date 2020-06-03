@@ -68,7 +68,7 @@ void IG1App::iniWinOpenGL()
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH /*| GLUT_STENCIL*/); // RGBA colors, double buffer, depth buffer and stencil buffer   
 
 	mWinId = glutCreateWindow("IG1App");  // with its associated OpenGL context, return window's identifier 
-	if (!gladLoadGL()) { printf("GLAD: Something went wrong!\n"); } 
+	if (!gladLoadGL()) { printf("GLAD: Something went wrong!\n"); } //EXTRA 2
 	// Callback registration
 	glutReshapeFunc(s_resize);
 	glutKeyboardFunc(s_key);
@@ -94,6 +94,7 @@ void IG1App::free()
 		delete auxCamera;
 		auxCamera = nullptr;
 	}
+	//EXTRA 1
 	delete background;
 	background = nullptr;
 	
@@ -126,7 +127,6 @@ void IG1App::display() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
 	//EXTRA 1
-	background->setSize(mWinW, mWinH);
 	background->render();
 	if (m2Vistas)display2Vistas();
 	else 
@@ -147,7 +147,7 @@ void IG1App::resize(int newWidth, int newHeight)
 
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height());
-
+	//EXTRA 1
 	background->setSize(newWidth, newHeight);
 }
 //-------------------------------------------------------------------------

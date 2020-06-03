@@ -12,6 +12,8 @@ Fondo::Fondo()
 	mesh = Mesh::generaRectanguloTexCor(2, 2, 1, 1);
 	cam->setSize(2, 2);
 	cam->set2D();
+	mesh->setTwoUnits(true);
+
 }
 
 Fondo::~Fondo()
@@ -37,20 +39,18 @@ void Fondo::render() const
 	if (mesh != nullptr) {
 		glm::dmat4 aMat =  cam->viewMat();
 		glDisable(GL_DEPTH_TEST);
-		//glMatrixMode(GL_MODELVIEW);
-		//glLoadMatrixd(value_ptr(aMat));
 		cam->upload();
 		
- 		glPolygonMode(GL_FRONT, GL_POINT);
+ 		glPolygonMode(GL_FRONT, GL_FILL);
+		if (secondImg != nullptr)
+			secondImg->bind(GL_DECAL,GL_TEXTURE1);
 		if (img != nullptr)
 			img->bind(GL_DECAL);
-		if (secondImg != nullptr)
-			secondImg->bind(GL_DECAL);
 		mesh->render();
 		if (img != nullptr)
 			img->unbind();
 		if (secondImg != nullptr)
-			secondImg->unbind();
+			secondImg->unbind(GL_TEXTURE1);
 		glEnable(GL_DEPTH_TEST);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}

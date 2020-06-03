@@ -25,11 +25,23 @@ void Texture::init()
 }
 //-------------------------------------------------------------------------
 
-void Texture::bind(GLuint mixMode) // GL_REPLACE, GL_MODULATE, GL_ADD
+void Texture::bind(GLuint mixMode, GLenum Tunit ) // GL_REPLACE, GL_MODULATE, GL_ADD
 {
+	glEnable(GL_TEXTURE_2D);
+	glActiveTexture(Tunit);
 	glBindTexture(GL_TEXTURE_2D, mId);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mixMode);
 }
+
+void Texture::unbind(GLenum unit) const
+{
+	//EXTRA 2
+	glActiveTexture(unit);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+
 //-------------------------------------------------------------------------
 
 void Texture::load(const std::string& BMP_Name, GLubyte alpha)
@@ -78,16 +90,16 @@ void Texture::load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha
 }
 //-------------------------------------------------------------------------
 void Texture::save(const std::string& NAME) {
-	
+
 	PixMap32RGBA e;
 	e.reserve(IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight());
 	glReadBuffer(GL_FRONT);
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,e.data());
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, e.data());
 	glReadPixels(0, 0, IG1App::s_ig1app.winWidth(), IG1App::s_ig1app.winHeight(), GL_RGBA, GL_UNSIGNED_BYTE, e.data());
 	e.save_bmp24BGR(NAME);
 	e.free();
-	
-	
+
+
 }
 
 void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP
@@ -100,7 +112,7 @@ void Texture::setWrap(GLuint wp) // GL_REPEAT, GL_CLAMP
 void Texture::loadColorBuffer(int w, int h) {
 
 
-	 init();
+	init();
 
 	mWidth = w;
 	mHeight = h;
@@ -109,7 +121,7 @@ void Texture::loadColorBuffer(int w, int h) {
 
 	glBindTexture(GL_TEXTURE_2D, mId);
 	glReadBuffer(GL_FRONT);
-	glCopyTexImage2D(GL_TEXTURE_2D,level, GL_RGBA, 0, 0, w, h, border);
+	glCopyTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, 0, 0, w, h, border);
 	glReadBuffer(GL_BACK);
 	glBindTexture(GL_TEXTURE_2D, 0);
 

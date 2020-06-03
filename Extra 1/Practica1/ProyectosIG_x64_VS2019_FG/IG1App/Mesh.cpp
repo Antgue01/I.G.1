@@ -25,11 +25,20 @@ void Mesh::render() const
 
 		if (vTexCoords.size() > 0)
 		{
+
+			glClientActiveTexture(GL_TEXTURE0); //EXTRA 2
+
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+			if (TwoUnits) //EXTRA 2
+			{
+				glClientActiveTexture(GL_TEXTURE1); //EXTRA 2
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+			}
 		}
 
-		
+
 
 		draw();
 
@@ -196,26 +205,26 @@ Mesh* Mesh::generaContCubo(GLdouble ld) {
 	cubo->mPrimitive = GL_TRIANGLE_STRIP;
 	cubo->mNumVertices = 10;
 	cubo->vVertices.reserve(cubo->mNumVertices);
-	
-	int n = ld/2;
+
+	int n = ld / 2;
 	//frontal
 	cubo->vVertices.emplace_back(-n, -n, n);
-	cubo->vVertices.emplace_back(-n,n, n);
+	cubo->vVertices.emplace_back(-n, n, n);
 	cubo->vVertices.emplace_back(n, -n, n);
 	cubo->vVertices.emplace_back(n, n, n);
-	
+
 	//derecha
 	cubo->vVertices.emplace_back(n, -n, n - ld);
-	cubo->vVertices.emplace_back(n, n, n-ld);
-	
+	cubo->vVertices.emplace_back(n, n, n - ld);
+
 	//trasera
 	cubo->vVertices.emplace_back(n - ld, -n, -n);
-	cubo->vVertices.emplace_back(n-ld, n, -n);
-	
+	cubo->vVertices.emplace_back(n - ld, n, -n);
+
 	//izquierda
 	cubo->vVertices.emplace_back(-n, -n, n);
 	cubo->vVertices.emplace_back(-n, n, n);
-	
+
 
 	return cubo;
 }
@@ -230,8 +239,8 @@ Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	for (GLuint i = 0; i < mesh->mNumVertices - 1; i++)
 	{
-		if (i % 2 == 0)mesh->vTexCoords.emplace_back(0.5+0.5 * cos(angle), 0.5+0.5 * sin(angle));
-		else mesh->vTexCoords.emplace_back(0.5 + 0.25* cos(angle), 0.5 + 0.25 * sin(angle));
+		if (i % 2 == 0)mesh->vTexCoords.emplace_back(0.5 + 0.5 * cos(angle), 0.5 + 0.5 * sin(angle));
+		else mesh->vTexCoords.emplace_back(0.5 + 0.25 * cos(angle), 0.5 + 0.25 * sin(angle));
 
 		angle += radians(180.0 / np);
 	}
@@ -241,14 +250,14 @@ Mesh* Mesh::generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h)
 
 Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 {
-	Mesh* mesh = generaRectangulo(w,h);
+	Mesh* mesh = generaRectangulo(w, h);
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
-	
+
 	mesh->vTexCoords.emplace_back(0.0, 0.0);
 	mesh->vTexCoords.emplace_back(0.0, rh);
 	mesh->vTexCoords.emplace_back(rw, 0.0);
 	mesh->vTexCoords.emplace_back(rw, rh);
-	
+
 
 	return mesh;
 }
@@ -261,7 +270,7 @@ Mesh* Mesh::generaCajaTexCor(GLdouble nl) {
 	m->vTexCoords.emplace_back(0, 0);
 	m->vTexCoords.emplace_back(1, 1);
 	m->vTexCoords.emplace_back(1, 0);
-	
+
 	m->vTexCoords.emplace_back(0, 1);
 	m->vTexCoords.emplace_back(0, 0);
 	m->vTexCoords.emplace_back(1, 1);
