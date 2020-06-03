@@ -640,7 +640,7 @@ SirenCube::SirenCube(SpotLight* light, Texture* tapaYBase , Texture* lados ):Com
 	gObjects.push_back(new GridCube(200, 10,tapaYBase,lados));
 	gObjects.push_back(new Esfera(50, 100, 100, dvec4(1, 0, 0, 1)));
 	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, 110, 0)));
-	light_->setPosDir(dvec3(-110,-110,73));
+	light_->setPosDir(dvec3(-110, -110, 73));
 	light_->setDiff(fvec4(1, 1, 1, 1));
 	light_->setSpot(dvec3(0, 0, 1), 45, 3);
 }
