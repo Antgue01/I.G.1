@@ -27,6 +27,7 @@ void Texture::init()
 
 void Texture::bind(GLuint mixMode, GLenum Tunit ) // GL_REPLACE, GL_MODULATE, GL_ADD
 {
+	//Activamos la unidad de textura que nos pasen (por defecto la 0)
 	glEnable(GL_TEXTURE_2D);//EXTRA 2
 	glActiveTexture(Tunit);//EXTRA 2
 	glBindTexture(GL_TEXTURE_2D, mId);
@@ -36,6 +37,7 @@ void Texture::bind(GLuint mixMode, GLenum Tunit ) // GL_REPLACE, GL_MODULATE, GL
 void Texture::unbind(GLenum unit) const
 {
 	
+	//Desactivamos la textura asociada a la unidad dada (por defecto la 0)
 	glActiveTexture(unit);//EXTRA 2
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

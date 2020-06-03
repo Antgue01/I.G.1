@@ -25,11 +25,11 @@ void Mesh::render() const
 
 		if (vTexCoords.size() > 0)
 		{
-
+			//activamos y subimos la unidad de textura 0
 			glClientActiveTexture(GL_TEXTURE0); //EXTRA 2
-
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+			//solo activamos y subimos la textura 1 si hay que renderizar las 2
 			if (TwoUnits) //EXTRA 2
 			{
 				glClientActiveTexture(GL_TEXTURE1); //EXTRA 2

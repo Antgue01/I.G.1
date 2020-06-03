@@ -42,8 +42,8 @@ void IG1App::init()
 	mViewPort = new Viewport(mWinW, mWinH); //glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
-	//EXTRA1
-	background = new Fondo();
+	background = new Fondo(); //EXTRA1
+
 
 	mCamera->set2D();
 	mScene->init();
@@ -94,10 +94,10 @@ void IG1App::free()
 		delete auxCamera;
 		auxCamera = nullptr;
 	}
-	
+
 	delete background; //EXTRA 1
 	background = nullptr;//EXTRA 1
-	
+
 }
 //-------------------------------------------------------------------------
 
@@ -108,12 +108,12 @@ void IG1App::display2Vistas()const
 
 	//Usuario
 	mViewPort->setSize(mWinW / 2, mWinH);
-	auxCam.setSize(mViewPort->width(), mViewPort->height());	
+	auxCam.setSize(mViewPort->width(), mViewPort->height());
 	mViewPort->setPos(0, 0);
 	mScene->render(auxCam);
 
 	//Cenital
-	mViewPort->setPos(mWinW / 2,0);
+	mViewPort->setPos(mWinW / 2, 0);
 	auxCam.setCenital();
 
 	mScene->render(auxCam);
@@ -125,12 +125,12 @@ void IG1App::display() const
 {  // double buffering
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
-
+	//renderizamos el fondo lo primero
 	background->render(); //EXTRA 1
 	if (m2Vistas)display2Vistas();
-	else 
+	else
 	{
-       mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
+		mScene->render(*mCamera);  // uploads the viewport and camera to the GPU
 	}
 
 	glutSwapBuffers();	// swaps the front and back buffer
@@ -146,7 +146,8 @@ void IG1App::resize(int newWidth, int newHeight)
 
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height());
-	
+
+	//Al cambiar el tamaño de la ventana reajustamos el fondo
 	background->setSize(newWidth, newHeight);//EXTRA 1
 }
 //-------------------------------------------------------------------------
@@ -214,7 +215,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'k':
 		m2Vistas = !m2Vistas;
 		break;
-	} 
+	}
 	//switch
 
 	if (need_redisplay)
@@ -259,7 +260,7 @@ void IG1App::mouse(int button, int state, int x, int y) {
 	mMouseButt = button;
 	mState = state;
 }
-void IG1App::motion(int x, int y) 
+void IG1App::motion(int x, int y)
 {
 	// guardamos la anterior posici�n en var. temp.
 	glm::dvec2 mp = mMouseCoord;
@@ -267,30 +268,30 @@ void IG1App::motion(int x, int y)
 	// Guardamos la posici�n actual
 	mMouseCoord = glm::dvec2(x, mWinH - y);
 
-    // calculamos el desplazamiento realizado
+	// calculamos el desplazamiento realizado
 	mp = mMouseCoord - mp;
 
 	if (mMouseButt == GLUT_RIGHT_BUTTON)
-	{		
+	{
 		mCamera->moveLR(mp.x);
 		mCamera->moveUD(mp.y);
 	}
 	else if (mMouseButt == GLUT_LEFT_BUTTON)
 	{
-       mCamera->orbit(mp.x * 0.05, -mp.y);
+		mCamera->orbit(mp.x * 0.05, -mp.y);
 	}
 
 	glutPostRedisplay();
 }
 
-void IG1App::mouseWheel(int n, int d, int x, int y) 
+void IG1App::mouseWheel(int n, int d, int x, int y)
 {
 	int m = glutGetModifiers();
 
-	if ( m == 0) // ninguna est� presionada
+	if (m == 0) // ninguna est� presionada
 	{
 		if (d == 1)mCamera->moveFB(.1);
-		else mCamera->moveFB(-.1);	
+		else mCamera->moveFB(-.1);
 
 		glutPostRedisplay();
 	}
