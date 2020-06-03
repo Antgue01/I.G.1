@@ -5,10 +5,10 @@
 //#include <Windows.h>
 //#include <gl/GL.h>
 
-#include <GL/freeglut.h>
+//#include <GL/freeglut.h>
 #include <string>
-#include <glm.hpp>
-
+//#include <glm.hpp>
+#include "GLInclude.h"
 
 class PixMap32RGBA {   
 public:

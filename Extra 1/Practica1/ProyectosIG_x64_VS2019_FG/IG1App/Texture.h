@@ -2,8 +2,9 @@
 #ifndef _H_Texture_H_
 #define _H_Texture_H_
 
-#include <GL/freeglut.h>
-#include <glm.hpp>
+//#include <GL/freeglut.h>
+//#include <glm.hpp>
+#include "GLInclude.h"
 #include "Pixmap32RGBA.h"
 #include <string>
 //-------------------------------------------------------------------------

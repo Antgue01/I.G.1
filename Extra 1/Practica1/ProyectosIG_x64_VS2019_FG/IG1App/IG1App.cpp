@@ -68,7 +68,7 @@ void IG1App::iniWinOpenGL()
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH /*| GLUT_STENCIL*/); // RGBA colors, double buffer, depth buffer and stencil buffer   
 
 	mWinId = glutCreateWindow("IG1App");  // with its associated OpenGL context, return window's identifier 
-
+	if (!gladLoadGL()) { printf("GLAD: Something went wrong!\n"); } 
 	// Callback registration
 	glutReshapeFunc(s_resize);
 	glutKeyboardFunc(s_key);

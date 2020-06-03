@@ -2,9 +2,9 @@
 #ifndef _H_Scene_H_
 #define _H_Scene_H_
 
-#include <GL/freeglut.h>
-#include <glm.hpp>
-
+//#include <GL/freeglut.h>
+//#include <glm.hpp>
+#include "GLInclude.h"
 #include "Camera.h"
 #include "Entity.h"
 

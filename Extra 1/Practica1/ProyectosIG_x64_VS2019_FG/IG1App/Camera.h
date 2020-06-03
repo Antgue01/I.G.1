@@ -2,8 +2,9 @@
 #ifndef _H_Camera_H_
 #define _H_Camera_H_
 
-#include <GL/freeglut.h>
-#include <glm.hpp>
+//#include <GL/freeglut.h>
+//#include <glm.hpp>
+#include "GLInclude.h"
 #include <gtc/matrix_access.hpp>
 #include "Viewport.h"
 

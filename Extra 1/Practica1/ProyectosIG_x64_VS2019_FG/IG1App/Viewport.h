@@ -2,9 +2,9 @@
 #ifndef _H_Viewport_H_
 #define _H_Viewport_H_
 
-#include <GL/freeglut.h>
-#include <glm.hpp>
-
+//#include <GL/freeglut.h>
+//#include <glm.hpp>
+#include "GLInclude.h"
 //-------------------------------------------------------------------------
 
 class Viewport 
