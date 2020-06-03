@@ -94,9 +94,9 @@ void IG1App::free()
 		delete auxCamera;
 		auxCamera = nullptr;
 	}
-	//EXTRA 1
-	delete background;
-	background = nullptr;
+	
+	delete background; //EXTRA 1
+	background = nullptr;//EXTRA 1
 	
 }
 //-------------------------------------------------------------------------
@@ -126,8 +126,7 @@ void IG1App::display() const
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 
-	//EXTRA 1
-	background->render();
+	background->render(); //EXTRA 1
 	if (m2Vistas)display2Vistas();
 	else 
 	{
@@ -147,8 +146,8 @@ void IG1App::resize(int newWidth, int newHeight)
 
 	// Resize Scene Visible Area such that the scale is not modified
 	mCamera->setSize(mViewPort->width(), mViewPort->height());
-	//EXTRA 1
-	background->setSize(newWidth, newHeight);
+	
+	background->setSize(newWidth, newHeight);//EXTRA 1
 }
 //-------------------------------------------------------------------------
 

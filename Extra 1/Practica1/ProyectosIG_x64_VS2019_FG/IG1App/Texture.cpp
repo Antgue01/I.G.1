@@ -27,16 +27,16 @@ void Texture::init()
 
 void Texture::bind(GLuint mixMode, GLenum Tunit ) // GL_REPLACE, GL_MODULATE, GL_ADD
 {
-	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(Tunit);
+	glEnable(GL_TEXTURE_2D);//EXTRA 2
+	glActiveTexture(Tunit);//EXTRA 2
 	glBindTexture(GL_TEXTURE_2D, mId);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mixMode);
 }
 
 void Texture::unbind(GLenum unit) const
 {
-	//EXTRA 2
-	glActiveTexture(unit);
+	
+	glActiveTexture(unit);//EXTRA 2
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

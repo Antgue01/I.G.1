@@ -1,4 +1,5 @@
 #pragma once
+//toda la clase es el EXTRA 1
 #include "Camera.h"
 #include "Mesh.h"
 #include "Texture.h"
@@ -15,7 +16,7 @@ private:
 	Camera* cam;
 	Mesh* mesh;
 	Texture* img;
-	Texture* secondImg;
+	Texture* secondImg; //EXTRA 2
 	Viewport* viewport;
 };
 
