@@ -633,7 +633,6 @@ GridCube::GridCube(GLdouble lado, GLuint nDiv, Texture* tapaYBase , Texture* lad
 
 void GridCube::render(glm::dmat4 const& modelViewMat) const
 {
-
 	CompoundEntity::render(modelViewMat);
 }
 
@@ -642,10 +641,14 @@ SirenCube::SirenCube(SpotLight* light, Texture* tapaYBase , Texture* lados ):Com
 	gObjects.push_back(new GridCube(200, 10,tapaYBase,lados));
 	gObjects.push_back(new Esfera(50, 100, 100, dvec4(1, 0, 0, 1)));
 	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, 110, 0)));
+	
 	//colocamos el foco de forma que no ilumine a la propia entidad
-	light_->setPosDir(dvec3(-110, -130, 73));
+	light_->setPosDir(dvec3(0,0,0));
 	light_->setDiff(fvec4(1, 1, 1, 1));
-	light_->setSpot(dvec3(0, 0, 1), 45, 1);
+	light_->setAmb(fvec4(0, 0, 0, 0));
+	light_->setSpec(fvec4(0, 0, 0, 0));
+	light_->setSpot(dvec3(0, 0,1), 45, 1);
+	
 }
 
 void SirenCube::render(glm::dmat4 const& modelViewMat) const
@@ -661,6 +664,7 @@ void SirenCube::update()
 {
 	setModelMat(translate(modelMat(), dvec3(0, 14 * sin(radians(rotAngle)), 14 * cos(radians(rotAngle)))));
 	setModelMat(rotate(modelMat(), radians(rotAngle), dvec3(1, 0, 0)));
+
 	//hacemos que el foco rote más con respecto a su posición de reposo en cada frame,
 	//dando la sensación de que gira
 	degrees_+=4;

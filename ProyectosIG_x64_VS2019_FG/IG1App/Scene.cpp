@@ -165,13 +165,14 @@ void Scene::init()
 	}
 	else if (miId == 6) {
 	SirenCube* sirenCube = new SirenCube(SirenSpotLight,gTextures.at(6), gTextures.at(7));
-	sirenCube->setModelMat(translate(sirenCube->modelMat(), glm::dvec3(0, 245, 0)));
+	sirenCube->setModelMat(translate(sirenCube->modelMat(), glm::dvec3(0, 235, 0)));
 	sirenCube->setModelMat(scale(sirenCube->modelMat(), glm::dvec3(.3, .3, .3)));
 	gObjects.push_back(sirenCube);
 	Esfera* esfera = new Esfera(200, 100, 100);
 	gObjects.push_back(esfera);
 
 	}
+
 }
 //-------------------------------------------------------------------------
 void Scene::free()
@@ -295,7 +296,6 @@ void Scene::render(Camera const& cam) const
 		gridSpotLight->upload(cam.viewMat());
 
 	cam.upload();
-
 
 	for (Abs_Entity* el : gObjects)
 	{
