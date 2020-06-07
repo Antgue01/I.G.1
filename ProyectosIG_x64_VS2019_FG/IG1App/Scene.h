@@ -56,7 +56,7 @@ protected:
 	void free();
 	void setGL();
 	void resetGL();
-	int miId = 6;
+	int miId = 5;
 	bool LightsActivated = true;
 	bool PositionalLightActivated = false;
 	bool SpotLightActivated = false;

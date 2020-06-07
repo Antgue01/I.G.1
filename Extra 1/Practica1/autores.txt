@@ -1,3 +1,4 @@
-Felipe Cuadra Plaza
 Antonio Jesús Guerra Garduño
-Hemos hecho como opcionales el 8(Animación), el 13(Fondo de la caja),el 16(Guardar en BMP) y el 18(Planta)
+Felipe Cuadra Plaza
+No había ningún elemento opcional así que no hemos realizado
+ninguno

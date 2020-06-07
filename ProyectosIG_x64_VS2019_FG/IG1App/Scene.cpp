@@ -17,7 +17,10 @@ void Scene::init()
 		setLights();
 		lightsAreInitialized = true;
 	}
-
+	//La luz del grid solo se activa en la escena 5 por defecto
+	if (miId != 5)
+		gridSpotLight->disable();
+	else gridSpotLight->enable();
 	// Textures	
 
 	gTextures.push_back(new Texture());
@@ -160,16 +163,17 @@ void Scene::init()
 	}
 	else if (miId == 5) {
 
+		gridSpotLight->enable();
 		GridCube* gridcube = new GridCube(200, 10, gTextures.at(6), gTextures.at(7));
 		gObjects.push_back(gridcube);
 	}
 	else if (miId == 6) {
-	SirenCube* sirenCube = new SirenCube(SirenSpotLight,gTextures.at(6), gTextures.at(7));
-	sirenCube->setModelMat(translate(sirenCube->modelMat(), glm::dvec3(0, 235, 0)));
-	sirenCube->setModelMat(scale(sirenCube->modelMat(), glm::dvec3(.3, .3, .3)));
-	gObjects.push_back(sirenCube);
-	Esfera* esfera = new Esfera(200, 100, 100);
-	gObjects.push_back(esfera);
+		SirenCube* sirenCube = new SirenCube(SirenSpotLight, gTextures.at(6), gTextures.at(7));
+		sirenCube->setModelMat(translate(sirenCube->modelMat(), glm::dvec3(0, 235, 0)));
+		sirenCube->setModelMat(scale(sirenCube->modelMat(), glm::dvec3(.3, .3, .3)));
+		gObjects.push_back(sirenCube);
+		Esfera* esfera = new Esfera(200, 100, 100);
+		gObjects.push_back(esfera);
 
 	}
 
@@ -268,6 +272,7 @@ void Scene::setLights()
 	gridSpotLight->setDiff(fvec4(1, 1, 1, 1));
 	gridSpotLight->setAmb(fvec4(0, 0, 0, 0));
 	gridSpotLight->setSpot(fvec3(0, 0, -1), 45, 20);
+
 
 	//La vamos a inicializar en la constructora de SirenCube
 	SirenSpotLight = new SpotLight();
