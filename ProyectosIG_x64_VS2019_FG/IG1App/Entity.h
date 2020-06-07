@@ -278,6 +278,7 @@ private:
 	double rotAngle = 1.0;
 	SpotLight* light_;
 	double degrees_ = 0.0;
+	void sirenMove();
 };
 
 #endif //_H_Entities_H_

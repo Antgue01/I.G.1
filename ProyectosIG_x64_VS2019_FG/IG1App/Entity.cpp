@@ -662,12 +662,17 @@ void SirenCube::render(glm::dmat4 const& modelViewMat) const
 
 void SirenCube::update()
 {
-	setModelMat(translate(modelMat(), dvec3(0, 14 * sin(radians(rotAngle)), 14 * cos(radians(rotAngle)))));
-	setModelMat(rotate(modelMat(), radians(rotAngle), dvec3(1, 0, 0)));
-
+	
+	sirenMove();
 	//hacemos que el foco rote más con respecto a su posición de reposo en cada frame,
 	//dando la sensación de que gira
 	degrees_ += 4;
 	if (degrees_ > 360)
 		degrees_ = 0;
+}
+
+void SirenCube::sirenMove()
+{
+	setModelMat(translate(modelMat(), dvec3(0, 14 * sin(radians(rotAngle)), 14 * cos(radians(rotAngle)))));
+	setModelMat(rotate(modelMat(), radians(rotAngle), dvec3(1, 0, 0)));
 }
