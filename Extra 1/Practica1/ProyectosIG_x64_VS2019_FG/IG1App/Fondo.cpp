@@ -15,7 +15,7 @@ Fondo::Fondo()
 	//ponemos la cámara al mismo tamaño que la malla para que se vea entera
 	cam->setSize(2, 2);
 	cam->set2D();
-	mesh->setTwoUnits(true);//EXTRA 2
+	mesh->setTwoUnits();//EXTRA 2
 
 }
 
@@ -33,7 +33,7 @@ Fondo::~Fondo()
 	secondImg = nullptr; //EXTRA 2
 }
 
-void Fondo::setSize(int xw, int yh)
+void Fondo::setSizeVP(int xw, int yh)
 {
 	//Ajustamos el tamaño del viewport
 	viewport->setSize(xw, yh);

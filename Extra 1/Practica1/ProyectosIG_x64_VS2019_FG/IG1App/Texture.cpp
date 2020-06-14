@@ -25,6 +25,12 @@ void Texture::init()
 }
 //-------------------------------------------------------------------------
 
+//void Texture::bind(GLuint mixMode) // GL_REPLACE, GL_MODULATE, GL_ADD
+//{
+//	glBindTexture(GL_TEXTURE_2D, mId);
+//	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mixMode);
+//}
+
 void Texture::bind(GLuint mixMode, GLenum Tunit ) // GL_REPLACE, GL_MODULATE, GL_ADD
 {
 	//Activamos la unidad de textura que nos pasen (por defecto la 0)

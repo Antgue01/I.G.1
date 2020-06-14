@@ -42,7 +42,7 @@ void IG1App::init()
 	mViewPort = new Viewport(mWinW, mWinH); //glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
-	background = new Fondo(); //EXTRA1
+	mFondo = new Fondo(); //EXTRA1
 
 
 	mCamera->set2D();
@@ -95,8 +95,8 @@ void IG1App::free()
 		auxCamera = nullptr;
 	}
 
-	delete background; //EXTRA 1
-	background = nullptr;//EXTRA 1
+	delete mFondo; //EXTRA 1
+	mFondo = nullptr;//EXTRA 1
 
 }
 //-------------------------------------------------------------------------
@@ -126,7 +126,8 @@ void IG1App::display() const
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clears the back buffer
 	//renderizamos el fondo lo primero
-	background->render(); //EXTRA 1
+	mFondo->render(); //EXTRA 1
+	
 	if (m2Vistas)display2Vistas();
 	else
 	{
@@ -148,7 +149,7 @@ void IG1App::resize(int newWidth, int newHeight)
 	mCamera->setSize(mViewPort->width(), mViewPort->height());
 
 	//Al cambiar el tamaño de la ventana reajustamos el fondo
-	background->setSize(newWidth, newHeight);//EXTRA 1
+	mFondo->setSizeVP(newWidth, newHeight);//EXTRA 1
 }
 //-------------------------------------------------------------------------
 

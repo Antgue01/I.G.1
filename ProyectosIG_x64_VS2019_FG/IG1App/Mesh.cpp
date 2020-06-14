@@ -419,10 +419,8 @@ IndexMesh* IndexMesh::generaIndexCuboConTapas(GLdouble l, glm::dvec4 color)
 	return m;
 }
 
-IndexMesh* IndexMesh::generaGrid(GLdouble lado, GLuint nDiv)
+IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
 {
-
-
 	vector<unsigned int> indexes;
 
 	//indicamos los índices correspondientes a los triángulos en sentido antihorario
@@ -473,7 +471,7 @@ IndexMesh* IndexMesh::generateGridTex(GLdouble lado, GLuint nDiv)
 {
 	//tenemos que asignar a cada vertice una coordenada de textura asi que
 	//seguimos el mismo procedimiento que al generar la malla
-	IndexMesh* mesh = IndexMesh::generaGrid(lado, nDiv);
+	IndexMesh* mesh = IndexMesh::generateGrid(lado, nDiv);
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 	double init = 0.0;
 	for (size_t i = 0; i < nDiv + 1; i++)

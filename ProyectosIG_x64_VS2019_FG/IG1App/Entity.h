@@ -256,6 +256,7 @@ private:
 	SpotLight* spotLight = nullptr;
 	GLdouble PlaneRotAngle = 0;
 	GLdouble HelixRotAngle = 0;
+	bool hasToMove = false;
 
 };
 class Grid : public EntityWithIndexMesh {

@@ -86,7 +86,7 @@ protected:
 	int mMouseButt;
 	int mState;
 	bool m2Vistas = false;
-	Fondo* background = nullptr;
+	Fondo* mFondo = nullptr;
 };
 //-------------------------------------------------------------------------
 

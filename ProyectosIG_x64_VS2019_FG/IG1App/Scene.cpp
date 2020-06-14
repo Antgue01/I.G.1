@@ -271,6 +271,7 @@ void Scene::setLights()
 	gridSpotLight = new SpotLight(glm::dvec3(0, 0, 300));
 	gridSpotLight->setDiff(fvec4(1, 1, 1, 1));
 	gridSpotLight->setAmb(fvec4(0, 0, 0, 0));
+	gridSpotLight->setSpec(fvec4(0.5, 0.5, 0.5, 1));
 	gridSpotLight->setSpot(fvec3(0, 0, -1), 45, 20);
 
 

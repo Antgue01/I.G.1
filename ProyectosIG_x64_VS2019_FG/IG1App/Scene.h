@@ -73,6 +73,7 @@ protected:
 	void setLights();
 	Plane* avion = nullptr;
 
+
 	std::vector<Abs_Entity*> gObjects;  // Entities (graphic objects) of the scene
 	std::vector<Texture*>gTextures;
 

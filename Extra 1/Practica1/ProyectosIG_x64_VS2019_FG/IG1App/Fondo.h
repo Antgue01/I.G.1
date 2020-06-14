@@ -9,7 +9,7 @@ class Fondo
 public:
 	Fondo();
 	~Fondo();
-	void setSize(int xw, int yh);
+	void setSizeVP(int xw, int yh);
 	void render() const;
 	inline Camera* getCamera() { return cam; }
 private:

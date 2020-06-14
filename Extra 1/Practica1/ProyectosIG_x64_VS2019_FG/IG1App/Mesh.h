@@ -38,7 +38,7 @@ public:
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
 	std::vector<glm::dvec2> const& textCoords() const { return vTexCoords; };
 	//EXTRA 2
-	inline void setTwoUnits(bool value) { TwoUnits = value; }
+	inline void setTwoUnits() { TwoUnits = true; }
 protected:
 	
 	GLuint mPrimitive = GL_TRIANGLES;   // graphic primitive: GL_POINTS, GL_LINES, GL_TRIANGLES, ...

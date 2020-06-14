@@ -22,10 +22,16 @@ public:
 	static void save(const std::string& BMP_Name);
 	void load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha = 0);
 	void loadColorBuffer(int w, int h);
-	//EXTRA 2
-	void bind(GLuint mixMode, GLenum unit = GL_TEXTURE0);   // GL_REPLACE, GL_MODULATE, GL_ADD, ...
-	//EXTRA 2
-	void unbind(GLenum unit = GL_TEXTURE0) const;
+
+	//void bind(GLuint mixMode);   // GL_REPLACE, GL_MODULATE, GL_ADD, ...
+
+	//Hemos cambiado la signatura con respecto al enunciado para poder poner por defecto la unidad de textura 0 y así evitarnos pasarla en todas
+	//las llamadas del proyecto
+	void bind(GLuint mixMode, GLenum unit = GL_TEXTURE0);   //EXTRA 2 
+
+	//void unbind() const { glBindTexture(GL_TEXTURE_2D, 0); };
+	void unbind(GLenum unit = GL_TEXTURE0) const; //EXTRA 2
+
 	GLuint width() const { return mWidth; };
 	GLuint height() const { return mHeight; };
 
