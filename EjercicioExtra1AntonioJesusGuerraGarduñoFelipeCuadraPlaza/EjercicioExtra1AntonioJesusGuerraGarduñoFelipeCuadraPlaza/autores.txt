@@ -1,0 +1,6 @@
+Antonio Jesús Guerra Garduño
+Felipe Cuadra Plaza
+
+Hemos modificado la signatura de los métodos bind y unbind con respecto a los del enunciado para poner los parámetros
+referentes a las unidades de textura por defecto a GL_TEXTURE0 para evitar tener que pasarlo a todas las llamadas que
+había en el proyecto.
